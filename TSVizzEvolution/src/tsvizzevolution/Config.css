@@ -1,0 +1,33 @@
+node{
+    size:50px;
+    fill-color: blue;
+    stroke-mode: plain;
+    stroke-color: black;   
+}
+
+node:clicked {
+    fill-color: yellow;
+}
+
+node.quadradoTS{
+    fill-color: rgb(205,205,205);
+    shape: box;
+}
+node.projetoTS{
+    fill-color: rgb(147,219,112);
+    shape: circle;
+}
+
+node.boneco{
+    fill-mode: image-scaled; 
+    fill-image: url('C:/Users/Adriana/Desktop/mestrado/workspace/TSVizzEvolution/src/tsvizzevolution/boneco.png');
+    
+}
+
+node.projeto{
+    fill-mode: image-scaled; 
+    fill-image: url('C:/Users/Adriana/Desktop/mestrado/workspace/TSVizzEvolution/src/tsvizzevolution/projeto.png');
+    
+}
+
+
