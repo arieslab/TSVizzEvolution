@@ -187,28 +187,22 @@ public class GraphTwoVersions extends JFrame {
         painel.setMaximumSize(painel.getPreferredSize());
         painel.setMinimumSize(painel.getPreferredSize());
         frame.add(painel);
+        int tamanho = 0;
         try {
             String selecionado = (String) cbTimeline.getSelectedItem();
-            criaRetangulos(painel, selecionado, txtFilePathDefault1.getText(), txtFilePathDefault2.getText());
+            tamanho = criaRetangulos(painel, selecionado, txtFilePathDefault1.getText(), txtFilePathDefault2.getText());
 
         } catch (Exception e){
             e.printStackTrace();
         }
-
+    painel.setPreferredSize(new Dimension(tamanho*204, Configurations.alturaPainel ));
 	JScrollPane jScrollPane = new JScrollPane(painel);
 	jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	frame.add(jScrollPane);
-	
-//	JScrollPane scrollPaneTabela = new JScrollPane(painel);
-//	scrollPaneTabela = new JScrollPane(painel);
-//	scrollPaneTabela.setViewportBorder(null);
-//	scrollPaneTabela.setPreferredSize(new Dimension(140, 50));
-//	scrollPaneTabela.setBounds(10, 21, 394, 183);
-//	frame.add(scrollPaneTabela);
 	}
 
-	private void criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2){
+	private int criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2){
         JPanel pacote = new JPanel();
         pacote.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pacote.setBackground(Configurations.corPacote); //seta a cor de fundo
@@ -237,14 +231,14 @@ public class GraphTwoVersions extends JFrame {
         List<Dados> dados1 = retornaDados(fileName1, filtro);
         List<Dados> dados2 = retornaDados(fileName2, filtro);
         arrumaDados(dados1, dados2);
-        constroiBlocos(dados1, filtro, pacote);
-        constroiBlocos(dados2, filtro, pacote2);
-
+        int tamanho = constroiBlocos(dados1, filtro, pacote);
+        tamanho = constroiBlocos(dados2, filtro, pacote2);
+        return tamanho;
     }
 
-    private void constroiBlocos(List<Dados> dados, String filtro, JPanel pacote){
+    private int constroiBlocos(List<Dados> dados, String filtro, JPanel pacote){
+        List<String> analisados = new ArrayList<>();
         if (filtro.equals("Project")){
-            List<String> analisados = new ArrayList<>();
             for (int i = 0; i < dados.size(); i++){
                 String projeto = dados.get(i).projeto;
                 if (!foiAnalisado(analisados, projeto)){
@@ -275,7 +269,6 @@ public class GraphTwoVersions extends JFrame {
                 }
             }
         }else{
-            List<String> analisados = new ArrayList<>();
             for (int i = 0; i < dados.size(); i++){
                 String classe_analisada = dados.get(i).classe;
                 if (!foiAnalisado(analisados, classe_analisada)){
@@ -307,7 +300,7 @@ public class GraphTwoVersions extends JFrame {
                 }
             }
         }
-
+        return analisados.size();
     }
 
     private boolean foiAnalisado(List<String> analisados, String classe){
@@ -403,13 +396,12 @@ public class GraphTwoVersions extends JFrame {
             }else {
                 coluna = 6;
             }
-
+            String filtro = "";
             try {
             	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
                     CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1);
                     CriaGrafoCompleto(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, coluna, 2);
                 } else {
-                	String filtro = "";
                 	if (selecionado.equals("A Specific Test Class")) {
                 		filtro = (String) cbClass.getSelectedItem();
                         CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1);
@@ -435,8 +427,13 @@ public class GraphTwoVersions extends JFrame {
             String path = System.getProperty("user.dir").replace('\\', '/');
             graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
             if (graph1.getNodeCount() == 0){
-                String msg = "<html>The combination Test Smells x Author does not exist!";
-
+                String msg = "";
+                if (selecionado.equals("Author")) {
+                    msg = "<html>The combination Test Smells x Author does not exist!";
+                }
+                if (selecionado.equals("A Specific Test Smells")) {
+                    msg = "<html>The selected Test Smells has no occurrences in the selected csv file!";
+                }
                 JOptionPane optionPane = new JOptionPane();
                 optionPane.setMessage(msg);
                 optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
@@ -494,6 +491,7 @@ public class GraphTwoVersions extends JFrame {
                     Node n1 = graph1.getNode(i);
                     if (n1.getDegree() == 0) {
                         Flag = true;
+
                         graph1.removeNode(n1);
                         break;
                     }
@@ -518,6 +516,7 @@ public class GraphTwoVersions extends JFrame {
             String[] linha = (String[]) listaDeLinhas.get(i);
             try {
                 graph1.addNode(linha[coluna] + complemento);
+                System.out.println(linha[coluna] + complemento);
             } catch (Exception e) {
             }
             Node n1 = graph1.getNode(linha[coluna] + complemento);
@@ -536,7 +535,8 @@ public class GraphTwoVersions extends JFrame {
                 }
             }
         }
-        if (complemento.equals("_2")) {
+
+        if (complemento.equals("_27")) {
             boolean stop = false;
             while (!stop) {
                 boolean Flag = false;
@@ -1030,6 +1030,33 @@ public class GraphTwoVersions extends JFrame {
         }
         return resultado;
     }
+
+    public static List<String> retornaTodasClasses(List listaDeLinhas){
+        List<String> listaClasses = new ArrayList<>();
+        for (int i = 0; i < listaDeLinhas.size(); i++){
+            String[] linha = (String[]) listaDeLinhas.get(i);
+            Boolean encontrou = false;
+            for (int j = 0; j < listaClasses.size(); j++){
+                if (listaClasses.get(j).equals(linha[6])){
+                    encontrou = true;
+                }
+            }
+            if (!encontrou){
+                listaClasses.add(linha[6]);
+            }
+        }
+        return listaClasses;
+    }
+
+    public static boolean in(String x, List<String> l){
+        for (int i = 0; i < l.size(); i++){
+            if (x.equals(l.get(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void initComponents() throws IOException {
         pnlGraph = new JPanel();
 		pnlLevel = new JPanel();
@@ -1139,6 +1166,7 @@ public class GraphTwoVersions extends JFrame {
 		                                });
 		                                		txtFilePathDefault1 = new JTextField();
                                                 txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2.1.csv");
+
 		                                		a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
 		                                        b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
 		                                        c2 = carrega_lista_autor(txtFilePathDefault1.getText());

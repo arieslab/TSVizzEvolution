@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -203,8 +204,13 @@ public class GraphOneVersion extends javax.swing.JFrame {
             System.out.println(path);
             graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
             if (graph1.getNodeCount() == 0){
-                String msg = "<html>The combination Test Smells x Author does not exist!";
-
+                String msg = "";
+            	if (selecionado.equals("Author")) {
+                    msg = "<html>The combination Test Smells x Author does not exist!";
+                }
+                if (selecionado.equals("A Specific Test Smells")) {
+                    msg = "<html>The selected Test Smells has no occurrences in the selected csv file!";
+                }
                 JOptionPane optionPane = new JOptionPane();
                 optionPane.setMessage(msg);
                 optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
@@ -516,6 +522,19 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		return resultado;
 		
     }
+
+    public static String[] ordenaVetorString(String[] vetor){
+        String[] resultado = new String[vetor.length];
+        List<String> l = new ArrayList<>();
+        for (int i = 0; i < vetor.length; i++){
+            l.add(vetor[i]);
+        }
+        Collections.sort(l);
+        for (int i = 0; i < vetor.length; i++){
+            resultado[i] = l.get(i);
+        }
+        return resultado;
+    }
    
     public static String[] carrega_lista_autor(String path) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -615,6 +634,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			a = carrega_lista_linhas(txtFilePathDefault.getText());
 			b = carrega_lista_cabecalho(txtFilePathDefault.getText());
 			c = carrega_lista_autor(txtFilePathDefault.getText());
+
+            a = ordenaVetorString(a);
+            b = ordenaVetorString(b);
+            c = ordenaVetorString(c);
 
 		} catch (IOException e) {
 

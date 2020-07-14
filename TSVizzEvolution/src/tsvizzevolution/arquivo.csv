@@ -1,0 +1,6 @@
+CommitID,CommitName,CommitDate,CommitMsg,App,TestFileName,ProductionFileName,LOC,numberMethods,Assertion Roulette,Conditional Test Logic,Constructor Initialization,Default Test,EmptyTest,Exception Catching Throwing,General Fixture,Mystery Guest,Print Statement,Redundant Assertion,Sensitive Equality,Verbose Test,Sleepy Test,Eager Test,Lazy Test,Duplicate Assert,Unknown Test,IgnoredTest,Resource Optimism,Magic Number Test,Dependent Test
+5ed3ee1f,Henri Yandell,20020222_061344,Moved over from the Commons.Utils package.,commons-io,HexDumpTest,HexDump,315,4,0,1,1,0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0
+c39b5b1c,Henri Yandell,20020223_042953,Pretty standard classes. A stream to count the number of bytes that go by it (logging) and a stream for branching into two streams.,commons-io,HexDumpTest,HexDump,315,4,0,1,1,0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0
+a20f19d7,Daniel Rall,20020612_075040,Patch by Youngho Cho <youngho@nannet.co.kr> to clarify the type of exception thrown by the fileRead(String) class method.,commons-io,HexDumpTest,HexDump,315,4,0,1,1,0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0
+ff3752ec,Dion Gillard,20020622_065223,Added myself as a committer,commons-io,HexDumpTest,HexDump,315,4,0,1,1,0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0
+c20dc79c,Dion Gillard,20020622_065240,Added fileCopy method,commons-io,HexDumpTest,HexDump,315,4,0,1,1,0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0
