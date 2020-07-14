@@ -44,6 +44,7 @@ import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.view.Viewer;
 
 public class GraphTwoVersions extends JFrame {
+	
     private JButton btnChooseFileSearch1;
     private JButton btnChooseFileSearch2;
     private JButton btnVisualizeGraph;
