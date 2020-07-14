@@ -279,8 +279,8 @@ public class GraphTwoVersions extends JFrame {
                     classe.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaClasse, Configurations.larguraBorda)); // seta a borda
                     classe.setPreferredSize(new Dimension(204, Configurations.alturaClasse));
                     String novo_nome_segundo_vertice = classe_analisada.substring(0, classe_analisada.length()-2);
-                 //   String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Class: <body></b>" + novo_nome_segundo_vertice +"</font></p></html>";
-                 //   classe.setToolTipText(html_classe);
+                    String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Class: <body></b>" + novo_nome_segundo_vertice +"</font></p></html>";
+                    classe.setToolTipText(html_classe);
                     pacote.add(classe);
                     for (int j = i; j < dados.size(); j++){
                         if (dados.get(j).classe.equals(classe_analisada)){
