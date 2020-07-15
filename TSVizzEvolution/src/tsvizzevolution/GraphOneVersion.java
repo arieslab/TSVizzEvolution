@@ -153,8 +153,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 n.addAttribute("ui.class", "quadradoTS");
 
                 y = y + 500;
-                n.setAttribute("x", 2);
+                n.setAttribute("x", 200);
                 n.setAttribute("y", y);
+               // n.setAttribute("layout.weight", 10);
+                n.setAttribute("edges","layout.weight:4");
 
             }
             if (cabecalho != null) {
@@ -245,6 +247,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
             y = y + 500;
             n1.setAttribute("x", 1000);
             n1.setAttribute("y", y);
+            //n1.setAttribute("layout.weight", 10);
+            n1.setAttribute("edges","layout.weight:4");
+
             for (int j = 10; j < linhaInt.length; j++) {
                 if (linhaInt[j] != 0) {
                     try {
@@ -285,6 +290,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
             y = y + 500;
             n1.setAttribute("x", 1000);
             n1.setAttribute("y", y);
+           // n1.setAttribute("layout.weight", 10);
+            n1.setAttribute("edges","layout.weight:4");
+
             for (int j = 10; j < linhaInt.length; j++) {
                 if (linhaInt[j] != 0) {
                     if (nome.equals(linha[coluna]) || nome.equals(cabecalho[j])) {
@@ -346,6 +354,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
                     y = y + 500;
                     n1.setAttribute("x", 1000);
                     n1.setAttribute("y", y);
+                    n1.setAttribute("layout.weight", 10);
+                    n1.setAttribute("edges","layout.weight:4");
+
 //                    for (int j = 10; j < linhaInt.length; j++) {
 //                        if (linhaInt[j] != 0) {
 //                            if (nome.equals(linha[coluna]) || nome.equals(cabecalho[j]) && linha[colunaAutor].equals(nomeAutor)) {

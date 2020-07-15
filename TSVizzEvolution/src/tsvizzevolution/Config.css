@@ -29,5 +29,9 @@ node.projeto{
     fill-image: url('C:/Users/Adriana/git/TSVizzEvolution/TSVizzEvolution/src/tsvizzevolution/projeto.png');
     
 }
+node.x{
+    fill-mode: image-scaled;
+    fill-image: url('C:/Users/Adriana/git/TSVizzEvolution/TSVizzEvolution/src/tsvizzevolution/x.png');
 
+}
 
