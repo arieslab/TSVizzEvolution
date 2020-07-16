@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JTextField;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -183,19 +184,19 @@ public class GraphOneVersion extends javax.swing.JFrame {
             }
             try {
             	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
-                    CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna);
+                     CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1, txtFilePathDefault.getText(), selecionado);
                 } else {
                 	String filtro = "";
                 	if (selecionado.equals("A Specific Test Class")) {
                 		filtro = (String) cbClass.getSelectedItem();
-                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna);
+                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, txtFilePathDefault.getText());
                 	}else if (selecionado.equals("Author")){
                 	    filtro = (String) cbTestSmells.getSelectedItem();
                 	    String filtroAutor = (String) cbAuthor.getSelectedItem();
                         CriaGrafoParcialAutor(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, filtroAutor, coluna);
                 	}else{
                 		filtro = (String) cbTestSmells.getSelectedItem();
-                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna);
+                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, txtFilePathDefault.getText());
                 	}
                 }
 
@@ -228,9 +229,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
         }
 
     }
-    
-    private static void CriaGrafoCompleto(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, int coluna) throws IOException {
-        ArrayList textFileNameAnterior = new ArrayList();
+
+    private static void CriaGrafoCompleto(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, int coluna, int flag, String file, String filtro) throws IOException {
         int y = 0;
         for (int i = 0; i < listaDeLinhasInt.size(); i++) {
             int[] linhaInt = (int[]) listaDeLinhasInt.get(i);
@@ -254,6 +254,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 if (linhaInt[j] != 0) {
                     try {
                         graph1.addEdge(cabecalho[j] + " " + linha[coluna], cabecalho[j], linha[coluna]);
+                        Edge e = graph1.getEdge(cabecalho[j] + " " + linha[coluna]);
+                        int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, filtro);
+                        e.setAttribute("ui.label", valor);
                     } catch (Exception e) {
                     }
                 }
@@ -276,7 +279,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
         }
     }
 
-    private static void CriaGrafoParcial(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, String nome, int coluna) throws IOException {
+    private static void CriaGrafoParcial(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, String nome, int coluna, String file) throws IOException {
         int y = 0;
         for (int i = 0; i < listaDeLinhasInt.size(); i++) {
             int[] linhaInt = (int[]) listaDeLinhasInt.get(i);
@@ -298,6 +301,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
                     if (nome.equals(linha[coluna]) || nome.equals(cabecalho[j])) {
                         try {
                             graph1.addEdge(cabecalho[j] + " " + linha[coluna], cabecalho[j], linha[coluna]);
+                            Edge e = graph1.getEdge(cabecalho[j] + " " + linha[coluna]);
+                            int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, "All Test Classes");
+                            e.setAttribute("ui.label", valor);
                         } catch (Exception e) {
                         }
                     }
@@ -459,6 +465,112 @@ public class GraphOneVersion extends javax.swing.JFrame {
                     stop = true;
                 }
             }
+        }
+    }
+
+    public static int retornaDadosDoisNos(String a, String b, String file, String filtro){
+        if (filtro.equals("Project")) {
+            List<Dados> l = retornaDados(file, filtro);
+            for (int i = 0; i < l.size(); i++) {
+                Dados d = l.get(i);
+                if (d.nome.equals(a) && d.projeto.equals(b)) {
+                    return d.valor;
+                }
+            }
+            return 0;
+        }else{
+            List<Dados> l = retornaDados(file, filtro);
+            for (int i = 0; i < l.size(); i++) {
+                Dados d = l.get(i);
+                if (d.nome.equals(a) && d.classe.equals(b)) {
+                    return d.valor;
+                }
+            }
+            return 0;
+        }
+    }
+
+    public static List<Dados> retornaDados(String file, String filtro){
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String linha = null;
+
+            List listaDeLinhasInt = new ArrayList();
+            List listaDeLinhas = new ArrayList();
+            String cabecalho;
+
+            cabecalho = reader.readLine();
+            String[] cabecalhoLista = cabecalho.split(VIRGULA);
+            if (cabecalho != null) {
+                while ((linha = reader.readLine()) != null) {
+                    String[] dados = linha.split(VIRGULA);
+                    listaDeLinhas.add(dados);
+                    int[] valorInteiros = new int[dados.length];
+
+                    for (int i = 0; i < dados.length; i++) {
+                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
+                    }
+                    listaDeLinhasInt.add(valorInteiros);
+                }
+
+            }
+            List<Dados> resultado_final = new ArrayList<>();
+            if (filtro.equals("Project")) {
+
+                int coluna = 10;
+
+                for (int i = 10; i < cabecalhoLista.length; i++) {
+                    int soma = 0;
+                    String nome_projeto = "";
+                    for (int j = 0; j < listaDeLinhas.size(); j++) {
+                        int[] linha_int = (int[]) listaDeLinhasInt.get(j);
+                        String[] linha_analisada = (String[]) listaDeLinhas.get(j);
+                        soma += linha_int[coluna];
+                        nome_projeto = linha_analisada[5];
+                    }
+                    resultado_final.add(new Dados(cabecalhoLista[i], soma, "", nome_projeto));
+                    coluna += 1;
+
+                }
+            }
+            if (filtro.equals("All Test Classes")){
+                List<String> classes = new ArrayList<>();
+                int coluna = 6;
+                for (int i = 0; i < listaDeLinhas.size(); i++){
+                    String[] linha_analisada = (String[]) listaDeLinhas.get(i);
+                    String classe = linha_analisada[coluna];
+                    boolean flag = false;
+                    for (int j = 0; j < classes.size(); j++){
+                        if (classes.get(j).equals(classe)){
+                            flag = true;
+                        }
+                    }
+                    if (!flag){
+                        classes.add(classe);
+                    }
+                }
+                for (int i = 0; i < classes.size(); i ++){
+                    String classe_analisada = classes.get(i);
+                    coluna = 10;
+                    for (int j = 10; j < cabecalhoLista.length; j++) {
+                        int soma = 0;
+                        String nome_projeto = "";
+                        for (int k = 0; k < listaDeLinhas.size(); k++) {
+                            String[] linha_analisada = (String[]) listaDeLinhas.get(k);
+                            int[] linha_int = (int[]) listaDeLinhasInt.get(k);
+                            if (linha_analisada[6].equals(classe_analisada)){
+                                soma += linha_int[coluna];
+                                nome_projeto = linha_analisada[5];
+                            }
+                        }
+                        resultado_final.add(new Dados(cabecalhoLista[j], soma, classe_analisada, nome_projeto));
+                        coluna += 1;
+                    }
+                }
+            }
+            return resultado_final;
+        }catch (Exception e){
+            return null;
         }
     }
    

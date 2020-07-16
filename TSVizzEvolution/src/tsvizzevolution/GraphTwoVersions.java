@@ -399,26 +399,26 @@ public class GraphTwoVersions extends JFrame {
             String filtro = "";
             try {
             	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
-                    CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1);
-                    CriaGrafoCompleto(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, coluna, 2);
+                    CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1, txtFilePathDefault1.getText(), selecionado);
+                    CriaGrafoCompleto(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, coluna, 2, txtFilePathDefault2.getText(), selecionado);
                 } else {
                 	if (selecionado.equals("A Specific Test Class")) {
                 		filtro = (String) cbClass.getSelectedItem();
-                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1);
-                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 2);
+                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText());
+                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 2, txtFilePathDefault2.getText());
                         graph1 = removeVertices(graph1, filtro);
                         graph1 = criaNosInexistentes(graph1, concatenaLista(listaDeLinhas, listaDeLinhas2));
 
                 	}else if (selecionado.equals("Author")){
                 	    filtro = (String) cbTestSmells.getSelectedItem();
                 	    String filtroAutor = (String) cbAuthor.getSelectedItem();
-                        CriaGrafoParcialAutor(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, filtroAutor, coluna, 1);
-                        CriaGrafoParcialAutor(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, filtroAutor, coluna, 2);
+                        CriaGrafoParcialAutor(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, filtroAutor, coluna, 1, txtFilePathDefault1.getText());
+                        CriaGrafoParcialAutor(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, filtroAutor, coluna, 2, txtFilePathDefault2.getText());
                         graph1 = removeVertices(graph1, filtro);
                 	}else{
                 		filtro = (String) cbTestSmells.getSelectedItem();
-                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1);
-                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 1);
+                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText());
+                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 1, txtFilePathDefault2.getText());
                         graph1 = removeVertices(graph1, filtro);
                 	}
                 }
@@ -452,7 +452,7 @@ public class GraphTwoVersions extends JFrame {
 
     }
     
-    private static void CriaGrafoCompleto(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, int coluna, int flag) throws IOException {
+    private static void CriaGrafoCompleto(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, int coluna, int flag, String file, String filtro) throws IOException {
         String complemento = "";
         if (flag == 1){
             complemento = "_1";
@@ -472,7 +472,6 @@ public class GraphTwoVersions extends JFrame {
             Node n1 = graph1.getNode(linha[coluna] + complemento);
             n1.setAttribute("ui.label", linha[coluna] + complemento);
             n1.addAttribute("ui.class", "projeto");
-
             y = y + 500;
             n1.setAttribute("x", 1000);
             n1.setAttribute("y", y);
@@ -480,6 +479,9 @@ public class GraphTwoVersions extends JFrame {
                 if (linhaInt[j] != 0) {
                     try {
                         graph1.addEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento, cabecalho[j] + complemento, linha[coluna] + complemento);
+                        Edge e = graph1.getEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento);
+                        int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, filtro);
+                        e.setAttribute("ui.label", valor);
                     } catch (Exception e) {
                     }
                 }
@@ -487,7 +489,7 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
-    private static void CriaGrafoParcial(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, String nome, int coluna, int flag) throws IOException {
+    private static void CriaGrafoParcial(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, String nome, int coluna, int flag, String file) throws IOException {
         String complemento = "";
         if (flag == 1){
             complemento = "_1";
@@ -512,6 +514,9 @@ public class GraphTwoVersions extends JFrame {
                     if (nome.equals(linha[coluna]) || nome.equals(cabecalho[j])) {
                         try {
                             graph1.addEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento, cabecalho[j] + complemento, linha[coluna] + complemento);
+                            Edge e = graph1.getEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento);
+                            int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, "All Test Classes");
+                            e.setAttribute("ui.label", valor);
                         } catch (Exception e) {
                         }
                     }
@@ -540,7 +545,7 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
-    private static void CriaGrafoParcialAutor(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, String nome, String nomeAutor, int coluna, int flag) throws IOException {
+    private static void CriaGrafoParcialAutor(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, String nome, String nomeAutor, int coluna, int flag, String file) throws IOException {
         String complemento = "";
         if (flag == 1){
             complemento = "_1";
@@ -689,23 +694,26 @@ public class GraphTwoVersions extends JFrame {
     private void cbTimelineActionPerformed(ActionEvent evt) {
     }
 
-    public static Graph removeVertices(Graph graph1){
-        boolean stop = false;
-        while (!stop) {
-            boolean Flag = false;
-            for (int i = 0; i < graph1.getNodeCount(); i++) {
-                Node n1 = graph1.getNode(i);
-                if (n1.getDegree() == 0) {
-                    Flag = true;
-                    graph1.removeNode(n1);
-                    break;
+    public static int retornaDadosDoisNos(String a, String b, String file, String filtro){
+        if (filtro.equals("Project")) {
+            List<Dados> l = retornaDados(file, filtro);
+            for (int i = 0; i < l.size(); i++) {
+                Dados d = l.get(i);
+                if (d.nome.equals(a) && d.projeto.equals(b)) {
+                    return d.valor;
                 }
             }
-            if (!Flag) {
-                stop = true;
+            return 0;
+        }else{
+            List<Dados> l = retornaDados(file, filtro);
+            for (int i = 0; i < l.size(); i++) {
+                Dados d = l.get(i);
+                if (d.nome.equals(a) && d.classe.equals(b)) {
+                    return d.valor;
+                }
             }
+            return 0;
         }
-        return graph1;
     }
 
     public static Graph removeVertices(Graph graph1, String filtro){
