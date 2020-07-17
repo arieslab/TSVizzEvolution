@@ -591,6 +591,9 @@ public class GraphTwoVersions extends JFrame {
                                 if (nome.equals(cabecalho[j])) {
                                     try {
                                         graph1.addEdge(cabecalho[j] + complemento + " " + linha[colunaAutor] + complemento, cabecalho[j] + complemento, linha[colunaAutor] + complemento);
+                                        Edge e = graph1.getEdge(cabecalho[j] + complemento + " " + linha[colunaAutor] + complemento);
+                                        int valor = retornaDadosAutorMetodo(linha[colunaAutor], cabecalho[j], file);
+                                        e.setAttribute("ui.label", valor);
                                     } catch (Exception e) {
                                     }
                                 }
@@ -626,7 +629,7 @@ public class GraphTwoVersions extends JFrame {
             autor.addAttribute("ui.class", "boneco");
             autor.setAttribute("x", -1000);
             autor.setAttribute("y", 0);
-
+            int soma_valor = 0;
             for (int i = 0; i < listaDeLinhasInt.size(); i++) {
                 int[] linhaInt = (int[]) listaDeLinhasInt.get(i);
                 String[] linha = (String[]) listaDeLinhas.get(i);
@@ -645,6 +648,10 @@ public class GraphTwoVersions extends JFrame {
                         if (nome.equals(linha[coluna]) || nome.equals(cabecalho[j]) && linha[colunaAutor].equals(nomeAutor)) {
                             try {
                                 graph1.addEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento, cabecalho[j] + complemento, linha[coluna] + complemento);
+                                Edge e = graph1.getEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento);
+                                int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, "All Test Classes");
+                                e.setAttribute("ui.label", valor);
+                                soma_valor += valor;
                             } catch (Exception e) {
                             }
                         }
@@ -656,6 +663,8 @@ public class GraphTwoVersions extends JFrame {
                             if (nome.equals(cabecalho[j])) {
                                 try {
                                     graph1.addEdge(cabecalho[j] + complemento + " " + linha[colunaAutor] + complemento, cabecalho[j] + complemento, linha[colunaAutor] + complemento);
+                                    Edge e = graph1.getEdge(cabecalho[j] + complemento + " " + linha[colunaAutor] + complemento);
+                                    e.setAttribute("ui.label", soma_valor);
                                 } catch (Exception e) {
                                 }
                             }
@@ -713,6 +722,80 @@ public class GraphTwoVersions extends JFrame {
                 }
             }
             return 0;
+        }
+    }
+
+    public static int retornaDadosAutorMetodo(String autor, String metodo, String file){
+        List<Dados> l = retornaDadosAutores(file);
+        for (int i = 0; i < l.size(); i++) {
+            Dados d = l.get(i);
+            if (d.autor.equals(autor) && d.nome.equals(metodo)) {
+                return d.valor;
+            }
+        }
+        return 0;
+    }
+
+    public static List<Dados> retornaDadosAutores(String file){
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String linha = null;
+
+            List listaDeLinhasInt = new ArrayList();
+            List listaDeLinhas = new ArrayList();
+            String cabecalho;
+
+            cabecalho = reader.readLine();
+            String[] cabecalhoLista = cabecalho.split(VIRGULA);
+            if (cabecalho != null) {
+                while ((linha = reader.readLine()) != null) {
+                    String[] dados = linha.split(VIRGULA);
+                    listaDeLinhas.add(dados);
+                    int[] valorInteiros = new int[dados.length];
+
+                    for (int i = 0; i < dados.length; i++) {
+                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
+                    }
+                    listaDeLinhasInt.add(valorInteiros);
+                }
+
+            }
+            List<Dados> resultado = new ArrayList<>();
+            List<String> autores = new ArrayList<>();
+            int coluna = 1;
+            for (int i = 0; i < listaDeLinhas.size(); i++){
+                String[] linha_analisada = (String[]) listaDeLinhas.get(i);
+                String autor = linha_analisada[coluna];
+                boolean flag = false;
+                for (int j = 0; j < autores.size(); j++){
+                    if (autores.get(j).equals(autor)){
+                        flag = true;
+                    }
+                }
+                if (!flag){
+                    autores.add(autor);
+                }
+            }
+            for (int i = 0; i < autores.size(); i ++){
+                String autor = autores.get(i);
+                coluna = 10;
+                for (int j = 10; j < cabecalhoLista.length; j++) {
+                    int soma = 0;
+                    for (int k = 0; k < listaDeLinhas.size(); k++) {
+                        String[] linha_analisada = (String[]) listaDeLinhas.get(k);
+                        int[] linha_int = (int[]) listaDeLinhasInt.get(k);
+                        if (linha_analisada[1].equals(autor)){
+                            soma += linha_int[coluna];
+                        }
+                    }
+                    resultado.add(new Dados(cabecalhoLista[j], soma, autor));
+                    coluna += 1;
+                }
+            }
+            return resultado;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -1084,6 +1167,35 @@ public class GraphTwoVersions extends JFrame {
         return resultado;
     }
 
+    public void carregaComponentes(){
+        try {
+            String[] a = null;
+            String[] b = null;
+            String[] c = null;
+            String[] a2 = null;
+            String[] b2 = null;
+            String[] c2 = null;
+
+            a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
+            b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
+            c2 = carrega_lista_autor(txtFilePathDefault1.getText());
+
+            a = carrega_lista_linhas(txtFilePathDefault2.getText());
+            b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
+            c = carrega_lista_autor(txtFilePathDefault2.getText());
+
+            a = concatena(a, a2);
+            b = concatena(b, b2);
+            c = concatena(c, c2);
+            cbAuthor.setModel(new DefaultComboBoxModel<>(c));
+            cbClass.setModel(new DefaultComboBoxModel<>(a));
+            cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private List concatenaLista(List lista1, List lista2){
         List lista = new ArrayList<>();
         for (int i = 0; i < lista1.size(); i++){
@@ -1237,13 +1349,13 @@ public class GraphTwoVersions extends JFrame {
 		                                    }
 		                                });
 		                                		txtFilePathDefault1 = new JTextField();
-                                                txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\arquivo.csv");
+		                                		txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
 		                                		a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
 		                                        b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
 		                                        c2 = carrega_lista_autor(txtFilePathDefault1.getText());
 
 		                                        txtFilePathDefault2 = new JTextField();
-                                                txtFilePathDefault2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\arquivo2.csv");
+		                                        txtFilePathDefault2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
 		                                        a = carrega_lista_linhas(txtFilePathDefault2.getText());
 		                                        b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
 		                                        c = carrega_lista_autor(txtFilePathDefault2.getText());
@@ -1547,4 +1659,5 @@ public class GraphTwoVersions extends JFrame {
 
 							         						         
 	}
+
 }
