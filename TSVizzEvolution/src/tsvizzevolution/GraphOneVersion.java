@@ -135,8 +135,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
             String linha = null;
             String linha2 = null;
 
-            List listaDeLinhasInt = new ArrayList();
-            List listaDeLinhas = new ArrayList();
+            List listaClassesInt = new ArrayList();
+            List listaClasses = new ArrayList();
             
             List listaDeAutorInt = new ArrayList();
             List listaDeAutor = new ArrayList();
@@ -145,12 +145,12 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
             cabecalho = reader.readLine();
 
-            String[] cabecalhoLista = cabecalho.split(VIRGULA);
+            String[] listaTestSmells = cabecalho.split(VIRGULA);
             int y = 0;
-            for (int i = 10; i < cabecalhoLista.length; i++) {
-                graph1.addNode(cabecalhoLista[i]);
-                Node n = graph1.getNode(cabecalhoLista[i]);
-                n.setAttribute("ui.label", cabecalhoLista[i]);
+            for (int i = 10; i < listaTestSmells.length; i++) {
+                graph1.addNode(listaTestSmells[i]);
+                Node n = graph1.getNode(listaTestSmells[i]);
+                n.setAttribute("ui.label", listaTestSmells[i]);
                 n.addAttribute("ui.class", "quadradoTS");
 
                 y = y + 500;
@@ -163,19 +163,17 @@ public class GraphOneVersion extends javax.swing.JFrame {
             if (cabecalho != null) {
                 while ((linha = reader.readLine()) != null) {
                     String[] dados = linha.split(VIRGULA);
-                    listaDeLinhas.add(dados);
+                    listaClasses.add(dados);
                     int[] valorInteiros = new int[dados.length];
 
                     for (int i = 0; i < dados.length; i++) {
                         valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
-                        //System.out.println("String.valueOf " + String.valueOf(dados[i]));
                     }
-                    listaDeLinhasInt.add(valorInteiros);
+                    listaClassesInt.add(valorInteiros);
                 }
                 
             }
             String selecionado = (String) cbLevel.getSelectedItem();
-            System.out.println(selecionado);
             int coluna = 0;
             if (selecionado.equals("Project")) {
                 coluna = 5;
@@ -184,19 +182,19 @@ public class GraphOneVersion extends javax.swing.JFrame {
             }
             try {
             	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
-                     CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1, txtFilePathDefault.getText(), selecionado);
+                     CriaGrafoCompleto(listaClassesInt, listaClasses, listaTestSmells, graph1, coluna, 1, txtFilePathDefault.getText(), selecionado);
                 } else {
                 	String filtro = "";
                 	if (selecionado.equals("A Specific Test Class")) {
                 		filtro = (String) cbClass.getSelectedItem();
-                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, txtFilePathDefault.getText());
+                        CriaGrafoParcial(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, coluna, txtFilePathDefault.getText());
                 	}else if (selecionado.equals("Author")){
                 	    filtro = (String) cbTestSmells.getSelectedItem();
                 	    String filtroAutor = (String) cbAuthor.getSelectedItem();
-                        CriaGrafoParcialAutor(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, filtroAutor, coluna);
+                        CriaGrafoParcialAutor(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, filtroAutor, coluna, txtFilePathDefault.getText());
                 	}else{
                 		filtro = (String) cbTestSmells.getSelectedItem();
-                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, txtFilePathDefault.getText());
+                        CriaGrafoParcial(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, coluna, txtFilePathDefault.getText());
                 	}
                 }
 
@@ -204,7 +202,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 e.printStackTrace();
             }
             String path = System.getProperty("user.dir").replace('\\', '/');
-            System.out.println(path);
             graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
             if (graph1.getNodeCount() == 0){
                 String msg = "";
@@ -230,11 +227,11 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
     }
 
-    private static void CriaGrafoCompleto(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, int coluna, int flag, String file, String filtro) throws IOException {
+    private static void CriaGrafoCompleto(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1, int coluna, int flag, String file, String filtro) throws IOException {
         int y = 0;
-        for (int i = 0; i < listaDeLinhasInt.size(); i++) {
-            int[] linhaInt = (int[]) listaDeLinhasInt.get(i);
-            String[] linha = (String[]) listaDeLinhas.get(i);
+        for (int i = 0; i < listaClassesInt.size(); i++) {
+            int[] linhaInt = (int[]) listaClassesInt.get(i);
+            String[] linha = (String[]) listaClasses.get(i);
             try {
                 graph1.addNode(linha[coluna]);
             } catch (Exception e) {
@@ -242,7 +239,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
             Node n1 = graph1.getNode(linha[coluna]);
             n1.setAttribute("ui.label", linha[coluna]);
             //n1.addAttribute("ui.style", "shape:circle;");
-            n1.addAttribute("ui.class", "projeto");
+            if (filtro.equals("Project"))
+                n1.addAttribute("ui.class", "projeto");
 
             y = y + 500;
             n1.setAttribute("x", 1000);
@@ -279,11 +277,11 @@ public class GraphOneVersion extends javax.swing.JFrame {
         }
     }
 
-    private static void CriaGrafoParcial(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, String nome, int coluna, String file) throws IOException {
+    private static void CriaGrafoParcial(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1, String nome, int coluna, String file) throws IOException {
         int y = 0;
-        for (int i = 0; i < listaDeLinhasInt.size(); i++) {
-            int[] linhaInt = (int[]) listaDeLinhasInt.get(i);
-            String[] linha = (String[]) listaDeLinhas.get(i);
+        for (int i = 0; i < listaClassesInt.size(); i++) {
+            int[] linhaInt = (int[]) listaClassesInt.get(i);
+            String[] linha = (String[]) listaClasses.get(i);
             try {
                 graph1.addNode(linha[coluna]);
             } catch (Exception e) {
@@ -327,13 +325,13 @@ public class GraphOneVersion extends javax.swing.JFrame {
         }
     }
 
-    private static void CriaGrafoParcialAutor(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, String nome, String nomeAutor, int coluna) throws IOException {
+    private static void CriaGrafoParcialAutor(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1, String nome, String nomeAutor, int coluna, String file) throws IOException {
         int y = 0;
         int colunaAutor = 1;
         if (nomeAutor.equals("All")){
             ArrayList<String> nomeAutores = new ArrayList<>();
-            for (int i = 0; i < listaDeLinhas.size(); i++){
-                String[] linha = (String[]) listaDeLinhas.get(i);
+            for (int i = 0; i < listaClasses.size(); i++){
+                String[] linha = (String[]) listaClasses.get(i);
                 if (!nomeAutores.contains(linha[1])){
                     nomeAutores.add(linha[1]);
                 }
@@ -347,9 +345,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 autor.setAttribute("x", -1000);
                 autor.setAttribute("y", y);
 
-                for (int i = 0; i < listaDeLinhasInt.size(); i++) {
-                    int[] linhaInt = (int[]) listaDeLinhasInt.get(i);
-                    String[] linha = (String[]) listaDeLinhas.get(i);
+                for (int i = 0; i < listaClassesInt.size(); i++) {
+                    int[] linhaInt = (int[]) listaClassesInt.get(i);
+                    String[] linha = (String[]) listaClasses.get(i);
                     try {
                         graph1.addNode(linha[coluna]);
                     } catch (Exception e) {
@@ -363,22 +361,15 @@ public class GraphOneVersion extends javax.swing.JFrame {
                     n1.setAttribute("layout.weight", 10);
                     n1.setAttribute("edges","layout.weight:4");
 
-//                    for (int j = 10; j < linhaInt.length; j++) {
-//                        if (linhaInt[j] != 0) {
-//                            if (nome.equals(linha[coluna]) || nome.equals(cabecalho[j]) && linha[colunaAutor].equals(nomeAutor)) {
-//                                try {
-//                                    graph1.addEdge(cabecalho[j] + " " + linha[coluna], cabecalho[j], linha[coluna]);
-//                                } catch (Exception e) {
-//                                }
-//                            }
-//                        }
-//                    }
                     for (int j = 10; j < linhaInt.length; j++) {
                         if (linhaInt[j] != 0) {
                             if (nomeAutor.equals(linha[colunaAutor]) || nome.equals(cabecalho[j])) {
                                 if (nome.equals(cabecalho[j])) {
                                     try {
                                         graph1.addEdge(cabecalho[j] + " " + linha[colunaAutor], cabecalho[j], linha[colunaAutor]);
+                                        Edge e = graph1.getEdge(cabecalho[j] + " " + linha[colunaAutor]);
+                                        int valor = retornaDadosAutorMetodo(linha[colunaAutor], cabecalho[j], file);
+                                        e.setAttribute("ui.label", valor);
                                     } catch (Exception e) {
                                     }
                                 }
@@ -412,9 +403,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
             autor.setAttribute("x", -1000);
             autor.setAttribute("y", 0);
 
-            for (int i = 0; i < listaDeLinhasInt.size(); i++) {
-                int[] linhaInt = (int[]) listaDeLinhasInt.get(i);
-                String[] linha = (String[]) listaDeLinhas.get(i);
+            for (int i = 0; i < listaClassesInt.size(); i++) {
+                int[] linhaInt = (int[]) listaClassesInt.get(i);
+                String[] linha = (String[]) listaClasses.get(i);
                 try {
                     graph1.addNode(linha[coluna]);
                 } catch (Exception e) {
@@ -430,6 +421,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
                         if (nome.equals(linha[coluna]) || nome.equals(cabecalho[j]) && linha[colunaAutor].equals(nomeAutor)) {
                             try {
                                 graph1.addEdge(cabecalho[j] + " " + linha[coluna], cabecalho[j], linha[coluna]);
+                                Edge e = graph1.getEdge(cabecalho[j] + " " + linha[coluna]);
+                                int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, "All Test Classes");
+                                e.setAttribute("ui.label", valor);
                             } catch (Exception e) {
                             }
                         }
@@ -441,6 +435,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
                             if (nome.equals(cabecalho[j])) {
                                 try {
                                     graph1.addEdge(cabecalho[j] + " " + linha[colunaAutor], cabecalho[j], linha[colunaAutor]);
+                                    Edge e = graph1.getEdge(cabecalho[j] + " " + linha[colunaAutor]);
+                                    int valor = retornaDadosAutorMetodo(linha[colunaAutor], cabecalho[j], file);
+                                    e.setAttribute("ui.label", valor);
                                 } catch (Exception e) {
                                 }
                             }
@@ -467,6 +464,81 @@ public class GraphOneVersion extends javax.swing.JFrame {
             }
         }
     }
+
+    public static int retornaDadosAutorMetodo(String autor, String metodo, String file){
+        List<Dados> l = retornaDadosAutores(file);
+        for (int i = 0; i < l.size(); i++) {
+            Dados d = l.get(i);
+            if (d.autor.equals(autor) && d.nome.equals(metodo)) {
+                return d.valor;
+            }
+        }
+        return 0;
+    }
+
+    public static List<Dados> retornaDadosAutores(String file){
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String linha = null;
+
+            List listaDeLinhasInt = new ArrayList();
+            List listaDeLinhas = new ArrayList();
+            String cabecalho;
+
+            cabecalho = reader.readLine();
+            String[] cabecalhoLista = cabecalho.split(VIRGULA);
+            if (cabecalho != null) {
+                while ((linha = reader.readLine()) != null) {
+                    String[] dados = linha.split(VIRGULA);
+                    listaDeLinhas.add(dados);
+                    int[] valorInteiros = new int[dados.length];
+
+                    for (int i = 0; i < dados.length; i++) {
+                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
+                    }
+                    listaDeLinhasInt.add(valorInteiros);
+                }
+
+            }
+            List<Dados> resultado = new ArrayList<>();
+            List<String> autores = new ArrayList<>();
+            int coluna = 1;
+            for (int i = 0; i < listaDeLinhas.size(); i++){
+                String[] linha_analisada = (String[]) listaDeLinhas.get(i);
+                String autor = linha_analisada[coluna];
+                boolean flag = false;
+                for (int j = 0; j < autores.size(); j++){
+                    if (autores.get(j).equals(autor)){
+                        flag = true;
+                    }
+                }
+                if (!flag){
+                    autores.add(autor);
+                }
+            }
+            for (int i = 0; i < autores.size(); i ++){
+                String autor = autores.get(i);
+                coluna = 10;
+                for (int j = 10; j < cabecalhoLista.length; j++) {
+                    int soma = 0;
+                    for (int k = 0; k < listaDeLinhas.size(); k++) {
+                        String[] linha_analisada = (String[]) listaDeLinhas.get(k);
+                        int[] linha_int = (int[]) listaDeLinhasInt.get(k);
+                        if (linha_analisada[1].equals(autor)){
+                            soma += linha_int[coluna];
+                        }
+                    }
+                    resultado.add(new Dados(cabecalhoLista[j], soma, autor));
+                    coluna += 1;
+                }
+            }
+            return resultado;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public static int retornaDadosDoisNos(String a, String b, String file, String filtro){
         if (filtro.equals("Project")) {
@@ -495,22 +567,22 @@ public class GraphOneVersion extends javax.swing.JFrame {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             String linha = null;
 
-            List listaDeLinhasInt = new ArrayList();
-            List listaDeLinhas = new ArrayList();
+            List listaClassesInt = new ArrayList();
+            List listaClasses = new ArrayList();
             String cabecalho;
 
             cabecalho = reader.readLine();
-            String[] cabecalhoLista = cabecalho.split(VIRGULA);
+            String[] listaTestSmells = cabecalho.split(VIRGULA);
             if (cabecalho != null) {
                 while ((linha = reader.readLine()) != null) {
                     String[] dados = linha.split(VIRGULA);
-                    listaDeLinhas.add(dados);
+                    listaClasses.add(dados);
                     int[] valorInteiros = new int[dados.length];
 
                     for (int i = 0; i < dados.length; i++) {
                         valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
                     }
-                    listaDeLinhasInt.add(valorInteiros);
+                    listaClassesInt.add(valorInteiros);
                 }
 
             }
@@ -519,16 +591,16 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
                 int coluna = 10;
 
-                for (int i = 10; i < cabecalhoLista.length; i++) {
+                for (int i = 10; i < listaTestSmells.length; i++) {
                     int soma = 0;
                     String nome_projeto = "";
-                    for (int j = 0; j < listaDeLinhas.size(); j++) {
-                        int[] linha_int = (int[]) listaDeLinhasInt.get(j);
-                        String[] linha_analisada = (String[]) listaDeLinhas.get(j);
+                    for (int j = 0; j < listaClasses.size(); j++) {
+                        int[] linha_int = (int[]) listaClassesInt.get(j);
+                        String[] linha_analisada = (String[]) listaClasses.get(j);
                         soma += linha_int[coluna];
                         nome_projeto = linha_analisada[5];
                     }
-                    resultado_final.add(new Dados(cabecalhoLista[i], soma, "", nome_projeto));
+                    resultado_final.add(new Dados(listaTestSmells[i], soma, "", nome_projeto));
                     coluna += 1;
 
                 }
@@ -536,8 +608,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
             if (filtro.equals("All Test Classes")){
                 List<String> classes = new ArrayList<>();
                 int coluna = 6;
-                for (int i = 0; i < listaDeLinhas.size(); i++){
-                    String[] linha_analisada = (String[]) listaDeLinhas.get(i);
+                for (int i = 0; i < listaClasses.size(); i++){
+                    String[] linha_analisada = (String[]) listaClasses.get(i);
                     String classe = linha_analisada[coluna];
                     boolean flag = false;
                     for (int j = 0; j < classes.size(); j++){
@@ -552,18 +624,18 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 for (int i = 0; i < classes.size(); i ++){
                     String classe_analisada = classes.get(i);
                     coluna = 10;
-                    for (int j = 10; j < cabecalhoLista.length; j++) {
+                    for (int j = 10; j < listaTestSmells.length; j++) {
                         int soma = 0;
                         String nome_projeto = "";
-                        for (int k = 0; k < listaDeLinhas.size(); k++) {
-                            String[] linha_analisada = (String[]) listaDeLinhas.get(k);
-                            int[] linha_int = (int[]) listaDeLinhasInt.get(k);
+                        for (int k = 0; k < listaClasses.size(); k++) {
+                            String[] linha_analisada = (String[]) listaClasses.get(k);
+                            int[] linha_int = (int[]) listaClassesInt.get(k);
                             if (linha_analisada[6].equals(classe_analisada)){
                                 soma += linha_int[coluna];
                                 nome_projeto = linha_analisada[5];
                             }
                         }
-                        resultado_final.add(new Dados(cabecalhoLista[j], soma, classe_analisada, nome_projeto));
+                        resultado_final.add(new Dados(listaTestSmells[j], soma, classe_analisada, nome_projeto));
                         coluna += 1;
                     }
                 }
@@ -721,7 +793,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
        
         lblSelectCsv.setText("Select a .csv File :");
         
-        txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
+        txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
 
         btnChooseFileSearch.setText("Search ...");
         btnChooseFileSearch.addActionListener(new java.awt.event.ActionListener() {
