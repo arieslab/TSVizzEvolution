@@ -2,22 +2,22 @@ package tsvizzevolution;
 
 import java.awt.*;
 
-public class Dados implements Comparable<Dados>{
+public class Data implements Comparable<Data>{
 
-    public Dados(String nome, int valor, String classe, String projeto) {
+    public Data(String nome, int valor, String classe, String projeto) {
         this.nome = nome;
         this.valor = valor;
         this.classe = classe;
         this.projeto = projeto;
     }
-    public Dados(String nome, int valor, String classe, String projeto, Color cor) {
+    public Data(String nome, int valor, String classe, String projeto, Color cor) {
         this.nome = nome;
         this.valor = valor;
         this.classe = classe;
         this.cor = cor;
         this.projeto = projeto;
     }
-    public Dados(String nome, int valor, String autor) {
+    public Data(String nome, int valor, String autor) {
         this.nome = nome;
         this.valor = valor;
         this.autor = autor;
@@ -30,7 +30,7 @@ public class Dados implements Comparable<Dados>{
     String autor;
 
     @Override
-    public int compareTo(Dados o) {
+    public int compareTo(Data o) {
         int c = this.nome.compareTo(o.nome);
         if(c != 0){
             return c;
