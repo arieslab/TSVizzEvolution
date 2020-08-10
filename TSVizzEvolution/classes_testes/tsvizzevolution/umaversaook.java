@@ -42,7 +42,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 
-public class testeone extends javax.swing.JFrame {
+public class umaversaook extends javax.swing.JFrame {
 	 private JButton btnChooseFileSearch;
 	    private JButton btnVisualize;
 	    private JButton btnUpload;
@@ -73,6 +73,7 @@ public class testeone extends javax.swing.JFrame {
 	    
 	    private static final String VIRGULA = ",";
 	    private static String nomeDoArquivo;
+	    private JPanel pnlbutton;
 
     public static int converteInteiro(String valor) {
         try {
@@ -82,14 +83,14 @@ public class testeone extends javax.swing.JFrame {
         }
     }
 
-    public testeone() throws IOException {
+    public umaversaook() throws IOException {
     	setTitle("TSVizzEvolution");
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setBounds(100, 100, 700, 510);
     	contentPane = new JPanel();
     	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
     	contentPane.setLayout(new BorderLayout(0, 0));
-    	setcontentPane(contentPane);
+    //	setcontentPane(contentPane);
    	
 		
         initComponents();
@@ -140,7 +141,7 @@ public class testeone extends javax.swing.JFrame {
 
     private void btnChooseFileSearchActionPerformed(java.awt.event.ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(testeone.this);
+        int returnVal = fc.showOpenDialog(umaversaook.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault.setText(file.getPath());
@@ -276,7 +277,7 @@ public class testeone extends javax.swing.JFrame {
             	v.disableAutoLayout();
             }
         } catch (IOException ex) {
-            Logger.getLogger(testeone.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(umaversaook.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -712,18 +713,18 @@ public class testeone extends javax.swing.JFrame {
             }
             
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(testeone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(umaversaook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(testeone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(umaversaook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(testeone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(umaversaook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(testeone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(umaversaook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-					new testeone().setVisible(true);
+					new umaversaook().setVisible(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -810,12 +811,10 @@ public class testeone extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     
     private void initComponents() throws IOException {
-        btnVisualize = new JButton();
         lblSelectCsv = new JLabel();
         lblLevel = new JLabel();
         pnlGraph = new JPanel();
         txtFilePathDefault = new javax.swing.JTextField();
-        btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblSelectCsv.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
         txtFilePathDefault.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -826,13 +825,6 @@ public class testeone extends javax.swing.JFrame {
         lblSelectCsv.setText("Select the .csv File :");
 
         lblLevel.setText("Select the level of granularity:");
-        
-        btnVisualize.setText("Graph View");
-        btnVisualize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarGrafoActionPerformed(evt);
-            }
-        });
 
         String[] a = null;
     	String[] b = null;
@@ -908,6 +900,12 @@ public class testeone extends javax.swing.JFrame {
         btnUpload.setText("Upload Files");
         btnUpload.setFont(new Font("Tahoma", Font.PLAIN, 16));
         
+        
+        btnVisualize = new JButton();
+        btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        
+        btnVisualize.setText("Graph View");
+        
         GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
         gl_pnlMethod.setHorizontalGroup(
         	gl_pnlMethod.createParallelGroup(Alignment.LEADING)
@@ -933,48 +931,48 @@ public class testeone extends javax.swing.JFrame {
         );
         pnlMethod.setLayout(gl_pnlMethod);
         
+        pnlbutton = new JPanel();
+        
        
 
         javax.swing.GroupLayout pnlGraphLayout = new javax.swing.GroupLayout(pnlGraph);
         pnlGraphLayout.setHorizontalGroup(
         	pnlGraphLayout.createParallelGroup(Alignment.LEADING)
         		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
         			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
         				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addContainerGap()
         					.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(lblSelectCsv)
-        						.addComponent(txtFilePathDefault, GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE))
-        					.addGap(18)
-        					.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-        					.addGap(16))
+        						.addGroup(pnlGraphLayout.createSequentialGroup()
+        							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(lblSelectCsv)
+        								.addComponent(txtFilePathDefault, GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE))
+        							.addGap(18)
+        							.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+        							.addGap(16))
+        						.addGroup(pnlGraphLayout.createSequentialGroup()
+        							.addComponent(lblLevel)
+        							.addPreferredGap(ComponentPlacement.UNRELATED)
+        							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 265, GroupLayout.PREFERRED_SIZE)
+        								.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+        							.addGap(215)))
+        					.addContainerGap())
         				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addGap(271)
-        					.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 290, GroupLayout.PREFERRED_SIZE))
+        					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
+        					.addContainerGap(366, Short.MAX_VALUE))
         				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(lblLevel)
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))))
-        			.addContainerGap())
-        		.addGroup(pnlGraphLayout.createSequentialGroup()
-        			.addContainerGap()
-        			.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(277, Short.MAX_VALUE))
-        		.addGroup(pnlGraphLayout.createSequentialGroup()
-        			.addContainerGap()
-        			.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(154, Short.MAX_VALUE))
-        		.addGroup(pnlGraphLayout.createSequentialGroup()
-        			.addContainerGap()
-        			.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        			.addGap(277))
-        		.addGroup(pnlGraphLayout.createSequentialGroup()
-        			.addContainerGap()
-        			.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(304, Short.MAX_VALUE))
+        					.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+        					.addGap(277))
+        				.addGroup(pnlGraphLayout.createSequentialGroup()
+        					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
+        					.addContainerGap(489, Short.MAX_VALUE))
+        				.addGroup(pnlGraphLayout.createSequentialGroup()
+        					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
+        					.addContainerGap(516, Short.MAX_VALUE))
+        				.addGroup(pnlGraphLayout.createSequentialGroup()
+        					.addComponent(pnlbutton, GroupLayout.PREFERRED_SIZE, 640, GroupLayout.PREFERRED_SIZE)
+        					.addContainerGap(61, Short.MAX_VALUE))))
         );
         pnlGraphLayout.setVerticalGroup(
         	pnlGraphLayout.createParallelGroup(Alignment.LEADING)
@@ -986,12 +984,12 @@ public class testeone extends javax.swing.JFrame {
         				.addComponent(txtFilePathDefault, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         				.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
         			.addGap(18)
-        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(lblLevel)
-        				.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
-        			.addGap(29)
         			.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addGap(22)
+        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(lblLevel))
+        			.addGap(18)
         			.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
         			.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
@@ -999,10 +997,32 @@ public class testeone extends javax.swing.JFrame {
         			.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-        			.addGap(28)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(pnlbutton, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+        			.addContainerGap())
+        );
+
+        GroupLayout gl_pnlbutton = new GroupLayout(pnlbutton);
+        gl_pnlbutton.setHorizontalGroup(
+        	gl_pnlbutton.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_pnlbutton.createSequentialGroup()
+        			.addGap(240)
+        			.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(115, Short.MAX_VALUE))
+        );
+        gl_pnlbutton.setVerticalGroup(
+        	gl_pnlbutton.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_pnlbutton.createSequentialGroup()
+        			.addGap(5)
         			.addComponent(btnVisualize)
         			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        pnlbutton.setLayout(gl_pnlbutton);
+        btnVisualize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGerarGrafoActionPerformed(evt);
+            }
+        });
         
         GroupLayout gl_pnlAuthor = new GroupLayout(pnlAuthor);
         gl_pnlAuthor.setHorizontalGroup(
