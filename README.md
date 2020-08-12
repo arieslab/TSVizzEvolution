@@ -14,10 +14,14 @@ project and all types of granularity analysis. TSVizzEvolution supports views wi
 the user to quickly get a general idea of the project’s existing test smells. 
   - All Test Classes. This view represents an overview of all classes and test smells. The Blue Circle icon represents the test classes, and the Gray Rectangle icon represents the test smells found in those test classes.
   - A Specific Test Class. linked to five types of test smells, which corresponds to the Specific Test Class option. This view allows the user to choose a specific test class to analyze in detail.
-  - A Specific Test Smell. 
+  - A Specific Test Smell.It presents one test smells linked to test class. 
   - Author. It presents one author linked to type of test smell, and this test smell linked to test classes. Indicates that this person is the author or assumes the authorship by guilt10 of that test smell. All authors option linked to only test smell. Most of them probably did not insert the test
 smell; some inserted it, other assumed authorship by guilty.
 
+Evolution Analysis. Both Graph View and Timeline View are the visualization techniques applied to the evolution analysis. 
+  - All types of granularity can be visualized in the single analysis using the Graph View technique. On the left side, the graph of the oldest version (left side), and, on the right side, the graph of the most
+recent one (right side). The suffix (_1 or _2) represents the order of the insertion of the versions. 
+  - The Timeline View technique only has two granularity available (Project and All Test Classes). 
 
 To run the TSVizzEvolution tool, simply download the available jar: TSVizzEvolution.jar
 
