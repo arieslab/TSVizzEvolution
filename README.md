@@ -5,7 +5,6 @@ TSVizzEvolution a tool for visualizing the test smells and their evolution on so
 It implements two visualization techniques: (i)Graph View, draws the associations between the test smells and the software artifacts (e.g., projectand test classes) and authors; and (ii)Timeline View, presents the test smells evolution over time.
 TSVizzEvolution integrates a conceptual framework under development by an inter-institutional researchers’ team, which consists of test smells prevention, identification, refactoring, and visualization to improve the test codequality. 
 
-To run the TSVizzEvolution tool, simply download the available jar: TSVizzEvolution.jar
 
 TSVizzEvolution has two types of analysis (Single Analysis and Evolution Analysis).
   
@@ -19,6 +18,8 @@ the user to quickly get a general idea of the project’s existing test smells.
   - Author. It presents one author linked to type of test smell, and this test smell linked to test classes. Indicates that this person is the author or assumes the authorship by guilt10 of that test smell. All authors option linked to only test smell. Most of them probably did not insert the test
 smell; some inserted it, other assumed authorship by guilty.
 
+
+To run the TSVizzEvolution tool, simply download the available jar: TSVizzEvolution.jar
 
 Some files generated for the Commons IO system's JNose tool are available at files_cvs_jnose.
 
