@@ -1,4 +1,4 @@
-![TZVizz](https://github.com/AdrianaPriscilaSantos/TSVizzEvolution/blob/master/logo_tsvizz.png "TSVizz")
+<img align="left" width="100" height="100" src="https://github.com/AdrianaPriscilaSantos/TSVizzEvolution/blob/master/logo_tsvizz.png">
 # TSVizzEvolution: A Tool for Visualization the Evolution of the Test Smells 
 
 ## Description
