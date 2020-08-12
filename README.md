@@ -13,8 +13,8 @@ TSVizzEvolution has two types of analysis (Single Analysis and Evolution Analysi
 project and all types of granularity analysis. TSVizzEvolution supports views with different granularity: Project, All Test Classes, A Specific Test Class, A Specific Test Smells e Author. 
   - **Project.** It shows the relationship between the whole project and the types of test smells;
   - **All Test Classes.** It shows the relationship between test classes and types of test smells;
-  - **A Specific Test Class.** It shows the relationship between test classes and types of test smells;
-  - **A Specific Test Smell.** It shows the relationship between test classes and types of test smells;
+  - **A Specific Test Class.** It shows the relationship between one test classes and types of test smells;
+  - **A Specific Test Smell.** It shows the relationship between one types of test smells and test classes;
   - **Authorship.** It shows the relationship between authors and types of test smells, and the relationship between authors and test classes. It calculates the *authorship by guilty*, i.e. if a developer either inserts a new test smell or modifies a smelly method without fixing it. The developer “was aware” of the problem and assumed its co-authorship.
 
 **Evolution Analysis.** Both Graph View and Timeline View are the visualization techniques applied to the evolution analysis. 
