@@ -1,4 +1,4 @@
-# TSVizzEvolution: </br> A Tool for Visualization the Evolution of the Test Smells ![TZVizz](https://logo_tsvizz.png "TSVizz")
+# TSVizzEvolution: </br> A Tool for Visualization the Evolution of the Test Smells ![TZVizz](https://github.com/AdrianaPriscilaSantos/TSVizzEvolution/logo_tsvizz.png "TSVizz")
 
 ## Description
 TSVizzEvolution is a tool for visualizing the test smells and their evolution on software projects. 
