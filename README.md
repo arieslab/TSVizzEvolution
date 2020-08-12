@@ -7,7 +7,7 @@ TSVizzEvolution integrates a conceptual framework under development by an inter-
 
 To run the TSVizzEvolution tool, simply download the available jar: TSVizzEvolution.jar
 
-TSVizzEvolution has two types of analysis (Single Analysis and Evolution Analysis):
+TSVizzEvolution has two types of analysis (Single Analysis and Evolution Analysis).
   
   Single Analysis. The Graph View is the visualization technique applied to single analysis. Therefore, we select version of the software
 project and all types of granularity analysis. TSVizzEvolution supports views with different granularity: Project, All Test Classes, A Specific Test Class, A Specific Test Smells e Author. 
