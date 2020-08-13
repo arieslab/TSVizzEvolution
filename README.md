@@ -24,7 +24,7 @@ project and all types of granularity analysis. TSVizzEvolution supports views wi
   
 ## Tool Execution
 
-To run the TSVizzEvolution tool, simply download the available jar (TSVizzEvolution.jar) and does not run any command prompt: java -jar TSVizzEvolution
+To run the TSVizzEvolution tool, simply download the available jar (TSVizzEvolution.jar) and does not run any command prompt: java -jar TSVizzEvolution.jar
 
 Some files generated for the Commons IO system's JNose tool are available at files_cvs_jnose.
 
