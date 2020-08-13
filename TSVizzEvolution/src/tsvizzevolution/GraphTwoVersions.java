@@ -1,6 +1,7 @@
 package tsvizzevolution;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -23,6 +24,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -30,6 +32,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.ToolTipManager;
@@ -202,7 +205,7 @@ public class GraphTwoVersions extends JFrame {
     private void btnGerarTimelineActionPerformed(ActionEvent evt) {
         frame = new JFrame();
         frame.setVisible(true);
-        frame.setPreferredSize(new Dimension( 900 + Configurations.adicionalBorda, Configurations.alturaPainel ));
+        frame.setPreferredSize(new Dimension( 1000 + Configurations.adicionalBorda, Configurations.alturaPainel ));
         frame.setMaximumSize(frame.getPreferredSize());
         frame.setMinimumSize(frame.getPreferredSize());
 		frame.setTitle("TSVizzEvolution");
@@ -211,7 +214,7 @@ public class GraphTwoVersions extends JFrame {
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         painel.setBackground(Configurations.corPainel); //seta a cor de fundo
         painel.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-        painel.setPreferredSize(new Dimension( 900, Configurations.alturaPainel ));
+        painel.setPreferredSize(new Dimension( 1000, Configurations.alturaPainel ));
         painel.setMaximumSize(painel.getPreferredSize());
         painel.setMinimumSize(painel.getPreferredSize());
         frame.add(painel);
@@ -225,26 +228,24 @@ public class GraphTwoVersions extends JFrame {
         }
     painel.setPreferredSize(new Dimension(tamanho*204, Configurations.alturaPainel ));
 	JScrollPane jScrollPane = new JScrollPane(painel);
-	jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	//jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	frame.add(jScrollPane);
 	}
 
 	private int criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2){
-        JPanel pacote = new JPanel();
+
+        JLabel versao1 = new JLabel ("V1");
+        versao1.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		painel.add(versao1);
+		
+		JPanel pacote = new JPanel();
         pacote.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pacote.setBackground(Configurations.corPacote); //seta a cor de fundo
         pacote.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
         ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
         painel.add(pacote);
 
-        JPanel pacote2 = new JPanel();
-
-        pacote2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        pacote2.setBackground(Configurations.corPacote); //seta a cor de fundo
-        pacote2.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
-        
         JPanel espaco = new JPanel();
         espaco.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         espaco.setBackground(Color.WHITE); //seta a cor de fundo
@@ -252,10 +253,69 @@ public class GraphTwoVersions extends JFrame {
         ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
         espaco.setPreferredSize(new Dimension(900, 10 ));
 
+        JLabel versao2 = new JLabel ("V2");
+        versao2.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		painel.add(versao2);
+		
         painel.add(espaco);
+        
+		
+        JPanel pacote2 = new JPanel();
+        pacote2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pacote2.setBackground(Configurations.corPacote); //seta a cor de fundo
+        pacote2.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
+        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
         
         painel.add(pacote2);
 
+//        JLabel legendaespaco = new JLabel (" COLOR LEGEND         ");
+//        legendaespaco.setFont(new Font("Tahoma", Font.PLAIN, 16));
+//        legendaespaco.setForeground(Color.white);
+//        
+//        painel.add(legendaespaco);
+
+        
+     //  JLabel titulotabela = new JLabel ("<html><b>Category V1 V2 Color V1 Color V2</b>");
+       //titulotabela.setBounds(50,500,50,50);
+
+        JLabel legenda = new JLabel (" COLOR LEGEND         ");
+        legenda.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+        painel.add(legenda);
+       // painel.add(titulotabela);
+
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[] { "Category","V1","V2","Color V1", "Color V2" }, 0);
+        
+			    tableModel.addRow(new Object[] { "Category","V1","V2","Color V1", "Color V2" });
+        		tableModel.addRow(new Object[] { "New", "False", "True","Not apply", "Gray", "Green" });
+        		tableModel.addRow(new Object[] { "Removed", "True", "False", "Not apply", "Green", "Gray" });
+        		tableModel.addRow(new Object[] { "Propagated", "True", "True", "Equal", "Green", "Yellow" });
+        		tableModel.addRow(new Object[] { "Increased", "True", "True", "Increase", "Green", "Red" });
+        		tableModel.addRow(new Object[] { "Decreased", "True", "True", "Decrease", "Green", "Blue" });
+
+        		JTable tabela = new JTable(tableModel);
+        		
+
+        		
+        		painel.add(tabela);
+
+//        		
+//        String [] colunas = {"Category","V1","V2","Color V1", "Color V2"};
+//        
+//        String [][] dados = {
+//      			{"Category","V1","V2","Color V1", "Color V2"},
+//        		{"New", "False", "True","Not apply", "Gray", "Green"},
+//        		{"Removed", "True", "False", "Not apply", "Green", "Gray"},
+//        		{"Propagated", "True", "True", "Equal", "Green", "Yellow"},
+//        		{"Increased", "True", "True", "Increase", "Green", "Red"},
+//        		{"Decreased", "True", "True", "Decrease", "Green", "Blue"},
+//        };
+//        JTable tabelaLegenda = new JTable(dados, colunas);
+//        tabelaLegenda.setBounds(50,700,300,300);
+//       
+//        painel.add(tabelaLegenda);
+ 
+      
         List<Data> dados1 = retornaDados(fileName1, filtro);
         List<Data> dados2 = retornaDados(fileName2, filtro);
         arrumaDados(dados1, dados2);
@@ -769,12 +829,12 @@ public class GraphTwoVersions extends JFrame {
         String[] b2 = null;
         String[] c2 = null;
 
-      //  txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
+        txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
         a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
         b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
         c2 = carrega_lista_autor(txtFilePathDefault1.getText());
 
-      //  txtFilePathDefault2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
+      txtFilePathDefault2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
         a = carrega_lista_linhas(txtFilePathDefault2.getText());
         b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
         c = carrega_lista_autor(txtFilePathDefault2.getText());
