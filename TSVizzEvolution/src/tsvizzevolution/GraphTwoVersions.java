@@ -297,6 +297,7 @@ public class GraphTwoVersions extends JFrame {
         		
 
         		
+        		
         		painel.add(tabela);
 
 //        		
