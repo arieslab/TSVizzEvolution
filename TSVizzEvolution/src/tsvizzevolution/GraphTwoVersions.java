@@ -53,7 +53,6 @@ public class GraphTwoVersions extends JFrame {
     private JButton btnVisualizeTimeline;
     private JButton btnUpload;
     private JButton btnSearchMethod;
-
     private JComboBox<String> cbLevel;
     private JComboBox<String> cbClass;
     private JComboBox<String> cbTestSmells;
@@ -69,7 +68,6 @@ public class GraphTwoVersions extends JFrame {
     private JLabel lblAuthor;
     private JLabel lblVisualization;
     private JLabel lblSelectTheCsvMethod;
-
     private JPanel pnlClass;
     private JPanel pnlTestSmells;
     private JPanel pnlAuthor;
