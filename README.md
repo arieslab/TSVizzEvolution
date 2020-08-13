@@ -20,7 +20,7 @@ project and all types of granularity analysis. TSVizzEvolution supports views wi
 
 **Evolution Analysis.** Both Graph View and Timeline View are the visualization techniques applied to the evolution analysis. 
   - The Graph View technique supports all types of granularity to compare two version of the project. A suffix represents the order of the insertion of the versions: '_1' for the oldest version, and '_2' for the most recent one.
-  - The Timeline View technique only has two granularity available (Project and All Test Classes). 
+  - The Timeline View technique only has two granularity available (**Project** and **All Test Classes**). 
   
 ## Tool Execution
 
