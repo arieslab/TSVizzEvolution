@@ -1457,9 +1457,11 @@ public class GraphTwoVersions extends JFrame {
         		cbTimelineActionPerformed(evt);
             }
         });
-		                
+		   
+      //, "Methods"
+
         cbLevel = new JComboBox<>();
-        cbLevel.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author", "Methods" }));
+        cbLevel.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author"}));
         cbLevel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cbLevelActionPerformed(evt);

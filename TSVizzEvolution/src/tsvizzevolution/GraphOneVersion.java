@@ -2,6 +2,7 @@ package tsvizzevolution;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +12,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -250,6 +254,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
             }
             String path = System.getProperty("user.dir").replace('\\', '/');
             graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
+            
+           
             if (graph1.getNodeCount() == 0){
                 String msg = "";
             	if (selecionado.equals("Author")) {
@@ -861,7 +867,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
        
         lblSelectCsv.setText("Select the .csv File :");
         
-       // txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
+        //txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
 
         btnChooseFileSearch.setText("Search ...");
         btnChooseFileSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -877,8 +883,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 btnSearchMethodActionPerformed(evt);
             }
         });
-
-        cbLevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author", "Methods" }));
+//, "Methods"
+        cbLevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author" }));
         cbLevel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbLevelActionPerformed(evt);
