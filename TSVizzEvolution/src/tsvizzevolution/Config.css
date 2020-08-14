@@ -20,20 +20,20 @@ node.projetoTS{
 
 node.boneco{
     fill-mode: image-scaled; 
-    fill-image: url('C:/Users/Adriana/git/TSVizzEvolution/TSVizzEvolution/src/tsvizzevolution/boneco.png');
+    fill-image: url('C:/Users/Adriana/Desktop/bkp_ts/boneco.png');
     
 }
 
 node.projeto{
     fill-mode: image-scaled; 
     fill-image: 
-url('C:/Users/Adriana/git/TSVizzEvolution/TSVizzEvolution/src/tsvizzevolution/projeto.png');
+url('C:/Users/Adriana/Desktop/bkp_ts/projeto.png');
     
 }
 node.x{
     fill-mode: image-scaled;
     fill-image: 
-url('C:/Users/Adriana/git/TSVizzEvolution/TSVizzEvolution/src/tsvizzevolution/x.png');
+url('C:/Users/Adriana/Desktop/bkp_ts/x.png');
 
 }
 

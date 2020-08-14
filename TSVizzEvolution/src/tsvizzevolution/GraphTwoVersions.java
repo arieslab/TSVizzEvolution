@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -273,48 +274,29 @@ public class GraphTwoVersions extends JFrame {
 //        painel.add(legendaespaco);
 
         
-     //  JLabel titulotabela = new JLabel ("<html><b>Category V1 V2 Color V1 Color V2</b>");
-       //titulotabela.setBounds(50,500,50,50);
 
         JLabel legenda = new JLabel (" COLOR LEGEND         ");
         legenda.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
         painel.add(legenda);
-       // painel.add(titulotabela);
-
-        DefaultTableModel tableModel = new DefaultTableModel(new Object[] { "Category","V1","V2","Color V1", "Color V2" }, 0);
+        String [] colunas = {"Category","V1","V2","Color V1", "Color V2"};
         
-			    tableModel.addRow(new Object[] { "Category","V1","V2","Color V1", "Color V2" });
-        		tableModel.addRow(new Object[] { "New", "False", "True","Not apply", "Gray", "Green" });
-        		tableModel.addRow(new Object[] { "Removed", "True", "False", "Not apply", "Green", "Gray" });
-        		tableModel.addRow(new Object[] { "Propagated", "True", "True", "Equal", "Green", "Yellow" });
-        		tableModel.addRow(new Object[] { "Increased", "True", "True", "Increase", "Green", "Red" });
-        		tableModel.addRow(new Object[] { "Decreased", "True", "True", "Decrease", "Green", "Blue" });
+        Object [][] dados = {
+        		{"New", "False", "True","Not apply", "Gray", "Green"},
+        		{"Removed", "True", "False", "Not apply", "Green", "Gray"},
+        		{"Propagated", "True", "True", "Equal", "Green", "Yellow"},
+        		{"Increased", "True", "True", "Increase", "Green", "Red"},
+        		{"Decreased", "True", "True", "Decrease", "Green", "Blue"},
+        };
+        JTable tabelaLegenda = new JTable(dados, colunas);
 
-        		JTable tabela = new JTable(tableModel);
-        		
+        JTableHeader header = tabelaLegenda.getTableHeader();
+        header.setFont(new Font("Tahoma", Font.BOLD, 12));
+             
+        painel.add(new JScrollPane(tabelaLegenda));
 
-        		
-        		
-        		painel.add(tabela);
 
-//        		
-//        String [] colunas = {"Category","V1","V2","Color V1", "Color V2"};
-//        
-//        String [][] dados = {
-//      			{"Category","V1","V2","Color V1", "Color V2"},
-//        		{"New", "False", "True","Not apply", "Gray", "Green"},
-//        		{"Removed", "True", "False", "Not apply", "Green", "Gray"},
-//        		{"Propagated", "True", "True", "Equal", "Green", "Yellow"},
-//        		{"Increased", "True", "True", "Increase", "Green", "Red"},
-//        		{"Decreased", "True", "True", "Decrease", "Green", "Blue"},
-//        };
-//        JTable tabelaLegenda = new JTable(dados, colunas);
-//        tabelaLegenda.setBounds(50,700,300,300);
-//       
-//        painel.add(tabelaLegenda);
- 
-      
+     
         List<Data> dados1 = retornaDados(fileName1, filtro);
         List<Data> dados2 = retornaDados(fileName2, filtro);
         arrumaDados(dados1, dados2);

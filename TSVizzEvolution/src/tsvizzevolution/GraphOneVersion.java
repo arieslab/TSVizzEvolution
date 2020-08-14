@@ -253,8 +253,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 e.printStackTrace();
             }
             String path = System.getProperty("user.dir").replace('\\', '/');
-            graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
-            
+            //graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
+            graph1.addAttribute("ui.stylesheet", "url('C:/Users/Adriana/Desktop/bkp_ts/Config.css')");
+
            
             if (graph1.getNodeCount() == 0){
                 String msg = "";
