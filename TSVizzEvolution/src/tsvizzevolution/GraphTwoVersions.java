@@ -295,7 +295,6 @@ public class GraphTwoVersions extends JFrame {
              
         painel.add(new JScrollPane(tabelaLegenda));
 
-
      
         List<Data> dados1 = retornaDados(fileName1, filtro);
         List<Data> dados2 = retornaDados(fileName2, filtro);
