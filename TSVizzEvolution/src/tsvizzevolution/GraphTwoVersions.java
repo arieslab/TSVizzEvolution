@@ -26,6 +26,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -220,19 +221,20 @@ public class GraphTwoVersions extends JFrame {
         int tamanho = 0;
         try {
             String selecionado = (String) cbTimeline.getSelectedItem();
-            tamanho = criaRetangulos(painel, selecionado, txtFilePathDefault1.getText(), txtFilePathDefault2.getText());
+            tamanho = criaRetangulos(painel, selecionado, txtFilePathDefault1.getText(), txtFilePathDefault2.getText(), tamanho);
 
         } catch (Exception e){
             e.printStackTrace();
         }
     painel.setPreferredSize(new Dimension(tamanho*204, Configurations.alturaPainel ));
+    
 	JScrollPane jScrollPane = new JScrollPane(painel);
 	//jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	frame.add(jScrollPane);
 	}
 
-	private int criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2){
+	private int criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2, int tam){
 
         JLabel versao1 = new JLabel ("V1");
         versao1.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -245,19 +247,19 @@ public class GraphTwoVersions extends JFrame {
         ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
         painel.add(pacote);
 
-        JPanel espaco = new JPanel();
-        espaco.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        espaco.setBackground(Color.WHITE); //seta a cor de fundo
-        espaco.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
-        espaco.setPreferredSize(new Dimension(900, 10 ));
+//        JPanel espaco = new JPanel();
+//        espaco.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+//        espaco.setBackground(Color.WHITE); //seta a cor de fundo
+//        espaco.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
+//        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
+//        espaco.setPreferredSize(new Dimension(900, 10 ));
+//        //espaco.setPreferredSize(new Dimension(tam*204, Configurations.alturaPainel ));
+
+       // painel.add(espaco);
 
         JLabel versao2 = new JLabel ("V2");
         versao2.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		painel.add(versao2);
-		
-        painel.add(espaco);
-        
 		
         JPanel pacote2 = new JPanel();
         pacote2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -267,29 +269,38 @@ public class GraphTwoVersions extends JFrame {
         
         painel.add(pacote2);
 
-//        JLabel legendaespaco = new JLabel (" COLOR LEGEND         ");
-//        legendaespaco.setFont(new Font("Tahoma", Font.PLAIN, 16));
-//        legendaespaco.setForeground(Color.white);
-//        
-//        painel.add(legendaespaco);
+//        JPanel espaco2 = new JPanel();
+//        espaco2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+//        espaco2.setBackground(Color.WHITE); //seta a cor de fundo
+//        espaco2.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
+//        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
+//       // espaco2.setPreferredSize(new Dimension(900, 10 ));
+//        espaco2.setPreferredSize(new Dimension(tam*204, Configurations.alturaPainel ));
+//
+//        painel.add(espaco2);
 
-        
+        //JLabel legenda = new JLabel (" COLOR LEGEND         ");
+        //legenda.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        //painel.add(legenda);
 
-        JLabel legenda = new JLabel (" COLOR LEGEND         ");
-        legenda.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
-        painel.add(legenda);
-        String [] colunas = {"Category","V1","V2","Color V1", "Color V2"};
+        String [] colunas = {"Category","V1","V2","V2 Ocurrences ","Color V1", "Color V2"};
         
         Object [][] dados = {
-        		{"New", "False", "True","Not apply", "Gray", "Green"},
-        		{"Removed", "True", "False", "Not apply", "Green", "Gray"},
+        		{"New", "False", "True","Not apply    ", "Gray", "Green"},
+        		{"Removed", "True", "False", "Not apply    ", "Green", "Gray"},
         		{"Propagated", "True", "True", "Equal", "Green", "Yellow"},
         		{"Increased", "True", "True", "Increase", "Green", "Red"},
         		{"Decreased", "True", "True", "Decrease", "Green", "Blue"},
         };
         JTable tabelaLegenda = new JTable(dados, colunas);
 
+        tabelaLegenda.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);        // Configura a largura para 100 pixels
+        int vColIndex = 0;
+        TableColumn col = tabelaLegenda.getColumnModel().getColumn(vColIndex);
+        //int width = 300;
+        //col.setPreferredWidth(width);
+        
+        
         JTableHeader header = tabelaLegenda.getTableHeader();
         header.setFont(new Font("Tahoma", Font.BOLD, 12));
              
@@ -319,6 +330,14 @@ public class GraphTwoVersions extends JFrame {
                     String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> "+ filtro+": <body></b>" + novo_nome_segundo_vertice +"</font></p></html>";
                     classe.setToolTipText(html_classe);
                     pacote.add(classe);
+                    JPanel espaco3 = new JPanel();
+                    espaco3.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+                    espaco3.setBackground(Color.WHITE); //seta a cor de fundo
+                    espaco3.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
+                    ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
+                    espaco3.setPreferredSize(new Dimension(800, 10 ));
+                    
+                    pacote.add(espaco3);
                     for (int j = i; j < dados.size(); j++){
                         if (dados.get(j).projeto.equals(projeto)){
                             JPanel metodo = new JPanel();
