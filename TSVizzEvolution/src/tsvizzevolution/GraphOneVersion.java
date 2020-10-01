@@ -158,28 +158,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
     }
 
     
-    
-    private void txtFilePathDefaultActionPerformed(java.awt.event.ActionEvent evt){
-    	String[] b = null;
-        String[] a = null;
-        String[] c = null;
-
-		try {
-			a = carrega_lista_linhas(txtFilePathDefault.getText());
-			b = carrega_lista_cabecalho(txtFilePathDefault.getText());
-			c = carrega_lista_autor(txtFilePathDefault.getText());
-
-		} catch (IOException e) {
-
-		}
-		cbClass.setModel(new javax.swing.DefaultComboBoxModel<>(a));
-        cbTestSmells.setModel(new javax.swing.DefaultComboBoxModel<>(b));
-        cbAuthor.setModel(new javax.swing.DefaultComboBoxModel<>(c));
-
-    }
-    
     private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
         try {
+            System.out.println("Entrou aqui 1x");
             System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
             Graph graph1 = new MultiGraph("TSVizzEvolution");
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault.getText())));
@@ -252,9 +233,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String path = System.getProperty("user.dir").replace('\\', '/');
+           // String path = System.getProperty("user.dir").replace('\\', '/');
             //graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
-            graph1.addAttribute("ui.stylesheet", "url('C:/Users/Adriana/Desktop/bkp_ts/Config.css')");
+            graph1.addAttribute("ui.stylesheet", "url('./src/tsvizzevolution/Config.css')");
 
            
             if (graph1.getNodeCount() == 0){
@@ -752,6 +733,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
             	resposta.add(classe);
             }
         }
+        Collections.sort(resposta);
         String[] resposta_final = new String[resposta.size() - 1];
         for(int i = 0; i < resposta.size() - 1; i++){
         	resposta_final[i] = (String) resposta.get(i+1);
@@ -762,12 +744,19 @@ public class GraphOneVersion extends javax.swing.JFrame {
     public static String[] carrega_lista_cabecalho(String path) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
         String cabecalho_combo;
-        List respos = new ArrayList();
         cabecalho_combo = reader.readLine();
         String[] cabecalhoTest = cabecalho_combo.split(VIRGULA);
         String[] resultado = new String[cabecalhoTest.length - 10];
         for (int i = 10; i < cabecalhoTest.length; i++){
         	resultado[i - 10] = cabecalhoTest[i];
+        }
+        List<String> aux = new ArrayList<>();
+        for (int i = 0; i < resultado.length; i++){
+            aux.add(resultado[i]);
+        }
+        Collections.sort(aux);
+        for (int i = 0; i < resultado.length; i++){
+            resultado[i] = aux.get(i);
         }
 		return resultado;
 		
@@ -803,6 +792,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
             	resposta.add(classe);
             }
         }
+        Collections.sort(resposta);
         String[] resposta_final = new String[resposta.size()];
         for(int i = 0; i < resposta.size() - 1; i++){
         	resposta_final[i] = (String) resposta.get(i+1);
@@ -920,10 +910,13 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			            String[] b = null;
 			            String[] c = null;
 
-			            // txtFilePathDefault.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+//			            txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
+                       //txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
+
 			            a = carrega_lista_linhas(txtFilePathDefault.getText());
 			            b = carrega_lista_cabecalho(txtFilePathDefault.getText());
 			            c = carrega_lista_autor(txtFilePathDefault.getText());
+
 			            cbAuthor.setModel(new DefaultComboBoxModel<>(c));
 			            cbClass.setModel(new DefaultComboBoxModel<>(a));
 			            cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
@@ -1065,11 +1058,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
         			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlbutton.setLayout(gl_pnlbutton);
-        btnVisualize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarGrafoActionPerformed(evt);
-            }
-        });
         
         GroupLayout gl_pnlAuthor = new GroupLayout(pnlAuthor);
         gl_pnlAuthor.setHorizontalGroup(
