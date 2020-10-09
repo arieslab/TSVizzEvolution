@@ -17,6 +17,12 @@ node.projetoTS{
     fill-color: rgb(147,219,112);
     shape: circle;
 }
+node.metodo{
+    size:25px;
+    fill-color: yellow;
+    stroke-mode: plain;
+    stroke-color: black;   
+}
 
 node.boneco{
     fill-mode: image-scaled; 

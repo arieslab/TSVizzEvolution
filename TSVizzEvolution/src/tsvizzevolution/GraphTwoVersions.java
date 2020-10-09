@@ -150,8 +150,8 @@ public class GraphTwoVersions extends JFrame {
                     pnlAuthor.setVisible(true);
                     pnlMethod.setVisible(false);
                 } else if (event.getItem().equals("Methods")) {
-                        pnlClass.setVisible(false);
-                        pnlTestSmells.setVisible(false);
+                        pnlClass.setVisible(true);
+                        pnlTestSmells.setVisible(true);
                         pnlAuthor.setVisible(false);
                         pnlMethod.setVisible(true);
                 } else {
@@ -409,6 +409,7 @@ public class GraphTwoVersions extends JFrame {
 
             List listaDeLinhasInt = new ArrayList();
             List listaDeLinhas = new ArrayList();
+            List listaMetodos = new ArrayList();
             String cabecalho;
 
             cabecalho = reader.readLine();
@@ -425,6 +426,7 @@ public class GraphTwoVersions extends JFrame {
                 n.setAttribute("y", y);
 
             }
+
             if (cabecalho != null) {
                 while ((linha = reader.readLine()) != null) {
                     String[] dados = linha.split(VIRGULA);
@@ -484,6 +486,65 @@ public class GraphTwoVersions extends JFrame {
             }else {
                 coluna = 6;
             }
+            List<ClassMethod> listaMetodosClasse1 = new ArrayList<>();
+            if (selecionado.equals("Methods")){
+                reader  = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathMethod.getText())));
+                while ((linha = reader.readLine()) != null) {
+                    String[] dados = linha.split(VIRGULA);
+                    listaMetodos.add(dados);
+                }
+
+                for (int i = 0; i < listaMetodos.size(); i++){
+                    boolean tem = false;
+                    String[] dado_linha = (String[]) listaMetodos.get(i);
+                    for (ClassMethod obj: listaMetodosClasse1) {
+                        if (dado_linha[1].equals(obj.classe)){
+                            tem = true;
+                        }
+                    }
+                    if (tem == false){
+                        listaMetodosClasse1.add(new ClassMethod(dado_linha[1]));
+                    }
+                }
+                for (ClassMethod obj: listaMetodosClasse1){
+                    for (int i = 0; i < listaMetodos.size(); i++){
+                        String[] dado_linha = (String[]) listaMetodos.get(i);
+                        if (obj.classe.equals(dado_linha[1])){
+                            obj.addMethods(dado_linha[8]);
+                        }
+                    }
+                }
+            }
+
+//            List<ClassMethod> listaMetodosClasse2 = new ArrayList<>();
+//            if (selecionado.equals("Methods")){
+//                reader  = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathMethod2.getText())));
+//                while ((linha = reader.readLine()) != null) {
+//                    String[] dados = linha.split(VIRGULA);
+//                    listaMetodos.add(dados);
+//                }
+//
+//                for (int i = 0; i < listaMetodos.size(); i++){
+//                    boolean tem = false;
+//                    String[] dado_linha = (String[]) listaMetodos.get(i);
+//                    for (ClassMethod obj: listaMetodosClasse2) {
+//                        if (dado_linha[1].equals(obj.classe)){
+//                            tem = true;
+//                        }
+//                    }
+//                    if (tem == false){
+//                        listaMetodosClasse2.add(new ClassMethod(dado_linha[1]));
+//                    }
+//                }
+//                for (ClassMethod obj: listaMetodosClasse2){
+//                    for (int i = 0; i < listaMetodos.size(); i++){
+//                        String[] dado_linha = (String[]) listaMetodos.get(i);
+//                        if (obj.classe.equals(dado_linha[1])){
+//                            obj.addMethods(dado_linha[8]);
+//                        }
+//                    }
+//                }
+//            }
             List<Data> l1 = retornaDados(txtFilePathDefault1.getText(), f);
             List<Data> l2 = retornaDados(txtFilePathDefault2.getText(), f);
             String filtro = "";
@@ -503,7 +564,13 @@ public class GraphTwoVersions extends JFrame {
                 	    String filtroAutor = (String) cbAuthor.getSelectedItem();
                         CriaGrafoParcialAutor(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, filtroAutor, coluna, 1, txtFilePathDefault1.getText(), l1);
                         CriaGrafoParcialAutor(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, filtroAutor, coluna, 2, txtFilePathDefault2.getText(), l2);
-                	}else{
+
+                	}else if (true){
+                	    String testSmell = (String) cbTestSmells.getSelectedItem();
+                	    String classe  = (String) cbClass.getSelectedItem();
+                	    CriaGrafoMetodos(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, testSmell, classe, coluna, 1, txtFilePathDefault1.getText(), l1, listaMetodosClasse1);
+//                      CriaGrafoMetodos(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, testSmell, classe, coluna, 2, txtFilePathDefault1.getText(), l2, listaMetodosClasse2);
+                    }else{
                 		filtro = (String) cbTestSmells.getSelectedItem();
                         CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
                         CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 1, txtFilePathDefault2.getText(), l2);
@@ -812,6 +879,84 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
+    private static void CriaGrafoMetodos(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1, String nome, String classe, int coluna, int flag, String file, List<Data> l, List<ClassMethod> listaMetodosClasse) throws IOException {
+        String complemento = "";
+        if (flag == 1){
+            complemento = "_1";
+        }else{
+            complemento = "_2";
+        }
+        for (int i = 0; i < listaClassesInt.size(); i++) {
+            int[] linhaInt = (int[]) listaClassesInt.get(i);
+            String[] linha = (String[]) listaClasses.get(i);
+            try {
+                graph1.addNode(linha[coluna] + complemento);
+            } catch (Exception e) {
+            }
+            Node n1 = graph1.getNode(linha[coluna] + complemento);
+            n1.setAttribute("ui.label", linha[coluna] + complemento);
+            double x = (Math.random() * ((1000000) + 1));
+            double y = (Math.random() * ((1000000) + 1));
+            n1.setAttribute("x", x);
+            n1.setAttribute("y", y);
+            // n1.setAttribute("layout.weight", 10);
+            n1.setAttribute("edges","layout.weight:4");
+            for (int j = 10; j < linhaInt.length; j++) {
+                if (linhaInt[j] != 0) {
+                    if (classe.equals(linha[coluna]) && nome.equals(cabecalho[j])) {
+                        try{
+                            System.out.println("entrou");
+                            graph1.addEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento, cabecalho[j] + complemento, linha[coluna] + complemento);
+                            Edge e = graph1.getEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento);
+                            int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], "All Test Classes", l);
+                            e.setAttribute("ui.label", valor);
+                        } catch (Exception e) {
+                        }
+                    }
+                }
+            }
+        }
+        if (graph1.getEdgeCount() > 0) {
+            for (ClassMethod obj : listaMetodosClasse) {
+                for (String metodo : obj.metodos) {
+                    try {
+                        graph1.addNode(metodo + complemento);
+                        Node n1 = graph1.getNode(metodo + complemento);
+                        n1.setAttribute("ui.label", metodo + complemento);
+                        n1.addAttribute("ui.class", "metodo");
+                        double x = (Math.random() * ((1000000) + 1) + 1000000);
+                        double y = (Math.random() * ((1000000) + 1) + 1000000);
+                        n1.setAttribute("x", x);
+                        n1.setAttribute("y", y);
+                        if (obj.classe.equals(classe))
+                            graph1.addEdge(metodo + complemento, obj.classe + complemento, metodo + complemento);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }
+        //MUDAR O COMPLEMENTO.EQUALS("_1") PARA COMPLEMENTO.EQUALS("_2")
+        if (complemento.equals("_1")) {
+            boolean stop = false;
+            while (!stop) {
+                boolean Flag = false;
+                for (int i = 0; i < graph1.getNodeCount(); i++) {
+                    Node n1 = graph1.getNode(i);
+                    if (n1.getDegree() == 0) {
+                        if (!(n1.getId().equals(nome + "_1") || n1.getId().equals(nome + "_2"))) {
+                            Flag = true;
+                            graph1.removeNode(n1);
+                            break;
+                        }
+                    }
+                }
+                if (!Flag) {
+                    stop = true;
+                }
+            }
+        }
+    }
+
     private void cbLevelActionPerformed(ActionEvent evt) {
     }
     private void cbVisualizationActionPerformed(ActionEvent evt) {
@@ -828,12 +973,13 @@ public class GraphTwoVersions extends JFrame {
         String[] b2 = null;
         String[] c2 = null;
 
-        txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
+        txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+        txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
         b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
         c2 = carrega_lista_autor(txtFilePathDefault1.getText());
 
-      txtFilePathDefault2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
+      txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
         a = carrega_lista_linhas(txtFilePathDefault2.getText());
         b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
         c = carrega_lista_autor(txtFilePathDefault2.getText());
@@ -1517,10 +1663,10 @@ public class GraphTwoVersions extends JFrame {
             }
         });
 		   
-      //, "Methods"
+      //
 
         cbLevel = new JComboBox<>();
-        cbLevel.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author"}));
+        cbLevel.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author", "Methods"}));
         cbLevel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cbLevelActionPerformed(evt);
