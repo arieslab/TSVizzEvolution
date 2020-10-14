@@ -7,9 +7,16 @@ public class ClassMethod {
 
     public String classe;
     public List<String> metodos;
+    public String testSmell;
 
     public ClassMethod(String classe) {
         this.classe = classe;
+        this.metodos = new ArrayList();
+    }
+
+    public ClassMethod(String classe, String testSmell) {
+        this.classe = classe;
+        this.testSmell = testSmell;
         this.metodos = new ArrayList();
     }
 

@@ -306,16 +306,17 @@ public class GraphTwoVersions extends JFrame {
              
         painel.add(new JScrollPane(tabelaLegenda));
 
-     
+        List<ClassMethod> l1 = CriaListaDeMetodos(txtFilePathMethod.getText());
+        List<ClassMethod> l2 = CriaListaDeMetodos(txtFilePathMethod.getText());
         List<Data> dados1 = retornaDados(fileName1, filtro);
         List<Data> dados2 = retornaDados(fileName2, filtro);
         arrumaDados(dados1, dados2);
-        int tamanho = constroiBlocos(dados1, filtro, pacote);
-        tamanho = constroiBlocos(dados2, filtro, pacote2);
+        int tamanho = constroiBlocos(dados1, filtro, pacote, l1);
+        tamanho = constroiBlocos(dados2, filtro, pacote2, l2);
         return tamanho;
     }
 
-    private int constroiBlocos(List<Data> dados, String filtro, JPanel pacote){
+    private int constroiBlocos(List<Data> dados, String filtro, JPanel pacote, List<ClassMethod> l){
         List<String> analisados = new ArrayList<>();
         if (filtro.equals("Project")){
             for (int i = 0; i < dados.size(); i++){
@@ -377,8 +378,14 @@ public class GraphTwoVersions extends JFrame {
                             metodo.setMaximumSize(metodo.getPreferredSize());
                             metodo.setMinimumSize(metodo.getPreferredSize());
                             String novo_nome_primeiro_vertice = dados.get(j).nome.substring(0, dados.get(j).nome.length()-2);
-                           // String html_metodo = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Smells: <body></b>" + novo_nome_primeiro_vertice + " <br>  "+ "<HtMl><b>Occurrence: <body></b>" + dados.get(j).valor + "</font></p></html>";
                             String html_metodo = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Smells: <body></b>" + novo_nome_primeiro_vertice + " <br>  "+ "<HtMl><b>Occurrence: <body></b>" + dados.get(j).valor +" <br>  "+  "<HtMl><b>Test Class: <body></b>" + novo_nome_segundo_vertice + "</font></p></html>";
+                            if(filtro.equals("Method")){
+                                for(ClassMethod obj: l){
+                                    if(obj.testSmell.equals(novo_nome_primeiro_vertice) && obj.classe.equals(novo_nome_segundo_vertice)){
+                                        html_metodo = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Smells: <body></b>" + novo_nome_primeiro_vertice + " <br>  "+ "<HtMl><b>Occurrence: <body></b>" + dados.get(j).valor +" <br>  " +  "<HtMl><b>Test Class: <body></b>" + novo_nome_segundo_vertice +  "<br> <HtMl><b>Metodos: <body></b>" + obj.metodos +"</font></p></html>";
+                                    }
+                                }
+                            }
                             metodo.setToolTipText(html_metodo);
                             classe.add(metodo);
                         }
@@ -400,6 +407,43 @@ public class GraphTwoVersions extends JFrame {
     }
 
 
+    private List<ClassMethod> CriaListaDeMetodos(String path){
+        List<ClassMethod> listaMetodosClasse1 = new ArrayList<>();
+        try {
+            List listaMetodos = new ArrayList();
+            String linha = null;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+            while ((linha = reader.readLine()) != null) {
+                String[] dados = linha.split(VIRGULA);
+                listaMetodos.add(dados);
+            }
+
+            for (int i = 0; i < listaMetodos.size(); i++) {
+                boolean tem = false;
+                String[] dado_linha = (String[]) listaMetodos.get(i);
+                for (ClassMethod obj : listaMetodosClasse1) {
+                    if (dado_linha[1].equals(obj.classe) && dado_linha[7].equals(obj.testSmell)) {
+                        tem = true;
+                    }
+                }
+                if (tem == false) {
+                    listaMetodosClasse1.add(new ClassMethod(dado_linha[1], dado_linha[7]));
+                }
+            }
+            for (ClassMethod obj : listaMetodosClasse1) {
+                for (int i = 0; i < listaMetodos.size(); i++) {
+                    String[] dado_linha = (String[]) listaMetodos.get(i);
+                    if (obj.classe.equals(dado_linha[1]) && obj.testSmell.equals(dado_linha[7])) {
+                        obj.addMethods(dado_linha[8]);
+                    }
+                }
+            }
+            return listaMetodosClasse1;
+        } catch (Exception e) {
+
+        }
+        return listaMetodosClasse1;
+    }
     private void btnGerarGrafoActionPerformed(ActionEvent evt) {
         try {
             System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
@@ -973,13 +1017,13 @@ public class GraphTwoVersions extends JFrame {
         String[] b2 = null;
         String[] c2 = null;
 
-        txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
-        txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+        txtFilePathDefault1.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+        txtFilePathMethod.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
         b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
         c2 = carrega_lista_autor(txtFilePathDefault1.getText());
 
-      txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
+      txtFilePathDefault2.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
         a = carrega_lista_linhas(txtFilePathDefault2.getText());
         b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
         c = carrega_lista_autor(txtFilePathDefault2.getText());
@@ -1326,7 +1370,7 @@ public class GraphTwoVersions extends JFrame {
 
                 }
             }
-            if (filtro.equals("All Test Classes")){
+            if (filtro.equals("All Test Classes") || filtro.equals("Method")){
                 List<String> classes = new ArrayList<>();
                 int coluna = 6;
                 for (int i = 0; i < listaDeLinhas.size(); i++){
@@ -1656,7 +1700,7 @@ public class GraphTwoVersions extends JFrame {
         
         }            
         cbTimeline = new JComboBox<>();
-        cbTimeline.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes" }));
+        cbTimeline.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "Method" }));
         cbTimeline.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent evt) {
         		cbTimelineActionPerformed(evt);
@@ -1738,7 +1782,7 @@ public class GraphTwoVersions extends JFrame {
         pnlVisualization = new JPanel();
 
 
-    	//JPanel pnlMethod = new JPanel();
+    	JPanel pnlMethod = new JPanel();
  		lblSelectTheCsvMethod = new JLabel();
  		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
  		
@@ -2062,8 +2106,6 @@ public class GraphTwoVersions extends JFrame {
    		pnlVisualization.setLayout(gl_pnlVisualization);
    		pnlGraph.setLayout(gl_pnlGraph);
    		contentPane.setLayout(gl_contentPane);
-
-							         						         
 	}
 
 }

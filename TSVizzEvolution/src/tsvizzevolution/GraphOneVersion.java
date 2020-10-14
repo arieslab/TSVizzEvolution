@@ -45,6 +45,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.view.Viewer;
 
+
 public class GraphOneVersion extends javax.swing.JFrame {
     private JButton btnChooseFileSearch;
     private JButton btnVisualize;
@@ -1031,8 +1032,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			            String[] b = null;
 			            String[] c = null;
 
-//			            txtFilePathDefault.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
-//                      txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+//			            txtFilePathDefault.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+//                      txtFilePathMethod.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
 			            a = carrega_lista_linhas(txtFilePathDefault.getText());
 			            b = carrega_lista_cabecalho(txtFilePathDefault.getText());
 			            c = carrega_lista_autor(txtFilePathDefault.getText());
