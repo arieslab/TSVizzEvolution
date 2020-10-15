@@ -6,7 +6,7 @@ node{
 }
 
 node:clicked {
-    fill-color: yellow;
+    fill-color: green;
 }
 
 node.quadradoTS{
@@ -26,20 +26,20 @@ node.metodo{
 
 node.boneco{
     fill-mode: image-scaled; 
-    fill-image: url('./src/tsvizzevolution/boneco.png');
+    fill-image: url('tsvizzevolution/boneco.png');
     
 }
 
 node.projeto{
     fill-mode: image-scaled; 
     fill-image: 
-url('./src/tsvizzevolution/projeto.png');
+url('tsvizzevolution/projeto.png');
     
 }
 node.x{
     fill-mode: image-scaled;
     fill-image: 
-url('./src/tsvizzevolution/x.png');
+url('tsvizzevolution/x.png');
 
 }
 

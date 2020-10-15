@@ -55,6 +55,7 @@ public class GraphTwoVersions extends JFrame {
     private JButton btnVisualizeTimeline;
     private JButton btnUpload;
     private JButton btnSearchMethod;
+    private JButton btnSearchMethod2;
     private JComboBox<String> cbLevel;
     private JComboBox<String> cbClass;
     private JComboBox<String> cbTestSmells;
@@ -70,6 +71,8 @@ public class GraphTwoVersions extends JFrame {
     private JLabel lblAuthor;
     private JLabel lblVisualization;
     private JLabel lblSelectTheCsvMethod;
+    private JLabel lblSelectTheSecond;
+
     private JPanel pnlClass;
     private JPanel pnlTestSmells;
     private JPanel pnlAuthor;
@@ -91,6 +94,7 @@ public class GraphTwoVersions extends JFrame {
 
     private static final String VIRGULA = ",";
     private static String nomeDoArquivo;
+    private JTextField txtFilePathMethod2;
 	
 
     public static int converteInteiro(String valor) {
@@ -105,31 +109,21 @@ public class GraphTwoVersions extends JFrame {
 
 		setTitle("TSVizzEvolution");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 710, 510);
+		setBounds(100, 100, 710, 696);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		
+		setContentPane(contentPane);	
         initComponents();
         pnlClass.setVisible(false);
         pnlTestSmells.setVisible(false);
         pnlAuthor.setVisible(false); 
-        
-
-       // pnlLevel.setVisible(false);
-      //  pnlTimeline.setVisible(false);
-      //  btnVisualizeTimeline.setVisible(false);
-      //  btnVisualizeGraph.setVisible(false);
         pnlVisualization.setVisible(true);
-        
         pnlLevel.setVisible(true);
         pnlTimeline.setVisible(false);
         btnVisualizeGraph.setVisible(true);
         btnVisualizeTimeline.setVisible(false);
         pnlUpload.setVisible(true);
         pnlMethod.setVisible(false); 
-//        pnlGenerateTimeline.setVisible(false);
-//        pnlGenerateGraph.setVisible(false);
 
        
         cbLevel.addItemListener(new ItemListener() {
@@ -164,6 +158,26 @@ public class GraphTwoVersions extends JFrame {
                 }
             }
         });
+        
+
+        cbLevel.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+            	if (event.getItem().equals("Methods")) {
+                        pnlClass.setVisible(true);
+                        pnlTestSmells.setVisible(true);
+                        pnlAuthor.setVisible(false);
+                        pnlMethod.setVisible(true);
+                } else {
+                    pnlClass.setVisible(false);
+                    pnlTestSmells.setVisible(false);
+                    pnlAuthor.setVisible(false);
+                    pnlMethod.setVisible(false);
+
+
+                }
+            }
+        });
+
 
     }
 
@@ -194,11 +208,22 @@ public class GraphTwoVersions extends JFrame {
         int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            txtFilePathDefault2.setText(file.getPath());
+            txtFilePathMethod.setText(file.getPath());
             nomeDoArquivo = file.getName();
         }
     }
 
+    private void btnSearchMethod2ActionPerformed(ActionEvent evt) {
+        final JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            txtFilePathMethod2.setText(file.getPath());
+            nomeDoArquivo = file.getName();
+        }
+    }
+
+    
     
     
 
@@ -217,7 +242,7 @@ public class GraphTwoVersions extends JFrame {
         painel.setPreferredSize(new Dimension( 1000, Configurations.alturaPainel ));
         painel.setMaximumSize(painel.getPreferredSize());
         painel.setMinimumSize(painel.getPreferredSize());
-        frame.add(painel);
+        frame.getContentPane().add(painel);
         int tamanho = 0;
         try {
             String selecionado = (String) cbTimeline.getSelectedItem();
@@ -231,7 +256,7 @@ public class GraphTwoVersions extends JFrame {
 	JScrollPane jScrollPane = new JScrollPane(painel);
 	//jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-	frame.add(jScrollPane);
+	frame.getContentPane().add(jScrollPane);
 	}
 
 	private int criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2, int tam){
@@ -379,7 +404,7 @@ public class GraphTwoVersions extends JFrame {
                             metodo.setMinimumSize(metodo.getPreferredSize());
                             String novo_nome_primeiro_vertice = dados.get(j).nome.substring(0, dados.get(j).nome.length()-2);
                             String html_metodo = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Smells: <body></b>" + novo_nome_primeiro_vertice + " <br>  "+ "<HtMl><b>Occurrence: <body></b>" + dados.get(j).valor +" <br>  "+  "<HtMl><b>Test Class: <body></b>" + novo_nome_segundo_vertice + "</font></p></html>";
-                            if(filtro.equals("Method")){
+                            if(filtro.equals("Methods")){
                                 for(ClassMethod obj: l){
                                     if(obj.testSmell.equals(novo_nome_primeiro_vertice) && obj.classe.equals(novo_nome_segundo_vertice)){
                                         html_metodo = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Smells: <body></b>" + novo_nome_primeiro_vertice + " <br>  "+ "<HtMl><b>Occurrence: <body></b>" + dados.get(j).valor +" <br>  " +  "<HtMl><b>Test Class: <body></b>" + novo_nome_segundo_vertice +  "<br> <HtMl><b>Metodos: <body></b>" + obj.metodos +"</font></p></html>";
@@ -530,65 +555,8 @@ public class GraphTwoVersions extends JFrame {
             }else {
                 coluna = 6;
             }
-            List<ClassMethod> listaMetodosClasse1 = new ArrayList<>();
-            if (selecionado.equals("Methods")){
-                reader  = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathMethod.getText())));
-                while ((linha = reader.readLine()) != null) {
-                    String[] dados = linha.split(VIRGULA);
-                    listaMetodos.add(dados);
-                }
-
-                for (int i = 0; i < listaMetodos.size(); i++){
-                    boolean tem = false;
-                    String[] dado_linha = (String[]) listaMetodos.get(i);
-                    for (ClassMethod obj: listaMetodosClasse1) {
-                        if (dado_linha[1].equals(obj.classe)){
-                            tem = true;
-                        }
-                    }
-                    if (tem == false){
-                        listaMetodosClasse1.add(new ClassMethod(dado_linha[1]));
-                    }
-                }
-                for (ClassMethod obj: listaMetodosClasse1){
-                    for (int i = 0; i < listaMetodos.size(); i++){
-                        String[] dado_linha = (String[]) listaMetodos.get(i);
-                        if (obj.classe.equals(dado_linha[1])){
-                            obj.addMethods(dado_linha[8]);
-                        }
-                    }
-                }
-            }
-
-//            List<ClassMethod> listaMetodosClasse2 = new ArrayList<>();
-//            if (selecionado.equals("Methods")){
-//                reader  = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathMethod2.getText())));
-//                while ((linha = reader.readLine()) != null) {
-//                    String[] dados = linha.split(VIRGULA);
-//                    listaMetodos.add(dados);
-//                }
-//
-//                for (int i = 0; i < listaMetodos.size(); i++){
-//                    boolean tem = false;
-//                    String[] dado_linha = (String[]) listaMetodos.get(i);
-//                    for (ClassMethod obj: listaMetodosClasse2) {
-//                        if (dado_linha[1].equals(obj.classe)){
-//                            tem = true;
-//                        }
-//                    }
-//                    if (tem == false){
-//                        listaMetodosClasse2.add(new ClassMethod(dado_linha[1]));
-//                    }
-//                }
-//                for (ClassMethod obj: listaMetodosClasse2){
-//                    for (int i = 0; i < listaMetodos.size(); i++){
-//                        String[] dado_linha = (String[]) listaMetodos.get(i);
-//                        if (obj.classe.equals(dado_linha[1])){
-//                            obj.addMethods(dado_linha[8]);
-//                        }
-//                    }
-//                }
-//            }
+            List<ClassMethod> listaMetodosClasse1 = CriaListaDeMetodos(txtFilePathMethod.getText());
+            List<ClassMethod> listaMetodosClasse2 = CriaListaDeMetodos(txtFilePathMethod2.getText());
             List<Data> l1 = retornaDados(txtFilePathDefault1.getText(), f);
             List<Data> l2 = retornaDados(txtFilePathDefault2.getText(), f);
             String filtro = "";
@@ -613,7 +581,7 @@ public class GraphTwoVersions extends JFrame {
                 	    String testSmell = (String) cbTestSmells.getSelectedItem();
                 	    String classe  = (String) cbClass.getSelectedItem();
                 	    CriaGrafoMetodos(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, testSmell, classe, coluna, 1, txtFilePathDefault1.getText(), l1, listaMetodosClasse1);
-//                      CriaGrafoMetodos(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, testSmell, classe, coluna, 2, txtFilePathDefault1.getText(), l2, listaMetodosClasse2);
+                        CriaGrafoMetodos(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, testSmell, classe, coluna, 2, txtFilePathDefault1.getText(), l2, listaMetodosClasse2);
                     }else{
                 		filtro = (String) cbTestSmells.getSelectedItem();
                         CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
@@ -625,8 +593,8 @@ public class GraphTwoVersions extends JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String path = System.getProperty("user.dir").replace('\\', '/');
-            graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
+           // String path = System.getProperty("user.dir").replace('\\', '/');
+            graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
             if (graph1.getNodeCount() == 0){
                 String msg = "";
                 if (selecionado.equals("Author")) {
@@ -949,7 +917,6 @@ public class GraphTwoVersions extends JFrame {
                 if (linhaInt[j] != 0) {
                     if (classe.equals(linha[coluna]) && nome.equals(cabecalho[j])) {
                         try{
-                            System.out.println("entrou");
                             graph1.addEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento, cabecalho[j] + complemento, linha[coluna] + complemento);
                             Edge e = graph1.getEdge(cabecalho[j] + complemento + " " + linha[coluna] + complemento);
                             int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], "All Test Classes", l);
@@ -972,15 +939,17 @@ public class GraphTwoVersions extends JFrame {
                         double y = (Math.random() * ((1000000) + 1) + 1000000);
                         n1.setAttribute("x", x);
                         n1.setAttribute("y", y);
-                        if (obj.classe.equals(classe))
-                            graph1.addEdge(metodo + complemento, obj.classe + complemento, metodo + complemento);
+                        if (obj.classe.equals(classe)){
+                            Node nodeClasse = graph1.getNode(obj.classe + complemento);
+                            if (nodeClasse.hasEdgeBetween(obj.testSmell + complemento))
+                                graph1.addEdge(metodo + complemento, obj.classe + complemento, metodo + complemento);
+                        }
                     } catch (Exception e) {
                     }
                 }
             }
         }
-        //MUDAR O COMPLEMENTO.EQUALS("_1") PARA COMPLEMENTO.EQUALS("_2")
-        if (complemento.equals("_1")) {
+        if (complemento.equals("_2")) {
             boolean stop = false;
             while (!stop) {
                 boolean Flag = false;
@@ -1017,13 +986,14 @@ public class GraphTwoVersions extends JFrame {
         String[] b2 = null;
         String[] c2 = null;
 
-        txtFilePathDefault1.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
-        txtFilePathMethod.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+        //txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
+       // txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
         a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
         b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
         c2 = carrega_lista_autor(txtFilePathDefault1.getText());
 
-      txtFilePathDefault2.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
+     //   txtFilePathDefault2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
+    //    txtFilePathMethod2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
         a = carrega_lista_linhas(txtFilePathDefault2.getText());
         b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
         c = carrega_lista_autor(txtFilePathDefault2.getText());
@@ -1370,7 +1340,7 @@ public class GraphTwoVersions extends JFrame {
 
                 }
             }
-            if (filtro.equals("All Test Classes") || filtro.equals("Method")){
+            if (filtro.equals("All Test Classes") || filtro.equals("Methods")){
                 List<String> classes = new ArrayList<>();
                 int coluna = 6;
                 for (int i = 0; i < listaDeLinhas.size(); i++){
@@ -1700,7 +1670,7 @@ public class GraphTwoVersions extends JFrame {
         
         }            
         cbTimeline = new JComboBox<>();
-        cbTimeline.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "Method" }));
+        cbTimeline.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "Methods" }));
         cbTimeline.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent evt) {
         		cbTimelineActionPerformed(evt);
@@ -1782,14 +1752,32 @@ public class GraphTwoVersions extends JFrame {
         pnlVisualization = new JPanel();
 
 
-    	JPanel pnlMethod = new JPanel();
+    	//JPanel pnlMethod = new JPanel();
  		lblSelectTheCsvMethod = new JLabel();
- 		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
+ 		lblSelectTheCsvMethod.setText("Select the first .csv File (By Test Smells JNose) :");
  		
  		 		txtFilePathMethod = new JTextField();
  	//	txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
  		
+ 		 		lblSelectTheSecond = new JLabel();
+ 		   		lblSelectTheSecond.setText("Select the second .csv File (By Test Smells JNose) :");
+ 		   		lblSelectTheSecond.setFont(new Font("Tahoma", Font.PLAIN, 16));
+ 		   		
+ 		   		txtFilePathMethod2 = new JTextField();
+ 		   		txtFilePathMethod2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+ 		   		
+ 		   		
+ 		   		btnSearchMethod2 = new JButton();
+ 		   		btnSearchMethod2.setText("Search ...");
+ 	    		btnSearchMethod2.addActionListener(new java.awt.event.ActionListener() {
+ 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
+ 	                btnSearchMethod2ActionPerformed(evt);
+ 	            }
+ 	        });
 
+ 		   		
+ 		   		btnSearchMethod2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+ 		   		
 
 
          btnChooseFileSearch1.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -2044,6 +2032,7 @@ public class GraphTwoVersions extends JFrame {
    		);
    		
    		
+   		
    		GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
    		gl_pnlMethod.setHorizontalGroup(
    			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
@@ -2053,8 +2042,13 @@ public class GraphTwoVersions extends JFrame {
    						.addGroup(gl_pnlMethod.createSequentialGroup()
    							.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
-   							.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
-   					.addContainerGap(21, Short.MAX_VALUE))
+   							.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
+   						.addComponent(lblSelectTheSecond, GroupLayout.PREFERRED_SIZE, 456, GroupLayout.PREFERRED_SIZE)
+   						.addGroup(gl_pnlMethod.createSequentialGroup()
+   							.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
+   							.addPreferredGap(ComponentPlacement.UNRELATED)
+   							.addComponent(btnSearchMethod2, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+   					.addContainerGap(140, Short.MAX_VALUE))
    		);
    		gl_pnlMethod.setVerticalGroup(
    			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
@@ -2063,9 +2057,15 @@ public class GraphTwoVersions extends JFrame {
    					.addComponent(lblSelectTheCsvMethod)
    					.addGap(18)
    					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
-   						.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+   						.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
    						.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-   					.addContainerGap(30, Short.MAX_VALUE))
+   					.addPreferredGap(ComponentPlacement.RELATED)
+   					.addComponent(lblSelectTheSecond, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+   					.addPreferredGap(ComponentPlacement.RELATED)
+   					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
+   						.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+   						.addComponent(btnSearchMethod2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+   					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
    		);
    		pnlMethod.setLayout(gl_pnlMethod);
    		
@@ -2107,5 +2107,4 @@ public class GraphTwoVersions extends JFrame {
    		pnlGraph.setLayout(gl_pnlGraph);
    		contentPane.setLayout(gl_contentPane);
 	}
-
 }

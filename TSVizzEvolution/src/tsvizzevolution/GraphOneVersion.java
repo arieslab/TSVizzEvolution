@@ -45,7 +45,6 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.view.Viewer;
 
-
 public class GraphOneVersion extends javax.swing.JFrame {
     private JButton btnChooseFileSearch;
     private JButton btnVisualize;
@@ -71,7 +70,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private JPanel pnlMethod;
 	private JPanel pnlbutton;
 	public JPanel contentPane;
-
+    public JProgressBar progress;
 	
     private JTextField txtFilePathDefault;
     private JTextField txtFilePathMethod; 
@@ -161,6 +160,24 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
     
     private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
+        Thread a = new Thread(){
+            @Override
+            public void run() {
+                progress.setStringPainted(true);
+                progress.setValue(0);
+                progress.setSize(new Dimension(100, 23));
+
+                for (int i = 0; i<= 100; i++ ){
+                    progress.setValue(i);
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        a.start();
         try {
             System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
             Graph graph1 = new MultiGraph("TSVizzEvolution");
@@ -241,6 +258,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 }
             }
 
+
             try {
             	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
                      CriaGrafoCompleto(listaClassesInt, listaClasses, listaTestSmells, graph1, coluna, 1, txtFilePathDefault.getText(), selecionado);
@@ -269,9 +287,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
             }
            // String path = System.getProperty("user.dir").replace('\\', '/');
             //graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
-            graph1.addAttribute("ui.stylesheet", "url('./src/tsvizzevolution/Config.css')");
-
-           
+            progress.setValue(100);
+            graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
+            a.interrupt();
             if (graph1.getNodeCount() == 0){
                 String msg = "";
             	if (selecionado.equals("Author")) {
@@ -912,7 +930,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
         btnVisualize = new JButton();
         btnUpload = new JButton();
  		btnSearchMethod = new JButton();
-
+        progress = new JProgressBar(0,100);
         cbLevel = new JComboBox<>();
         cbClass = new JComboBox<>();
         cbTestSmells = new JComboBox<>();
@@ -935,14 +953,14 @@ public class GraphOneVersion extends javax.swing.JFrame {
  		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
  		
  		 		txtFilePathMethod = new JTextField();
- 	//	txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
+ 		//txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
  		
         txtFilePathDefault = new JTextField();
-
         btnChooseFileSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
         cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
         cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
         cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
         cbAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblSelectCsv.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -963,7 +981,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
        
         lblSelectCsv.setText("Select the .csv File :");
         
-        //txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
 
         btnChooseFileSearch.setText("Search ...");
         btnChooseFileSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -994,25 +1011,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
         btnVisualize.setText("Generate Graph View");
         btnVisualize.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-            	final JProgressBar pr = new JProgressBar();
-                pr.setStringPainted(true);
-                pr.setValue(0);
-                pr.setSize(new Dimension(100, 23));
-                pnlbutton.add(pr);
-                
-            	btnGerarGrafoActionPerformed(evt);
-            	
-            	int i=10; 
-                pr.setValue(i);
-                pr.setString( "%");
-                try {
-					Thread.sleep(20);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+                btnGerarGrafoActionPerformed(evt);
             }
         });
 
@@ -1032,8 +1031,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			            String[] b = null;
 			            String[] c = null;
 
-//			            txtFilePathDefault.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
-//                      txtFilePathMethod.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\TSVizzEvolution\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+			        //    txtFilePathDefault.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+                     //   txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
 			            a = carrega_lista_linhas(txtFilePathDefault.getText());
 			            b = carrega_lista_cabecalho(txtFilePathDefault.getText());
 			            c = carrega_lista_autor(txtFilePathDefault.getText());
@@ -1066,6 +1065,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
         cbTestSmells.setModel(new javax.swing.DefaultComboBoxModel<>(b));
         cbAuthor.setModel(new javax.swing.DefaultComboBoxModel<>(c));
         */
+        pnlbutton.add(progress);
 
         GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
         gl_pnlMethod.setHorizontalGroup(
