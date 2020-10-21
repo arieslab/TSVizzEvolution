@@ -95,8 +95,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		
-        initComponents();
+		initComponents();
         pnlClass.setVisible(false);
         pnlTestSmells.setVisible(false);
         pnlAuthor.setVisible(false);   
@@ -161,6 +160,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
     
     private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
         Thread a = new Thread(){
+        	
             @Override
             public void run() {
                 progress.setStringPainted(true);
@@ -178,6 +178,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
             }
         };
         a.start();
+        pnlbutton.add(progress);
+
+        
         try {
             System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
             Graph graph1 = new MultiGraph("TSVizzEvolution");
@@ -949,10 +952,12 @@ public class GraphOneVersion extends javax.swing.JFrame {
         pnlbutton = new JPanel();
 
         pnlbutton.setVisible(true);
-	    JLabel lblSelectTheCsvMethod = new JLabel();
+        
+
+	    lblSelectTheCsvMethod = new JLabel();
  		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
  		
- 		 		txtFilePathMethod = new JTextField();
+ 		txtFilePathMethod = new JTextField();
  		//txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
  		
         txtFilePathDefault = new JTextField();
@@ -989,7 +994,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
             }
         });
         
-////////
  		btnSearchMethod.setText("Search ...");
  		btnSearchMethod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1065,7 +1069,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
         cbTestSmells.setModel(new javax.swing.DefaultComboBoxModel<>(b));
         cbAuthor.setModel(new javax.swing.DefaultComboBoxModel<>(c));
         */
-        pnlbutton.add(progress);
 
         GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
         gl_pnlMethod.setHorizontalGroup(

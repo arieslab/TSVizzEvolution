@@ -39,4 +39,13 @@ public class Data implements Comparable<Data>{
             return c;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "classe='" + classe + '\'' +
+                ", nome='" + nome + '\'' +
+                ", valor=" + valor +
+                '}';
+    }
 }

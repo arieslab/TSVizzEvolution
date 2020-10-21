@@ -46,7 +46,12 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.ui.spriteManager.Sprite;
+import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
+
+import static org.graphstream.algorithm.Toolkit.randomNode;
+import static org.graphstream.ui.graphicGraph.GraphPosLengthUtils.nodePosition;
 
 public class GraphTwoVersions extends JFrame {
     private JButton btnChooseFileSearch1;
@@ -258,6 +263,14 @@ public class GraphTwoVersions extends JFrame {
 	jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	frame.getContentPane().add(jScrollPane);
 	}
+
+	private void CriaTreeMapView(String fileName1, String fileName2, String filtro){
+        List<Data> dados1 = retornaDados(fileName1, filtro);
+        List<Data> dados2 = retornaDados(fileName2, filtro);
+        arrumaDados(dados1, dados2);
+        dados1 = OrdenaPeloNumeroOcorrencias(dados1);
+        dados2 = OrdenaPeloNumeroOcorrencias(dados2);
+    }
 
 	private int criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2, int tam){
 
@@ -561,6 +574,7 @@ public class GraphTwoVersions extends JFrame {
             List<Data> l2 = retornaDados(txtFilePathDefault2.getText(), f);
             String filtro = "";
             try {
+                CriaTreeMapView(txtFilePathDefault1.getText(), txtFilePathDefault1.getText(), selecionado);
             	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
                     CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1, txtFilePathDefault1.getText(), selecionado, l1);
                     CriaGrafoCompleto(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, coluna, 2, txtFilePathDefault2.getText(), selecionado, l2);
@@ -590,6 +604,7 @@ public class GraphTwoVersions extends JFrame {
                 	}
                 }
             	graph1 = removeVerticesDoisLados(graph1);
+                graph1 = CriaLegenda(graph1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -617,6 +632,29 @@ public class GraphTwoVersions extends JFrame {
             Logger.getLogger(GraphTwoVersions.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    private static Graph CriaLegenda(Graph graph1){
+        graph1 = removeVerticesDoisLados(graph1);
+        graph1.addNode("-");
+        Node n = graph1.getNode("-");
+        n.addAttribute("ui.class", "legenda");
+        float maior_x = 0;
+        for (int i = 0; i < graph1.getNodeCount(); i++) {
+            Node n1 = graph1.getNode(i);
+            String value_x = "0";
+            try{
+                value_x = n1.getAttribute("x").toString();
+            }catch (Exception e){
+
+            }
+            if (Float.parseFloat(value_x) > maior_x){
+                maior_x = Float.parseFloat(value_x);
+            }
+        }
+        n.setAttribute("x", maior_x + 1000);
+        n.setAttribute("y", 0);
+        return graph1;
     }
     
     private static void CriaGrafoCompleto(List listaDeLinhasInt, List listaDeLinhas, String[] cabecalho, Graph graph1, int coluna, int flag, String file, String filtro, List<Data> l) throws IOException {
@@ -986,14 +1024,14 @@ public class GraphTwoVersions extends JFrame {
         String[] b2 = null;
         String[] c2 = null;
 
-        //txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
-       // txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
+        txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+        txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
         b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
         c2 = carrega_lista_autor(txtFilePathDefault1.getText());
 
-     //   txtFilePathDefault2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
-    //    txtFilePathMethod2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
+        txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
+        txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a = carrega_lista_linhas(txtFilePathDefault2.getText());
         b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
         c = carrega_lista_autor(txtFilePathDefault2.getText());
@@ -1184,6 +1222,28 @@ public class GraphTwoVersions extends JFrame {
         }
 
         return graph;
+    }
+
+    public static List<Data> OrdenaPeloNumeroOcorrencias(List<Data> l){
+        Data[] v = new Data[l.size()];
+        for (int i = 0; i < v.length; i++){
+            v[i] = l.get(i);
+        }
+
+        for(int i = 0; i < v.length - 1; i++) {
+            for(int j = 0; j < v.length - 1 - i; j++) {
+                if(v[j].valor < v[j + 1].valor) {
+                    Data aux = v[j];
+                    v[j] = v[j + 1];
+                    v[j + 1] = aux;
+                }
+            }
+        }
+        l = new ArrayList<Data>();
+        for (int i = 0; i < v.length; i++){
+            l.add(v[i]);
+        }
+        return l;
     }
 
     public static void arrumaDados(List<Data> dados1, List<Data> dados2){
@@ -1619,7 +1679,7 @@ public class GraphTwoVersions extends JFrame {
         
             
         cbVisualization = new JComboBox<>();
-        cbVisualization.setModel(new DefaultComboBoxModel<>(new String[] {"Graph View",  "Timeline View" }));
+        cbVisualization.setModel(new DefaultComboBoxModel<>(new String[] {"Graph View",  "Timeline View", "Treemap View"}));
         cbVisualization.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent evt) {
         		cbVisualizationActionPerformed(evt);
