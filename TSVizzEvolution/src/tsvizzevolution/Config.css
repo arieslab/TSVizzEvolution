@@ -44,9 +44,9 @@ url('tsvizzevolution/x.jpeg');
 }
 node.legenda{
     shape: box;
-    size:150px;
+    size:180px;
     fill-mode: image-scaled;
     fill-image: 
-url('tsvizzevolution/legenda.jpeg');
+url('tsvizzevolution/legenda.png');
 
 }

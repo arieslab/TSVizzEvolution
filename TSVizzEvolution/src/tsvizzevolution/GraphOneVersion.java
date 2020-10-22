@@ -290,6 +290,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
             }
            // String path = System.getProperty("user.dir").replace('\\', '/');
             //graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
+            graph1 = CriaLegenda(graph1);
             progress.setValue(100);
             graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
             a.interrupt();
@@ -866,6 +867,28 @@ public class GraphOneVersion extends javax.swing.JFrame {
         }
 		return resposta_final;
     }
+
+    private static Graph CriaLegenda(Graph graph1){
+        graph1.addNode("-");
+        Node n = graph1.getNode("-");
+        n.addAttribute("ui.class", "legenda");
+        float maior_x = 0;
+        for (int i = 0; i < graph1.getNodeCount(); i++) {
+            Node n1 = graph1.getNode(i);
+            String value_x = "0";
+            try{
+                value_x = n1.getAttribute("x").toString();
+            }catch (Exception e){
+
+            }
+            if (Float.parseFloat(value_x) > maior_x){
+                maior_x = Float.parseFloat(value_x);
+            }
+        }
+        n.setAttribute("x", maior_x + 1000);
+        n.setAttribute("y", 0);
+        return graph1;
+    }
     
     public static String[] carrega_lista_cabecalho(String path) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -958,7 +981,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
  		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
  		
  		txtFilePathMethod = new JTextField();
- 		//txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
+ 		txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
  		
         txtFilePathDefault = new JTextField();
         btnChooseFileSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -1035,8 +1058,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			            String[] b = null;
 			            String[] c = null;
 
-			        //    txtFilePathDefault.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
-                     //   txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+			            txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_4.csv");
+                        txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
 			            a = carrega_lista_linhas(txtFilePathDefault.getText());
 			            b = carrega_lista_cabecalho(txtFilePathDefault.getText());
 			            c = carrega_lista_autor(txtFilePathDefault.getText());

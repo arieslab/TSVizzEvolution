@@ -1,17 +1,21 @@
 package tsvizzevolution;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,8 +32,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JRootPane;
 import javax.swing.JTextField;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -37,43 +45,45 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.view.Viewer;
 
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.EmptyBorder;
-
-
 public class umaversaook extends javax.swing.JFrame {
-	 private JButton btnChooseFileSearch;
-	    private JButton btnVisualize;
-	    private JButton btnUpload;
-	    private JButton button;
-	    
-	    private JComboBox<String> cbLevel;
-	    private JComboBox<String> cbClass;
-	    private JComboBox<String> cbTestSmells;
-	    private JComboBox<String> cbAuthor;
-	    private JLabel lblSelectCsv;
-	    private JLabel lblLevel;
-	    private JLabel lblSelectClass;
-	    private JLabel lblSelectTestSmells;
-	    private JLabel lblAuthor;
-	    private JLabel lblSelectTheCsv;
+    private JButton btnChooseFileSearch;
+    private JButton btnVisualize;
+    private JButton btnUpload;
+    private JButton btnSearchMethod;
+    
+    private JComboBox<String> cbLevel;
+    private JComboBox<String> cbClass;
+    private JComboBox<String> cbTestSmells;
+    private JComboBox<String> cbAuthor;
+    private JComboBox<String> cbVisualization;
 
-	    private JPanel pnlClass;
-	    private JPanel pnlTestSmells;
-	    private JPanel pnlAuthor;
-	    private JPanel pnlGraph;
-		private JPanel pnlMethod;
-		public JPanel contentPane;
+    private JLabel lblSelectCsv;
+    private JLabel lblLevel;
+    private JLabel lblSelectClass;
+    private JLabel lblSelectTestSmells;
+    private JLabel lblAuthor;
+    private JLabel lblSelectTheCsvMethod;
 
+    private JPanel pnlClass;
+    private JPanel pnlTestSmells;
+    private JPanel pnlAuthor;
+    private JPanel pnlGraph;
+	private JPanel pnlUpload;
+	private JPanel pnlMethod;
+	private JPanel pnlbutton;
+	public JPanel contentPane;
+    public JProgressBar progress;
+    private JPanel frame;
+    private JPanel pnlVisualization;
+    private JPanel pnlLevel;
 
-	    private JTextField txtFilePathDefault;
-	    private JTextField txtFilePathMethod; 
+    private JTextField txtFilePathDefault1;
+    private JTextField txtFilePathMethod; 
 
-	    
-	    private static final String VIRGULA = ",";
-	    private static String nomeDoArquivo;
-	    private JPanel pnlbutton;
+    
+    private static final String VIRGULA = ",";
+    private static String nomeDoArquivo;
+    private JButton btnVisualizeTreemap;
 
     public static int converteInteiro(String valor) {
         try {
@@ -83,60 +93,93 @@ public class umaversaook extends javax.swing.JFrame {
         }
     }
 
-    public umaversaook() throws IOException {
-    	setTitle("TSVizzEvolution");
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setBounds(100, 100, 700, 510);
-    	contentPane = new JPanel();
-    	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-    	contentPane.setLayout(new BorderLayout(0, 0));
-    //	setcontentPane(contentPane);
-   	
-		
-        initComponents();
+    public umaversaook() throws IOException {	
+		setTitle("TSVizzEvolution");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 839, 659);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		initComponents();
         pnlClass.setVisible(false);
         pnlTestSmells.setVisible(false);
-        pnlAuthor.setVisible(false);  
-        pnlMethod.setVisible(false); 
-
+        pnlAuthor.setVisible(false);   
+        pnlUpload.setVisible(true);
+        pnlMethod.setVisible(false);
+        pnlVisualization.setVisible(true);
+        pnlLevel.setVisible(true);
 		
+        cbVisualization = new JComboBox<>();
+        cbVisualization.setModel(new DefaultComboBoxModel<>(new String[] {"Graph View",  "Treemap View"}));
+        cbVisualization.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+              //  cbVisualizationActionPerformed(evt);
+        }
+       });
+
+        String selecionado2 = (String) cbVisualization.getSelectedItem();
+        if (selecionado2.equals("Graph View")) {
+             cbVisualization.addItemListener(new ItemListener() {
+                 public void itemStateChanged(ItemEvent event) {
+                     if (event.getItem().equals("Graph View")) {
+                         pnlUpload.setVisible(true);
+                         pnlMethod.setVisible(false);
+                         pnlLevel.setVisible(true);
+                         btnVisualizeTreemap.setVisible(false);
+                     } else if (event.getItem().equals("Timeline View")) {
+                         pnlClass.setVisible(false);
+                         pnlTestSmells.setVisible(false);
+                         pnlAuthor.setVisible(false); 
+                         pnlLevel.setVisible(false);
+                         btnVisualizeTreemap.setVisible(false);
+                         pnlUpload.setVisible(true);
+                         pnlMethod.setVisible(false);
+                     } else if (event.getItem().equals("Treemap View")) {
+                        pnlClass.setVisible(false);
+                        pnlTestSmells.setVisible(false);
+                        pnlAuthor.setVisible(false); 
+                        pnlLevel.setVisible(false);
+                        btnVisualizeTreemap.setVisible(true);
+                        pnlUpload.setVisible(true);
+                        pnlMethod.setVisible(false);
+                    }
+                     
+                 }
+             });           
+        }
+        
         cbLevel.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
                 if (event.getItem().equals("A Specific Test Smells")) {
                     pnlTestSmells.setVisible(true);
                     pnlClass.setVisible(false);
                     pnlAuthor.setVisible(false);
-                    pnlMethod.setVisible(false); 
+                    pnlMethod.setVisible(false);
                 } else if (event.getItem().equals("A Specific Test Class")) {
                     pnlClass.setVisible(true);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
-                    pnlMethod.setVisible(false); 
+                    pnlMethod.setVisible(false);
                 } else if (event.getItem().equals("Author")) {
                     pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(true);
                     pnlAuthor.setVisible(true);
                     pnlMethod.setVisible(false);
                 } else if (event.getItem().equals("Methods")) {
-                    pnlClass.setVisible(false);
-                    pnlTestSmells.setVisible(false);
+                    pnlClass.setVisible(true);
+                    pnlTestSmells.setVisible(true);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(true);
                 } else {
                     pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
-                    pnlMethod.setVisible(false); 
-
+                    pnlMethod.setVisible(false);
                 }
             }
         });
 
-    	
     }
-    
-    
- 
 
 
     private void btnChooseFileSearchActionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,57 +187,54 @@ public class umaversaook extends javax.swing.JFrame {
         int returnVal = fc.showOpenDialog(umaversaook.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            txtFilePathDefault.setText(file.getPath());
+            txtFilePathDefault1.setText(file.getPath());
             nomeDoArquivo = file.getName();
         }
     }
-    
-    private void btnGerarUploadActionPerformed(ActionEvent evt) throws IOException {
-        String[] a = null;
-        String[] b = null;
-        String[] c = null;
 
-        txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\arquivo.csv");
-        a = carrega_lista_linhas(txtFilePathDefault.getText());
-        b = carrega_lista_cabecalho(txtFilePathDefault.getText());
-        c = carrega_lista_autor(txtFilePathDefault.getText());
-        cbAuthor.setModel(new DefaultComboBoxModel<>(c));
-        cbClass.setModel(new DefaultComboBoxModel<>(a));
-        cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
-}
-
-	private void txtFilePathDefaultActionPerformed(java.awt.event.ActionEvent evt){
-    	String[] b = null;
-        String[] a = null;
-        String[] c = null;
-
-		try {
-			a = carrega_lista_linhas(txtFilePathDefault.getText());
-			b = carrega_lista_cabecalho(txtFilePathDefault.getText());
-			c = carrega_lista_autor(txtFilePathDefault.getText());
-
-		} catch (IOException e) {
-
-		}
-		cbClass.setModel(new javax.swing.DefaultComboBoxModel<>(a));
-        cbTestSmells.setModel(new javax.swing.DefaultComboBoxModel<>(b));
-        cbAuthor.setModel(new javax.swing.DefaultComboBoxModel<>(c));
-
+    private void  btnSearchMethodActionPerformed(java.awt.event.ActionEvent evt) {
+        final JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showOpenDialog(umaversaook.this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            txtFilePathDefault1.setText(file.getPath());
+            nomeDoArquivo = file.getName();
+        }
     }
+
     
     private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
+        Thread a = new Thread(){
+        	
+            @Override
+            public void run() {
+                progress.setStringPainted(true);
+                progress.setValue(0);
+                progress.setSize(new Dimension(100, 23));
+
+                for (int i = 0; i<= 100; i++ ){
+                    progress.setValue(i);
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        a.start();
+        pnlGraph.add(progress);
+
+        
         try {
             System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
             Graph graph1 = new MultiGraph("TSVizzEvolution");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault.getText())));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault1.getText())));
             String linha = null;
-            String linha2 = null;
 
             List listaClassesInt = new ArrayList();
             List listaClasses = new ArrayList();
-            
-            List listaDeAutorInt = new ArrayList();
-            List listaDeAutor = new ArrayList();
+            List listaMetodos = new ArrayList();
             
             String cabecalho;
 
@@ -206,6 +246,7 @@ public class umaversaook extends javax.swing.JFrame {
                 Node n = graph1.getNode(listaTestSmells[i]);
                 n.setAttribute("ui.label", listaTestSmells[i]);
                 n.addAttribute("ui.class", "quadradoTS");
+                n.addAttribute("ui.", "quadradoTS");
 
                 double x = (Math.random() * ((1000000) + 1));
                 double y = (Math.random() * ((1000000) + 1));
@@ -235,29 +276,69 @@ public class umaversaook extends javax.swing.JFrame {
             }else {
                 coluna = 6;
             }
+            List<ClassMethod> listaMetodosClasse = new ArrayList<>();
+            if (selecionado.equals("Methods")){
+                reader  = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathMethod.getText())));
+                while ((linha = reader.readLine()) != null) {
+                    String[] dados = linha.split(VIRGULA);
+                    listaMetodos.add(dados);
+                }
+
+                for (int i = 0; i < listaMetodos.size(); i++){
+                    boolean tem = false;
+                    String[] dado_linha = (String[]) listaMetodos.get(i);
+                    for (ClassMethod obj: listaMetodosClasse) {
+                        if (dado_linha[1].equals(obj.classe)){
+                            tem = true;
+                        }
+                    }
+                    if (tem == false){
+                        listaMetodosClasse.add(new ClassMethod(dado_linha[1]));
+                    }
+                }
+                for (ClassMethod obj: listaMetodosClasse){
+                    for (int i = 0; i < listaMetodos.size(); i++){
+                        String[] dado_linha = (String[]) listaMetodos.get(i);
+                        if (obj.classe.equals(dado_linha[1])){
+                            obj.addMethods(dado_linha[8]);
+                        }
+                    }
+                }
+            }
+
+
             try {
             	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
-                     CriaGrafoCompleto(listaClassesInt, listaClasses, listaTestSmells, graph1, coluna, 1, txtFilePathDefault.getText(), selecionado);
+                     CriaGrafoCompleto(listaClassesInt, listaClasses, listaTestSmells, graph1, coluna, 1, txtFilePathDefault1.getText(), selecionado);
                 } else {
                 	String filtro = "";
                 	if (selecionado.equals("A Specific Test Class")) {
                 		filtro = (String) cbClass.getSelectedItem();
-                        CriaGrafoParcial(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, coluna, txtFilePathDefault.getText());
+                        CriaGrafoParcial(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, coluna, txtFilePathDefault1.getText());
                 	}else if (selecionado.equals("Author")){
                 	    filtro = (String) cbTestSmells.getSelectedItem();
                 	    String filtroAutor = (String) cbAuthor.getSelectedItem();
-                        CriaGrafoParcialAutor(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, filtroAutor, coluna, txtFilePathDefault.getText());
-                	}else{
+                        CriaGrafoParcialAutor(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, filtroAutor, coluna, txtFilePathDefault1.getText());
+                	}else if (selecionado.equals("Methods")){
+                        String testSmell = (String) cbTestSmells.getSelectedItem();
+                        String classe = (String) cbClass.getSelectedItem();
+                	    CriaGrafoMetodos(listaClassesInt, listaClasses, listaTestSmells, graph1, testSmell, classe, coluna, txtFilePathDefault1.getText(), listaMetodosClasse);
+                    }
+                	else{
                 		filtro = (String) cbTestSmells.getSelectedItem();
-                        CriaGrafoParcial(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, coluna, txtFilePathDefault.getText());
+                        CriaGrafoParcial(listaClassesInt, listaClasses, listaTestSmells, graph1, filtro, coluna, txtFilePathDefault1.getText());
                 	}
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String path = System.getProperty("user.dir").replace('\\', '/');
-            graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
+           // String path = System.getProperty("user.dir").replace('\\', '/');
+            //graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
+            graph1 = CriaLegenda(graph1);
+            progress.setValue(100);
+            graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
+            a.interrupt();
             if (graph1.getNodeCount() == 0){
                 String msg = "";
             	if (selecionado.equals("Author")) {
@@ -296,8 +377,8 @@ public class umaversaook extends javax.swing.JFrame {
             //n1.addAttribute("ui.style", "shape:circle;");
             if (filtro.equals("Project"))
                 n1.addAttribute("ui.class", "projeto");
-            double x = (Math.random() * ((1000000) + 1));
-            double y = (Math.random() * ((1000000) + 1));
+            double x = (Math.random() * ((1000000) + 1) - 1000000);
+            double y = (Math.random() * ((1000000) + 1) - 1000000);
             n1.setAttribute("x", x);
             n1.setAttribute("y", y);
             //n1.setAttribute("layout.weight", 10);
@@ -314,6 +395,7 @@ public class umaversaook extends javax.swing.JFrame {
                 }
             }
         }
+
         boolean stop = false;
         while (!stop) {
             boolean Flag = false;
@@ -352,7 +434,7 @@ public class umaversaook extends javax.swing.JFrame {
             for (int j = 10; j < linhaInt.length; j++) {
                 if (linhaInt[j] != 0) {
                     if (nome.equals(linha[coluna]) || nome.equals(cabecalho[j])) {
-                        try {
+                        try{
                             graph1.addEdge(cabecalho[j] + " " + linha[coluna], cabecalho[j], linha[coluna]);
                             Edge e = graph1.getEdge(cabecalho[j] + " " + linha[coluna]);
                             int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, "All Test Classes", l);
@@ -363,6 +445,76 @@ public class umaversaook extends javax.swing.JFrame {
                 }
             }
         }
+
+        boolean stop = false;
+        while (!stop) {
+            boolean Flag = false;
+            for (int i = 0; i < graph1.getNodeCount(); i++) {
+                Node n1 = graph1.getNode(i);
+                if (n1.getDegree() == 0) {
+                    Flag = true;
+                    graph1.removeNode(n1);
+                    break;
+                }
+            }
+            if (!Flag) {
+                stop = true;
+            }
+        }
+    }
+
+    private static void CriaGrafoMetodos(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1, String nome, String classe, int coluna, String file, List<ClassMethod> listaMetodosClasse) throws IOException {
+        List<Data> l = retornaDados(file, "All Test Classes");
+        for (int i = 0; i < listaClassesInt.size(); i++) {
+            int[] linhaInt = (int[]) listaClassesInt.get(i);
+            String[] linha = (String[]) listaClasses.get(i);
+            try {
+                graph1.addNode(linha[coluna]);
+            } catch (Exception e) {
+            }
+            Node n1 = graph1.getNode(linha[coluna]);
+            n1.setAttribute("ui.label", linha[coluna]);
+            double x = (Math.random() * ((1000000) + 1));
+            double y = (Math.random() * ((1000000) + 1));
+            n1.setAttribute("x", x);
+            n1.setAttribute("y", y);
+            // n1.setAttribute("layout.weight", 10);
+            n1.setAttribute("edges","layout.weight:4");
+
+            for (int j = 10; j < linhaInt.length; j++) {
+                if (linhaInt[j] != 0) {
+                    if (classe.equals(linha[coluna]) && nome.equals(cabecalho[j])) {
+                        try{
+                            graph1.addEdge(cabecalho[j] + " " + linha[coluna], cabecalho[j], linha[coluna]);
+                            Edge e = graph1.getEdge(cabecalho[j] + " " + linha[coluna]);
+                            int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, "All Test Classes", l);
+                            e.setAttribute("ui.label", valor);
+                        } catch (Exception e) {
+                        }
+                    }
+                }
+            }
+        }
+        if (graph1.getEdgeCount() > 0) {
+            for (ClassMethod obj : listaMetodosClasse) {
+                for (String metodo : obj.metodos) {
+                    try {
+                        graph1.addNode(metodo);
+                        Node n1 = graph1.getNode(metodo);
+                        n1.setAttribute("ui.label", metodo);
+                        n1.addAttribute("ui.class", "metodo");
+                        double x = (Math.random() * ((1000000) + 1) + 1000000);
+                        double y = (Math.random() * ((1000000) + 1) + 1000000);
+                        n1.setAttribute("x", x);
+                        n1.setAttribute("y", y);
+                        if (obj.classe.equals(classe))
+                            graph1.addEdge(metodo, obj.classe, metodo);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }
+
         boolean stop = false;
         while (!stop) {
             boolean Flag = false;
@@ -701,6 +853,9 @@ public class umaversaook extends javax.swing.JFrame {
             return null;
         }
     }
+   
+    private void cbLevelActionPerformed(java.awt.event.ActionEvent evt) {
+    }
     
     public static void main(String args[]) throws IOException {
         try {
@@ -750,22 +905,52 @@ public class umaversaook extends javax.swing.JFrame {
             	resposta.add(classe);
             }
         }
+        Collections.sort(resposta);
         String[] resposta_final = new String[resposta.size() - 1];
         for(int i = 0; i < resposta.size() - 1; i++){
         	resposta_final[i] = (String) resposta.get(i+1);
         }
 		return resposta_final;
     }
+
+    private static Graph CriaLegenda(Graph graph1){
+        graph1.addNode("-");
+        Node n = graph1.getNode("-");
+        n.addAttribute("ui.class", "legenda");
+        float maior_x = 0;
+        for (int i = 0; i < graph1.getNodeCount(); i++) {
+            Node n1 = graph1.getNode(i);
+            String value_x = "0";
+            try{
+                value_x = n1.getAttribute("x").toString();
+            }catch (Exception e){
+
+            }
+            if (Float.parseFloat(value_x) > maior_x){
+                maior_x = Float.parseFloat(value_x);
+            }
+        }
+        n.setAttribute("x", maior_x + 1000);
+        n.setAttribute("y", 0);
+        return graph1;
+    }
     
     public static String[] carrega_lista_cabecalho(String path) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
         String cabecalho_combo;
-        List respos = new ArrayList();
         cabecalho_combo = reader.readLine();
         String[] cabecalhoTest = cabecalho_combo.split(VIRGULA);
         String[] resultado = new String[cabecalhoTest.length - 10];
         for (int i = 10; i < cabecalhoTest.length; i++){
         	resultado[i - 10] = cabecalhoTest[i];
+        }
+        List<String> aux = new ArrayList<>();
+        for (int i = 0; i < resultado.length; i++){
+            aux.add(resultado[i]);
+        }
+        Collections.sort(aux);
+        for (int i = 0; i < resultado.length; i++){
+            resultado[i] = aux.get(i);
         }
 		return resultado;
 		
@@ -801,6 +986,7 @@ public class umaversaook extends javax.swing.JFrame {
             	resposta.add(classe);
             }
         }
+        Collections.sort(resposta);
         String[] resposta_final = new String[resposta.size()];
         for(int i = 0; i < resposta.size() - 1; i++){
         	resposta_final[i] = (String) resposta.get(i+1);
@@ -811,22 +997,108 @@ public class umaversaook extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     
     private void initComponents() throws IOException {
+        btnChooseFileSearch = new JButton();
+        btnUpload = new JButton();
+ 		btnSearchMethod = new JButton();
+        progress = new JProgressBar(0,100);
+        cbClass = new JComboBox<>();
+        cbTestSmells = new JComboBox<>();
+        cbAuthor = new JComboBox<>();
         lblSelectCsv = new JLabel();
-        lblLevel = new JLabel();
+        lblSelectClass = new JLabel();
+        lblSelectTestSmells = new JLabel();
+        lblAuthor = new JLabel();
+        pnlClass = new JPanel();
+        pnlTestSmells = new JPanel();
+        pnlAuthor = new JPanel();
         pnlGraph = new JPanel();
-        txtFilePathDefault = new javax.swing.JTextField();
-        lblSelectCsv.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        txtFilePathDefault.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        pnlUpload = new JPanel();
+	    pnlMethod = new JPanel();
+        pnlbutton = new JPanel();
 
+        pnlbutton.setVisible(true);
+        
+
+	    lblSelectTheCsvMethod = new JLabel();
+ 		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
+ 		
+ 		txtFilePathMethod = new JTextField();
+ 		txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
+ 		
+        txtFilePathDefault1 = new JTextField();
+        btnChooseFileSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+        cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cbAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblSelectCsv.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblSelectClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblSelectTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        txtFilePathDefault1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnUpload.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        txtFilePathMethod.setFont(new Font("Tahoma", Font.PLAIN, 14));
+ 		 lblSelectTheCsvMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+ 		 btnSearchMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+ 		 
+        pnlUpload.setVisible(true);
+        pnlMethod.setVisible(false);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
        
         lblSelectCsv.setText("Select the .csv File :");
+        
 
-        lblLevel.setText("Select the level of granularity:");
+        btnChooseFileSearch.setText("Search ...");
+        btnChooseFileSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChooseFileSearchActionPerformed(evt);
+            }
+        });
+        
+ 		btnSearchMethod.setText("Search ...");
+ 		btnSearchMethod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchMethodActionPerformed(evt);
+            }
+        });
+        lblSelectClass.setText("Select a Test Class:");
+        lblSelectTestSmells.setText("Select a Test Smells:");
+        lblAuthor.setText("Select A Specific Author or All:");
 
-        String[] a = null;
+		btnUpload.setText("Upload Data Files");
+		btnUpload.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    btnGerarUploadActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            private void cbVisualizationActionPerformed(ActionEvent evt) {
+            }
+			     private void btnGerarUploadActionPerformed(ActionEvent evt) throws IOException {
+			            String[] a = null;
+			            String[] b = null;
+			            String[] c = null;
+
+			            txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+                        txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+			            a = carrega_lista_linhas(txtFilePathDefault1.getText());
+			            b = carrega_lista_cabecalho(txtFilePathDefault1.getText());
+			            c = carrega_lista_autor(txtFilePathDefault1.getText());
+
+			            cbAuthor.setModel(new DefaultComboBoxModel<>(c));
+			            cbClass.setModel(new DefaultComboBoxModel<>(a));
+			            cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
+			    
+			}
+   });
+        
+		
+       /* String[] a = null;
     	String[] b = null;
         String[] c = null;
 
@@ -842,96 +1114,52 @@ public class umaversaook extends javax.swing.JFrame {
 		} catch (IOException e) {
 
 		}
-        
-        btnChooseFileSearch = new JButton();
-        btnChooseFileSearch.setText("Search ...");
-        btnChooseFileSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        JComboBox<String> cbLevel = new JComboBox<String>();
-        cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        JPanel pnlMethod = new JPanel();
-        
-        JLabel lblSelectTheCsv = new JLabel();
-        lblSelectTheCsv.setText("Select the .csv File (By Test Smells JNose) :");
-        lblSelectTheCsv.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        txtFilePathMethod = new JTextField();
-        txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_6.csv");
-        txtFilePathMethod.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        
-        JButton button = new JButton();
-        button.setText("Search ...");
-        button.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
+		cbClass.setModel(new javax.swing.DefaultComboBoxModel<>(a));
+        cbTestSmells.setModel(new javax.swing.DefaultComboBoxModel<>(b));
+        cbAuthor.setModel(new javax.swing.DefaultComboBoxModel<>(c));
+        */
 
-        pnlClass = new JPanel();
-        
-        pnlTestSmells = new JPanel();
-        
-        pnlAuthor = new JPanel();
-        
-
-        lblAuthor = new JLabel();
-        lblAuthor.setText("Select A Specific Author or All:");
-        lblAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-
-        lblSelectTestSmells = new JLabel();
-        lblSelectTestSmells.setText("Select a Test Smells:");
-        lblSelectTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        cbTestSmells = new JComboBox<String>();
-        cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        cbAuthor = new JComboBox<String>();
-        cbAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        
-
-        lblSelectClass = new JLabel();
-        lblSelectClass.setText("Select a Test Class:");
-        lblSelectClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        cbClass = new JComboBox<String>();
-        cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        btnUpload = new JButton();
-        btnUpload.setText("Upload Files");
-        btnUpload.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        
-        btnVisualize = new JButton();
-        btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-        btnVisualize.setText("Graph View");
-        
         GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
         gl_pnlMethod.setHorizontalGroup(
         	gl_pnlMethod.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_pnlMethod.createSequentialGroup()
         			.addGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING)
-        				.addComponent(lblSelectTheCsv)
+        				.addComponent(lblSelectTheCsvMethod)
         				.addGroup(gl_pnlMethod.createSequentialGroup()
         					.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
         					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(button, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+        					.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
         			.addContainerGap(21, Short.MAX_VALUE))
         );
         gl_pnlMethod.setVerticalGroup(
         	gl_pnlMethod.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_pnlMethod.createSequentialGroup()
         			.addGap(9)
-        			.addComponent(lblSelectTheCsv)
+        			.addComponent(lblSelectTheCsvMethod)
         			.addGap(18)
         			.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
         				.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(button, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
         			.addContainerGap(14, Short.MAX_VALUE))
         );
         pnlMethod.setLayout(gl_pnlMethod);
         
-        pnlbutton = new JPanel();
+        btnVisualizeTreemap = new JButton();
+        btnVisualizeTreemap.setText("Generate Treemap View");
+        btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnVisualize = new JButton();
+        btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        
+        btnVisualize.setText("Generate Graph View");
+        btnVisualize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGerarGrafoActionPerformed(evt);
+            }
+        });
+        
+        pnlLevel = new JPanel();
+        
+        pnlVisualization = new JPanel();
         
        
 
@@ -943,36 +1171,46 @@ public class umaversaook extends javax.swing.JFrame {
         			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
         				.addGroup(pnlGraphLayout.createSequentialGroup()
         					.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(lblSelectCsv)
         						.addGroup(pnlGraphLayout.createSequentialGroup()
-        							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-        								.addComponent(lblSelectCsv)
-        								.addComponent(txtFilePathDefault, GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE))
-        							.addGap(18)
+        							.addComponent(txtFilePathDefault1, GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+        							.addPreferredGap(ComponentPlacement.RELATED)
         							.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-        							.addGap(16))
-        						.addGroup(pnlGraphLayout.createSequentialGroup()
-        							.addComponent(lblLevel)
-        							.addPreferredGap(ComponentPlacement.UNRELATED)
-        							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-        								.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 265, GroupLayout.PREFERRED_SIZE)
-        								.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
-        							.addGap(215)))
-        					.addContainerGap())
+        							.addGap(53)))
+        					.addGap(121))
         				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(366, Short.MAX_VALUE))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
-        					.addGap(277))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(489, Short.MAX_VALUE))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(516, Short.MAX_VALUE))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlbutton, GroupLayout.PREFERRED_SIZE, 640, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(61, Short.MAX_VALUE))))
+        					.addGap(221)
+        					.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 265, GroupLayout.PREFERRED_SIZE)
+        					.addGap(431)))
+        			.addContainerGap())
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addGap(250)
+        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
+        			.addContainerGap(392, Short.MAX_VALUE))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(403, Short.MAX_VALUE))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+        			.addGap(277))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(376, Short.MAX_VALUE))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(253, Short.MAX_VALUE))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(pnlVisualization, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        				.addComponent(pnlLevel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 552, GroupLayout.PREFERRED_SIZE))
+        			.addContainerGap(365, Short.MAX_VALUE))
         );
         pnlGraphLayout.setVerticalGroup(
         	pnlGraphLayout.createParallelGroup(Alignment.LEADING)
@@ -981,48 +1219,83 @@ public class umaversaook extends javax.swing.JFrame {
         			.addComponent(lblSelectCsv)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(txtFilePathDefault, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         				.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
         			.addGap(18)
         			.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-        			.addGap(22)
-        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING)
-        				.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(lblLevel))
-        			.addGap(18)
-        			.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(pnlLevel, GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-        			.addGap(4)
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addComponent(pnlbutton, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+        			.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnVisualize))
+        );
+        
+        JLabel lblvisualization = new JLabel();
+        lblvisualization.setText("Select a view type:");
+        lblvisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        
+        JComboBox<String> cbVisualization = new JComboBox<String>();
+        cbVisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        GroupLayout gl_pnlVisualization = new GroupLayout(pnlVisualization);
+        gl_pnlVisualization.setHorizontalGroup(
+        	gl_pnlVisualization.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_pnlVisualization.createSequentialGroup()
+        			.addComponent(lblvisualization)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(cbVisualization, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(276, Short.MAX_VALUE))
+        );
+        gl_pnlVisualization.setVerticalGroup(
+        	gl_pnlVisualization.createParallelGroup(Alignment.LEADING)
+        		.addGroup(Alignment.TRAILING, gl_pnlVisualization.createSequentialGroup()
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addGroup(gl_pnlVisualization.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(cbVisualization, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(lblvisualization))
         			.addContainerGap())
         );
-
-        GroupLayout gl_pnlbutton = new GroupLayout(pnlbutton);
-        gl_pnlbutton.setHorizontalGroup(
-        	gl_pnlbutton.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_pnlbutton.createSequentialGroup()
-        			.addGap(240)
-        			.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(115, Short.MAX_VALUE))
-        );
-        gl_pnlbutton.setVerticalGroup(
-        	gl_pnlbutton.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_pnlbutton.createSequentialGroup()
-        			.addGap(5)
-        			.addComponent(btnVisualize)
-        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pnlbutton.setLayout(gl_pnlbutton);
-        btnVisualize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGerarGrafoActionPerformed(evt);
-            }
-        });
+        pnlVisualization.setLayout(gl_pnlVisualization);
+        lblLevel = new JLabel();
+        lblLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        
+                lblLevel.setText("Select the level of granularity:");
+                cbLevel = new JComboBox<>();
+                cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+                cbLevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author", "Methods" }));
+                cbLevel.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        cbLevelActionPerformed(evt);
+                    }
+                });
+                GroupLayout gl_pnlLevel = new GroupLayout(pnlLevel);
+                gl_pnlLevel.setHorizontalGroup(
+                	gl_pnlLevel.createParallelGroup(Alignment.LEADING)
+                		.addGroup(gl_pnlLevel.createSequentialGroup()
+                			.addComponent(lblLevel)
+                			.addPreferredGap(ComponentPlacement.RELATED)
+                			.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
+                			.addContainerGap(147, Short.MAX_VALUE))
+                );
+                gl_pnlLevel.setVerticalGroup(
+                	gl_pnlLevel.createParallelGroup(Alignment.LEADING)
+                		.addGroup(gl_pnlLevel.createSequentialGroup()
+                			.addGroup(gl_pnlLevel.createParallelGroup(Alignment.BASELINE)
+                				.addComponent(lblLevel)
+                				.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                			.addContainerGap(21, Short.MAX_VALUE))
+                );
+                pnlLevel.setLayout(gl_pnlLevel);
         
         GroupLayout gl_pnlAuthor = new GroupLayout(pnlAuthor);
         gl_pnlAuthor.setHorizontalGroup(
@@ -1090,7 +1363,8 @@ public class umaversaook extends javax.swing.JFrame {
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap()
-        			.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE))
+        			.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 798, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(129, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
@@ -1102,8 +1376,8 @@ public class umaversaook extends javax.swing.JFrame {
         contentPane.setLayout(layout);
 
         pack();
+
     }
 }
-
 
 
