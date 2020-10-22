@@ -1,9 +1,20 @@
-package tsvizzevolution;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
+
+
+
+
+
+
+// QUANDO CRIAR O BOTÃO CHAMAR A FUNÇÃO: inicializaPaineisTreeMapView();
+
+
+
+
+
+
+
+package tsvizzevolution;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -19,26 +30,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JRootPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -69,6 +67,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private JPanel pnlUpload;
 	private JPanel pnlMethod;
 	private JPanel pnlbutton;
+    public JFrame frame;
+    public JPanel classe;
 	public JPanel contentPane;
     public JProgressBar progress;
 	
@@ -157,7 +157,102 @@ public class GraphOneVersion extends javax.swing.JFrame {
         }
     }
 
-    
+    private void inicializaPaineisTreeMapView(){
+        frame = new JFrame();
+        frame.setVisible(true);
+        frame.setPreferredSize(new Dimension( 1500, 1200));
+        frame.setMaximumSize(frame.getPreferredSize());
+        frame.setMinimumSize(frame.getPreferredSize());
+        frame.setTitle("TSVizzEvolution");
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        painel.setBackground(Configurations.corPainel); //seta a cor de fundo
+        painel.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
+        painel.setPreferredSize(new Dimension( 1500, 1200 ));
+        painel.setMaximumSize(painel.getPreferredSize());
+        painel.setMinimumSize(painel.getPreferredSize());
+        frame.getContentPane().add(painel);
+        try {
+            CriaTreeMapView(txtFilePathDefault.getText(), "Project", painel);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        JScrollPane jScrollPane = new JScrollPane(painel);
+        jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        frame.getContentPane().add(jScrollPane);
+    }
+
+    private void CriaTreeMapView(String fileName1, String filtro, JPanel painel) {
+        JLabel versao1 = new JLabel ("V1");
+        versao1.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        painel.add(versao1);
+
+        JPanel pacote = new JPanel();
+        pacote.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pacote.setBackground(Configurations.corPacote); //seta a cor de fundo
+        pacote.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
+        pacote.setPreferredSize(new Dimension(1000, 750));
+        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
+        painel.add(pacote);
+
+
+        List<Data> dados1 = retornaDados(fileName1, filtro);
+        dados1 = OrdenaPeloNumeroOcorrencias(dados1);
+        int maior_valor = dados1.get(0).valor;
+        Random rand = new Random();
+        for (Data d: dados1){
+            float r = rand.nextFloat();
+            float g = rand.nextFloat();
+            float b = rand.nextFloat();
+            classe = new JPanel();
+            classe.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            Color c = new Color(r, g, b);
+            classe.setBackground(c); //seta a cor de fundo
+            classe.setBorder(BorderFactory.createLineBorder(Configurations.bordaPacote, 1)); // seta a borda
+            classe.setPreferredSize(new Dimension((d.valor*500)/maior_valor, (d.valor*500)/maior_valor));
+            //String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
+
+            JLabel nomeTesteSmells = new JLabel (d.nome+ ":");
+            nomeTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+            String ocorrencias = ""+d.valor;
+            JLabel qtdTesteSmells = new JLabel (ocorrencias);
+            qtdTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+            //classe.setToolTipText(html_classe);
+            pacote.add(classe);
+            classe.add(nomeTesteSmells);
+            classe.add(qtdTesteSmells);
+
+        }
+
+    }
+
+    public static List<Data> OrdenaPeloNumeroOcorrencias(List<Data> l){
+        Data[] v = new Data[l.size()];
+        for (int i = 0; i < v.length; i++){
+            v[i] = l.get(i);
+        }
+
+        for(int i = 0; i < v.length - 1; i++) {
+            for(int j = 0; j < v.length - 1 - i; j++) {
+                if(v[j].valor < v[j + 1].valor) {
+                    Data aux = v[j];
+                    v[j] = v[j + 1];
+                    v[j + 1] = aux;
+                }
+            }
+        }
+        l = new ArrayList<Data>();
+        for (int i = 0; i < v.length; i++){
+            l.add(v[i]);
+        }
+        return l;
+    }
+
     private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
         Thread a = new Thread(){
         	
@@ -261,7 +356,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 }
             }
 
-
             try {
             	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
                      CriaGrafoCompleto(listaClassesInt, listaClasses, listaTestSmells, graph1, coluna, 1, txtFilePathDefault.getText(), selecionado);
@@ -288,8 +382,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-           // String path = System.getProperty("user.dir").replace('\\', '/');
-            //graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
+            String path = System.getProperty("user.dir").replace('\\', '/');
+            graph1.addAttribute("ui.stylesheet", "url('" + path + "/src/tsvizzevolution/Config.css')");
             graph1 = CriaLegenda(graph1);
             progress.setValue(100);
             graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
@@ -307,7 +401,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
                 optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
                 JDialog dialog = optionPane.createDialog(null, "Warning");
                 dialog.setVisible(true);
-                
+
             }else {
             	Viewer v = graph1.display();
             	v.disableAutoLayout();
@@ -975,7 +1069,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
         pnlbutton = new JPanel();
 
         pnlbutton.setVisible(true);
-        
+
 
 	    lblSelectTheCsvMethod = new JLabel();
  		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
@@ -1058,7 +1152,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			            String[] b = null;
 			            String[] c = null;
 
-			            txtFilePathDefault.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_4.csv");
+			            txtFilePathDefault.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
                         txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
 			            a = carrega_lista_linhas(txtFilePathDefault.getText());
 			            b = carrega_lista_cabecalho(txtFilePathDefault.getText());
