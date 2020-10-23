@@ -1,4 +1,4 @@
-<img align="left" width="100" height="130" src="https://github.com/AdrianaPriscilaSantos/TSVizzEvolution/blob/master/logo_tsvizz.png">
+<img align="left" width="120" height="100" src="https://github.com/AdrianaPriscilaSantos/TSVizzEvolution/blob/master/logo_tsvizz.png">
 
 # TSVizzEvolution: A Tool for Visualization the Evolution of the Test Smells 
 
