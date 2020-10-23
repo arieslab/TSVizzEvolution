@@ -1,18 +1,3 @@
-
-
-
-
-
-
-
-// QUANDO CRIAR O BOTÃO CHAMAR A FUNÇÃO: btnGerarTreemapActionPerformed();
-
-
-
-
-
-
-
 package tsvizzevolution;
 import java.awt.*;
 import java.awt.event.ActionEvent;
