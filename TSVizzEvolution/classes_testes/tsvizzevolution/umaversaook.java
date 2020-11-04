@@ -1,18 +1,3 @@
-
-
-
-
-
-
-
-// QUANDO CRIAR O BOTÃO CHAMAR A FUNÇÃO: inicializaPaineisTreeMapView();
-
-
-
-
-
-
-
 package tsvizzevolution;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,10 +18,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -48,17 +35,21 @@ public class umaversaook extends javax.swing.JFrame {
     private JButton btnVisualize;
     private JButton btnUpload;
     private JButton btnSearchMethod;
-    
+    private JButton btnVisualizeTreemap;
+
     private JComboBox<String> cbLevel;
     private JComboBox<String> cbClass;
     private JComboBox<String> cbTestSmells;
     private JComboBox<String> cbAuthor;
+    private JComboBox<String> cbVisualization;
+
     private JLabel lblSelectCsv;
     private JLabel lblLevel;
     private JLabel lblSelectClass;
     private JLabel lblSelectTestSmells;
     private JLabel lblAuthor;
     private JLabel lblSelectTheCsvMethod;
+    private JLabel lblVisualization;
 
     private JPanel pnlClass;
     private JPanel pnlTestSmells;
@@ -68,6 +59,8 @@ public class umaversaook extends javax.swing.JFrame {
 	private JPanel pnlMethod;
 	private JPanel pnlbutton;
 	private JPanel pnlbutton_1;
+	private JPanel pnlVisualization ;
+
     public JFrame frame;
     public JPanel classe;
 	public JPanel contentPane;
@@ -80,7 +73,6 @@ public class umaversaook extends javax.swing.JFrame {
     private static final String VIRGULA = ",";
     private static String nomeDoArquivo;
     private JPanel pnlLevel;
-    private JButton btnVisualizeTreemap;
 
     public static int converteInteiro(String valor) {
         try {
@@ -90,10 +82,10 @@ public class umaversaook extends javax.swing.JFrame {
         }
     }
 
-    public umaversaook() throws IOException {	
+    public umaversaook() throws IOException {
 		setTitle("TSVizzEvolution");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 731, 619);
+		setBounds(100, 100, 864, 653);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -105,6 +97,9 @@ public class umaversaook extends javax.swing.JFrame {
         pnlUpload.setVisible(true);
         pnlMethod.setVisible(false); 
         pnlbutton_1.setVisible(true);
+        pnlVisualization.setVisible(true);
+        btnVisualizeTreemap.setVisible(false);
+
 		
         cbLevel.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
@@ -160,10 +155,10 @@ public class umaversaook extends javax.swing.JFrame {
         }
     }
 
-    private void inicializaPaineisTreeMapView(){
+    private void btnGerarTreemapActionPerformed(){
         frame = new JFrame();
         frame.setVisible(true);
-        frame.setPreferredSize(new Dimension( 1500, 1200));
+        frame.setPreferredSize(new Dimension( 1000, 800));
         frame.setMaximumSize(frame.getPreferredSize());
         frame.setMinimumSize(frame.getPreferredSize());
         frame.setTitle("TSVizzEvolution");
@@ -172,7 +167,7 @@ public class umaversaook extends javax.swing.JFrame {
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         painel.setBackground(Configurations.corPainel); //seta a cor de fundo
         painel.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-        painel.setPreferredSize(new Dimension( 1500, 1200 ));
+        painel.setPreferredSize(new Dimension( 1000, 800 ));
         painel.setMaximumSize(painel.getPreferredSize());
         painel.setMinimumSize(painel.getPreferredSize());
         frame.getContentPane().add(painel);
@@ -189,10 +184,7 @@ public class umaversaook extends javax.swing.JFrame {
     }
 
     private void CriaTreeMapView(String fileName1, String filtro, JPanel painel) {
-        JLabel versao1 = new JLabel ("V1");
-        versao1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-        painel.add(versao1);
-
+        
         JPanel pacote = new JPanel();
         pacote.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pacote.setBackground(Configurations.corPacote); //seta a cor de fundo
@@ -1046,6 +1038,31 @@ public class umaversaook extends javax.swing.JFrame {
         resposta_final[resposta.size() - 1] = "All";
 		return resposta_final;
     }
+    
+    private void cbVisualizationActionPerformed(ActionEvent evt) {
+	    }
+
+	     private void btnGerarUploadActionPerformed(ActionEvent evt) throws IOException {
+	            String[] a = null;
+	            String[] b = null;
+	            String[] c = null;
+
+	           // txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+               // txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+                txtFilePathDefault1.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\commons-io_testsmesll_2_1.csv");
+                txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
+               
+                
+                a = carrega_lista_linhas(txtFilePathDefault1.getText());
+	            b = carrega_lista_cabecalho(txtFilePathDefault1.getText());
+	            c = carrega_lista_autor(txtFilePathDefault1.getText());
+
+	            cbAuthor.setModel(new DefaultComboBoxModel<>(c));
+	            cbClass.setModel(new DefaultComboBoxModel<>(a));
+	            cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
+	    
+	     }
+
     @SuppressWarnings("unchecked")
     
     private void initComponents() throws IOException {
@@ -1068,6 +1085,11 @@ public class umaversaook extends javax.swing.JFrame {
         pnlUpload = new JPanel();
 	    pnlMethod = new JPanel();
         pnlbutton = new JPanel();
+        pnlbutton_1 = new JPanel();
+        pnlVisualization = new JPanel();
+        pnlLevel = new JPanel();
+        cbVisualization = new JComboBox();
+        
 
         pnlbutton.setVisible(true);
 
@@ -1079,29 +1101,14 @@ public class umaversaook extends javax.swing.JFrame {
  		txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
  		
         txtFilePathDefault1 = new JTextField();
-        btnChooseFileSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
-        cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        cbAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblSelectCsv.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblSelectClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblSelectTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        txtFilePathDefault1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        btnUpload.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        txtFilePathMethod.setFont(new Font("Tahoma", Font.PLAIN, 14));
- 		 lblSelectTheCsvMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
- 		 btnSearchMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
- 		 
+         
         pnlUpload.setVisible(true);
         pnlMethod.setVisible(false);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
        
         lblSelectCsv.setText("Select the .csv File :");
-        
+
 
         btnChooseFileSearch.setText("Search ...");
         btnChooseFileSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -1136,27 +1143,80 @@ public class umaversaook extends javax.swing.JFrame {
                     e.printStackTrace();
                 }
             }
+   		});
 
+            cbVisualization = new JComboBox<>();
+            cbVisualization.setModel(new DefaultComboBoxModel<>(new String[] {"Graph View", "Treemap View"}));
+            cbVisualization.addActionListener(new ActionListener() {
+            	public void actionPerformed(ActionEvent evt) {
+            		cbVisualizationActionPerformed(evt);
+            }
+           });
 
-			     private void btnGerarUploadActionPerformed(ActionEvent evt) throws IOException {
-			            String[] a = null;
-			            String[] b = null;
-			            String[] c = null;
+            String selecionado2 = (String) cbVisualization.getSelectedItem();
+            if (selecionado2.equals("Graph View")) {
+            	 cbVisualization.addItemListener(new ItemListener() {
+                     public void itemStateChanged(ItemEvent event) {
+                         if (event.getItem().equals("Graph View")) {
+                             pnlUpload.setVisible(true);
+                             pnlMethod.setVisible(false);
+                             pnlLevel.setVisible(true);
+                             btnVisualizeTreemap.setVisible(false);
+                          } else if (event.getItem().equals("Treemap View")) {
+                         	pnlClass.setVisible(false);
+                            pnlTestSmells.setVisible(false);
+                            pnlAuthor.setVisible(false); 
+                            pnlLevel.setVisible(false);
+                            btnVisualizeTreemap.setVisible(true);
+                            pnlUpload.setVisible(true);
+                            pnlMethod.setVisible(false);
+                            btnVisualize.setVisible(false);
+                        }
+                         
+                     }
+                 });           
+            
+            }            
+            
+            btnChooseFileSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            cbAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            lblSelectCsv.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            lblSelectClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            lblSelectTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            lblAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            txtFilePathDefault1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+            btnUpload.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            txtFilePathMethod.setFont(new Font("Tahoma", Font.PLAIN, 14));
+     		 lblSelectTheCsvMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+     		 btnSearchMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            cbVisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
-			            txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
-                        txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
-			            a = carrega_lista_linhas(txtFilePathDefault1.getText());
-			            b = carrega_lista_cabecalho(txtFilePathDefault1.getText());
-			            c = carrega_lista_autor(txtFilePathDefault1.getText());
-
-			            cbAuthor.setModel(new DefaultComboBoxModel<>(c));
-			            cbClass.setModel(new DefaultComboBoxModel<>(a));
-			            cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
-			    
-			}
-   });
+     	      //});
         
-		
+  
+   JLabel lblSelect = new JLabel("Select a view type:");
+   lblSelect.setFont(new Font("Tahoma", Font.PLAIN, 16));
+   
+   lblLevel = new JLabel();
+   lblLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+   
+           lblLevel.setText("Select the level of granularity:");
+           cbLevel = new JComboBox<>();
+           cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+           cbLevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author", "Methods" }));
+           cbLevel.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                   cbLevelActionPerformed(evt);
+               }
+           });
+           
+        //   btnVisualizeTreemap = new JButton();
+          // btnVisualizeTreemap.setText("Generate Treemap View");
+
+
        /* String[] a = null;
     	String[] b = null;
         String[] c = null;
@@ -1177,6 +1237,7 @@ public class umaversaook extends javax.swing.JFrame {
         cbTestSmells.setModel(new javax.swing.DefaultComboBoxModel<>(b));
         cbAuthor.setModel(new javax.swing.DefaultComboBoxModel<>(c));
         */
+//}
 
         GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
         gl_pnlMethod.setHorizontalGroup(
@@ -1185,8 +1246,8 @@ public class umaversaook extends javax.swing.JFrame {
         			.addGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING)
         				.addComponent(lblSelectTheCsvMethod)
         				.addGroup(gl_pnlMethod.createSequentialGroup()
-        					.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 679, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
         					.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
         			.addContainerGap(21, Short.MAX_VALUE))
         );
@@ -1199,57 +1260,70 @@ public class umaversaook extends javax.swing.JFrame {
         			.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
         				.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
         				.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-        			.addContainerGap(14, Short.MAX_VALUE))
+        			.addContainerGap(17, Short.MAX_VALUE))
         );
         pnlMethod.setLayout(gl_pnlMethod);
         
-        pnlbutton_1 = new JPanel();
-        
-        JPanel pnlVisualization = new JPanel();
-        
-        pnlLevel = new JPanel();
-        
-       
+           		btnVisualizeTreemap = new JButton("Generate Treemap View");
+           		btnVisualizeTreemap.addActionListener(new ActionListener() {
+           			public void actionPerformed(ActionEvent evt) {
+                btnGerarTreemapActionPerformed();
+
+           			}
+           		});
+           		
+           		btnVisualizeTreemap.setVisible(false);
+           		btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
         javax.swing.GroupLayout pnlGraphLayout = new javax.swing.GroupLayout(pnlGraph);
         pnlGraphLayout.setHorizontalGroup(
-        	pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(pnlGraphLayout.createSequentialGroup()
-        			.addGap(231)
-        			.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 265, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(332, Short.MAX_VALUE))
+        	pnlGraphLayout.createParallelGroup(Alignment.TRAILING)
         		.addGroup(pnlGraphLayout.createSequentialGroup()
         			.addContainerGap()
-        			.addComponent(lblSelectCsv)
-        			.addContainerGap(678, Short.MAX_VALUE))
-        		.addGroup(pnlGraphLayout.createSequentialGroup()
-        			.addContainerGap()
-        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
+        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING)
         				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 535, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(lblSelectCsv)
+        					.addContainerGap(678, Short.MAX_VALUE))
+        				.addGroup(pnlGraphLayout.createSequentialGroup()
+        					.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 265, GroupLayout.PREFERRED_SIZE)
+        					.addGap(270))
+        				.addGroup(pnlGraphLayout.createSequentialGroup()
+        					.addComponent(txtFilePathDefault1, GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
         					.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(178, Short.MAX_VALUE))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlbutton_1, GroupLayout.PREFERRED_SIZE, 640, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(178, Short.MAX_VALUE))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(304, Short.MAX_VALUE))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        					.addGap(277))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(277, Short.MAX_VALUE))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-        					.addContainerGap(154, Short.MAX_VALUE))
-        				.addGroup(pnlGraphLayout.createSequentialGroup()
-        					.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING, false)
-        						.addComponent(pnlVisualization, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        						.addComponent(pnlLevel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE))
-        					.addContainerGap())))
+        					.addGap(21))))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlVisualization, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addGap(297))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 521, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(297, Short.MAX_VALUE))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap(291, Short.MAX_VALUE)
+        			.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+        			.addGap(252))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlMethod, GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
+        			.addGap(21))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(277, Short.MAX_VALUE))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addGap(277))
+        		.addGroup(pnlGraphLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(304, Short.MAX_VALUE))
+        		.addGroup(Alignment.LEADING, pnlGraphLayout.createSequentialGroup()
+        			.addGap(52)
+        			.addComponent(pnlbutton_1, GroupLayout.PREFERRED_SIZE, 640, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(136, Short.MAX_VALUE))
         );
         pnlGraphLayout.setVerticalGroup(
         	pnlGraphLayout.createParallelGroup(Alignment.LEADING)
@@ -1257,32 +1331,31 @@ public class umaversaook extends javax.swing.JFrame {
         			.addGap(6)
         			.addComponent(lblSelectCsv)
         			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-        				.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
         			.addPreferredGap(ComponentPlacement.UNRELATED)
         			.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addGap(5)
         			.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnVisualizeTreemap, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(pnlbutton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        			.addContainerGap())
+        			.addComponent(pnlbutton_1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+        			.addGap(28))
         );
+
         
-        JComboBox cbVisualization = new JComboBox();
-        
-        JLabel lblSelect = new JLabel("Select a view type:");
-        lblSelect.setFont(new Font("Tahoma", Font.PLAIN, 16));
         GroupLayout gl_pnlVisualization = new GroupLayout(pnlVisualization);
         gl_pnlVisualization.setHorizontalGroup(
         	gl_pnlVisualization.createParallelGroup(Alignment.LEADING)
@@ -1302,18 +1375,7 @@ public class umaversaook extends javax.swing.JFrame {
         				.addComponent(lblSelect)))
         );
         pnlVisualization.setLayout(gl_pnlVisualization);
-        lblLevel = new JLabel();
-        lblLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        
-                lblLevel.setText("Select the level of granularity:");
-                cbLevel = new JComboBox<>();
-                cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-                cbLevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author", "Methods" }));
-                cbLevel.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        cbLevelActionPerformed(evt);
-                    }
-                });
+
                 GroupLayout gl_pnlLevel = new GroupLayout(pnlLevel);
                 gl_pnlLevel.setHorizontalGroup(
                 	gl_pnlLevel.createParallelGroup(Alignment.LEADING)
@@ -1336,17 +1398,16 @@ public class umaversaook extends javax.swing.JFrame {
         GroupLayout gl_pnlbutton = new GroupLayout(pnlbutton_1);
         gl_pnlbutton.setHorizontalGroup(
         	gl_pnlbutton.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_pnlbutton.createSequentialGroup()
-        			.addGap(240)
+        		.addGroup(Alignment.TRAILING, gl_pnlbutton.createSequentialGroup()
+        			.addContainerGap(251, Short.MAX_VALUE)
         			.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(115, Short.MAX_VALUE))
+        			.addGap(104))
         );
         gl_pnlbutton.setVerticalGroup(
         	gl_pnlbutton.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_pnlbutton.createSequentialGroup()
-        			.addGap(5)
-        			.addComponent(btnVisualize)
-        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        			.addComponent(btnVisualize, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+        			.addGap(16))
         );
         pnlbutton_1.setLayout(gl_pnlbutton);
         
@@ -1411,28 +1472,18 @@ public class umaversaook extends javax.swing.JFrame {
         pnlClass.setLayout(gl_pnlClass);
         pnlGraph.setLayout(pnlGraphLayout);
         
-        btnVisualizeTreemap = new JButton();
-        btnVisualizeTreemap.setText("Generate Treemap View");
-        btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(contentPane);
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap()
         			.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE))
-        		.addGroup(layout.createSequentialGroup()
-        			.addGap(260)
-        			.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(293, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap()
-        			.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        			.addGap(18)
-        			.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
         			.addContainerGap())
         );
         contentPane.setLayout(layout);
