@@ -383,7 +383,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
             graph1 = CriaLegenda(graph1);
             progress.setValue(100);
             a.interrupt();
-            if (graph1.getNodeCount() == 0){
+            if (graph1.getNodeCount() == 1){
                 String msg = "";
             	if (selecionado.equals("Author")) {
                     msg = "<html>The combination Test Smells x Author does not exist!";
