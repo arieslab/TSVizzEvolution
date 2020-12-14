@@ -1116,14 +1116,14 @@ public class GraphTwoVersions extends JFrame {
         String[] a2 = null;
         String[] b2 = null;
         String[] c2 = null;
-        txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
-        txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+       // txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+     //   txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
         b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
         c2 = carrega_lista_autor(txtFilePathDefault1.getText());
 
-        txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
-        txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+      //  txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
+       // txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a = carrega_lista_linhas(txtFilePathDefault2.getText());
         b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
         c = carrega_lista_autor(txtFilePathDefault2.getText());
@@ -1912,7 +1912,7 @@ public class GraphTwoVersions extends JFrame {
  		lblSelectTheCsvMethod.setText("Select the first .csv File (By Test Smells JNose) :");
  		
  		txtFilePathMethod = new JTextField();
- 		txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
+ 	// txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
  		
  		lblSelectTheSecond = new JLabel();
  		lblSelectTheSecond.setText("Select the second .csv File (By Test Smells JNose) :");
