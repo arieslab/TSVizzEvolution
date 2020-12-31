@@ -217,7 +217,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta
 																													// a
 																													// borda
-		pacote.setPreferredSize(new Dimension(1000, 750));
+		pacote.setPreferredSize(new Dimension(1000, 500));
 		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecer� logo que passe 0,5 segundos
 		painel.add(pacote);
 
@@ -235,20 +235,21 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			classe.setBackground(c); // seta a cor de fundo
 			classe.setBorder(BorderFactory.createLineBorder(Configurations.bordaPacote, 1)); // seta a borda
 			classe.setPreferredSize(new Dimension((d.valor * 500) / maior_valor, (d.valor * 500) / maior_valor));
-			// String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\"
-			// face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
-
+			
+			String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\"face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
+            classe.setToolTipText(html_classe);
+/*
 			JLabel nomeTesteSmells = new JLabel(d.nome + ":");
 			nomeTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
 			String ocorrencias = "" + d.valor;
 			JLabel qtdTesteSmells = new JLabel(ocorrencias);
 			qtdTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
-
+*/
 			// classe.setToolTipText(html_classe);
 			pacote.add(classe);
-			classe.add(nomeTesteSmells);
-			classe.add(qtdTesteSmells);
+			//classe.add(nomeTesteSmells);
+			//classe.add(qtdTesteSmells);
 
 		}
 
