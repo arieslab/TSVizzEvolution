@@ -136,7 +136,7 @@ public class GraphTwoVersions extends JFrame {
         pnlMethod.setVisible(false); 
 		lblGenerate.setVisible(true);
 		lblGenerate2.setVisible(false);
-       
+ 		
         cbLevel.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
                 if (event.getItem().equals("A Specific Test Smells")) {
@@ -1740,7 +1740,7 @@ public class GraphTwoVersions extends JFrame {
 		
 		lblGenerate2.setVisible(false);
 		
-     //   setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
 
 		btnVisualizeGraph = new JButton();
 		btnVisualizeGraph.setText("Generate Graph View");

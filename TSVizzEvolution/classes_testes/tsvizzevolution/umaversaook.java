@@ -36,7 +36,7 @@ public class umaversaook extends javax.swing.JFrame {
 	private JButton btnVisualize;
 	private JButton btnUpload;
 	private JButton btnSearchMethod;
-	private JButton btnVisualizeTreemap;
+	private JButton btnVisualizeTreemapold;
 
 	private JComboBox<String> cbLevel;
 	private JComboBox<String> cbClass;
@@ -53,7 +53,9 @@ public class umaversaook extends javax.swing.JFrame {
 	private JLabel lblVisualization;
 	private JLabel lblLoad;
 	private JLabel lblGenerate;
+	private JLabel lblGenerate_1;
 	private JLabel lblGenerate2;
+	private JLabel lblGenerate2_1;
 
 	private JPanel pnlClass;
 	private JPanel pnlTestSmells;
@@ -63,6 +65,7 @@ public class umaversaook extends javax.swing.JFrame {
 	private JPanel pnlMethod;
 	private JPanel pnlbutton;
 	private JPanel pnlVisualization;
+	private JPanel pnlProgress;
 
 	public JFrame frame;
 	public JPanel classe;
@@ -83,7 +86,7 @@ public class umaversaook extends javax.swing.JFrame {
 			progress.setStringPainted(true);
 			progress.setValue(0);
 			progress.setSize(new Dimension(100, 23));
-			System.out.println("Entrou na Thread");
+		//	System.out.println("Entrou na Thread");
 
 			for (int i = 0; i <= 50; i++) {
 				progress.setValue(i);
@@ -119,10 +122,10 @@ public class umaversaook extends javax.swing.JFrame {
 		pnlUpload.setVisible(true);
 		pnlMethod.setVisible(false);
 		pnlVisualization.setVisible(true);
-		btnVisualizeTreemap.setVisible(false);
+		btnVisualizeTreemapold.setVisible(false);
 		btnVisualize.setVisible(true);
-		lblGenerate.setVisible(true);
-		lblGenerate2.setVisible(false);
+		lblGenerate_1.setVisible(true);
+		lblGenerate2_1.setVisible(false);
 
 		cbLevel.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
@@ -217,7 +220,7 @@ public class umaversaook extends javax.swing.JFrame {
 				BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta
 																													// a
 																													// borda
-		pacote.setPreferredSize(new Dimension(1000, 750));
+		pacote.setPreferredSize(new Dimension(1000, 500));
 		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecer� logo que passe 0,5 segundos
 		painel.add(pacote);
 
@@ -235,20 +238,21 @@ public class umaversaook extends javax.swing.JFrame {
 			classe.setBackground(c); // seta a cor de fundo
 			classe.setBorder(BorderFactory.createLineBorder(Configurations.bordaPacote, 1)); // seta a borda
 			classe.setPreferredSize(new Dimension((d.valor * 500) / maior_valor, (d.valor * 500) / maior_valor));
-			// String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\"
-			// face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
-
+			
+			String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\"face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
+            classe.setToolTipText(html_classe);
+/*
 			JLabel nomeTesteSmells = new JLabel(d.nome + ":");
 			nomeTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
 			String ocorrencias = "" + d.valor;
 			JLabel qtdTesteSmells = new JLabel(ocorrencias);
 			qtdTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
-
+*/
 			// classe.setToolTipText(html_classe);
 			pacote.add(classe);
-			classe.add(nomeTesteSmells);
-			classe.add(qtdTesteSmells);
+			//classe.add(nomeTesteSmells);
+			//classe.add(qtdTesteSmells);
 
 		}
 
@@ -277,8 +281,8 @@ public class umaversaook extends javax.swing.JFrame {
 	}
 
 	private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
-		
-		pnlGraph.add(progress);
+		//progress.setLocation(20, 728);
+		pnlProgress.add(progress);
 //		a.start();
 		progressoT.start();
 		iniciaProcessamento();
@@ -1128,7 +1132,8 @@ public class umaversaook extends javax.swing.JFrame {
 		pnlVisualization = new JPanel();
 		pnlLevel = new JPanel();
 		cbVisualization = new JComboBox();
-
+		pnlProgress = new JPanel();
+		pnlProgress.setVisible(true);
 		pnlbutton.setVisible(true);
 		lblGenerate2.setVisible(false);
 
@@ -1195,7 +1200,7 @@ public class umaversaook extends javax.swing.JFrame {
 						btnVisualize.setVisible(true);
 						lblGenerate.setVisible(true);
 						lblGenerate2.setVisible(false);
-						btnVisualizeTreemap.setVisible(false);
+						btnVisualizeTreemapold.setVisible(false);
 					} else if (event.getItem().equals("Treemap View")) {
 						pnlClass.setVisible(false);
 						pnlTestSmells.setVisible(false);
@@ -1203,7 +1208,7 @@ public class umaversaook extends javax.swing.JFrame {
 						pnlLevel.setVisible(false);
 						lblGenerate.setVisible(false);
 						lblGenerate2.setVisible(true);
-						btnVisualizeTreemap.setVisible(true);
+						btnVisualizeTreemapold.setVisible(true);
 						pnlUpload.setVisible(true);
 						pnlMethod.setVisible(false);
 						btnVisualize.setVisible(false);
@@ -1261,22 +1266,22 @@ public class umaversaook extends javax.swing.JFrame {
 				});
 				btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-				btnVisualizeTreemap = new JButton("Generate Treemap View");
-				btnVisualizeTreemap.addActionListener(new ActionListener() {
+				btnVisualizeTreemapold = new JButton("Generate Treemap View");
+				btnVisualizeTreemapold.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						btnGerarTreemapActionPerformed();
 
 					}
 				});
 				
-						btnVisualizeTreemap.setVisible(false);
-						btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+						btnVisualizeTreemapold.setVisible(false);
+						btnVisualizeTreemapold.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		lblGenerate = new JLabel("Click here to generate the visualization :");
-		lblGenerate.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblGenerate_1 = new JLabel("Click here to generate the visualization :");
+		lblGenerate_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		lblGenerate2= new JLabel("Click here to generate the visualization :");
-		lblGenerate2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblGenerate2_1= new JLabel("Click here to generate the visualization :");
+		lblGenerate2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 
 		// btnVisualizeTreemap = new JButton();
@@ -1300,22 +1305,33 @@ public class umaversaook extends javax.swing.JFrame {
 //}
 
 		GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
-		gl_pnlMethod.setHorizontalGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlMethod
-				.createSequentialGroup()
-				.addGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING).addComponent(lblSelectTheCsvMethod)
+		gl_pnlMethod.setHorizontalGroup(
+			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlMethod.createSequentialGroup()
+					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblSelectTheCsvMethod)
 						.addGroup(gl_pnlMethod.createSequentialGroup()
-								.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnSearchMethod,
-										GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap(21, Short.MAX_VALUE)));
-		gl_pnlMethod.setVerticalGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING).addGroup(gl_pnlMethod
-				.createSequentialGroup().addGap(9).addComponent(lblSelectTheCsvMethod).addGap(18)
-				.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-				.addContainerGap(14, Short.MAX_VALUE)));
+							.addContainerGap()
+							.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(11, Short.MAX_VALUE))
+		);
+		gl_pnlMethod.setVerticalGroup(
+			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlMethod.createSequentialGroup()
+					.addGap(9)
+					.addComponent(lblSelectTheCsvMethod)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
+		);
 		pnlMethod.setLayout(gl_pnlMethod);
+				
+				JButton btnNewButton = new JButton("Generate Treemap View");
+				btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				
 				javax.swing.GroupLayout pnlGraphLayout = new javax.swing.GroupLayout(pnlGraph);
 				pnlGraphLayout.setHorizontalGroup(
 					pnlGraphLayout.createParallelGroup(Alignment.LEADING)
@@ -1323,42 +1339,53 @@ public class umaversaook extends javax.swing.JFrame {
 							.addContainerGap()
 							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(pnlGraphLayout.createSequentialGroup()
+									.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())
+								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addComponent(lblload)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
 									.addContainerGap())
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addComponent(lblSelectCsv)
-									.addContainerGap(600, Short.MAX_VALUE))
+									.addContainerGap(539, Short.MAX_VALUE))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 535, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(100, Short.MAX_VALUE))
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
-									.addGap(277))
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(199, Short.MAX_VALUE))
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(76, Short.MAX_VALUE))
+									.addContainerGap(39, Short.MAX_VALUE))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING, false)
 										.addComponent(pnlVisualization, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(pnlLevel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE))
 									.addContainerGap())
-								.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
+								.addGroup(pnlGraphLayout.createSequentialGroup()
+									.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap(138, Short.MAX_VALUE))
+								.addGroup(pnlGraphLayout.createSequentialGroup()
+									.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+									.addGap(277))
+								.addGroup(pnlGraphLayout.createSequentialGroup()
+									.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap(165, Short.MAX_VALUE))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblGenerate, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
-									.addGap(340))))
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addComponent(lblGenerate_1, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
+										.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING, false)
+											.addGroup(pnlGraphLayout.createSequentialGroup()
+												.addComponent(lblGenerate2_1, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+												.addGap(6))
+											.addGroup(Alignment.LEADING, pnlGraphLayout.createSequentialGroup()
+												.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(btnVisualizeTreemapold, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+												.addGap(148))))
+									.addContainerGap(87, Short.MAX_VALUE))))
 				);
 				pnlGraphLayout.setVerticalGroup(
 					pnlGraphLayout.createParallelGroup(Alignment.LEADING)
@@ -1378,22 +1405,29 @@ public class umaversaook extends javax.swing.JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+							.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblGenerate, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblGenerate_1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnVisualize))
-							.addPreferredGap(ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnVisualizeTreemap))
-							.addContainerGap())
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(pnlGraphLayout.createSequentialGroup()
+									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblGenerate2_1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnVisualizeTreemapold))
+								.addGroup(pnlGraphLayout.createSequentialGroup()
+									.addGap(31)
+									.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
+							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				);
 
 		GroupLayout gl_pnlVisualization = new GroupLayout(pnlVisualization);

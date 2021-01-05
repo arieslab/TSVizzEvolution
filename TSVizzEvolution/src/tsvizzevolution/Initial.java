@@ -79,7 +79,7 @@ public class Initial extends JFrame {
 				// TODO Auto-generated method stub
 				SelectVersions v = new SelectVersions();
 				SelectVersions.main(null);
-				//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				dispose();
 			}
 		});
 		

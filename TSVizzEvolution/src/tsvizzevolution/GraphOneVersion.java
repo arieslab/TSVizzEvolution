@@ -63,6 +63,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private JPanel pnlMethod;
 	private JPanel pnlbutton;
 	private JPanel pnlVisualization;
+	private JPanel pnlProgress;
 
 	public JFrame frame;
 	public JPanel classe;
@@ -83,7 +84,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			progress.setStringPainted(true);
 			progress.setValue(0);
 			progress.setSize(new Dimension(100, 23));
-			System.out.println("Entrou na Thread");
+		//	System.out.println("Entrou na Thread");
 
 			for (int i = 0; i <= 50; i++) {
 				progress.setValue(i);
@@ -278,8 +279,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	}
 
 	private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
-		
-		pnlGraph.add(progress);
+		//progress.setLocation(20, 728);
+		pnlProgress.add(progress);
 //		a.start();
 		progressoT.start();
 		iniciaProcessamento();
@@ -1129,7 +1130,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		pnlVisualization = new JPanel();
 		pnlLevel = new JPanel();
 		cbVisualization = new JComboBox();
-
+		pnlProgress = new JPanel();
+		pnlProgress.setVisible(true);
 		pnlbutton.setVisible(true);
 		lblGenerate2.setVisible(false);
 
@@ -1317,6 +1319,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 				.addContainerGap(14, Short.MAX_VALUE)));
 		pnlMethod.setLayout(gl_pnlMethod);
+				
 				javax.swing.GroupLayout pnlGraphLayout = new javax.swing.GroupLayout(pnlGraph);
 				pnlGraphLayout.setHorizontalGroup(
 					pnlGraphLayout.createParallelGroup(Alignment.LEADING)
@@ -1330,21 +1333,21 @@ public class GraphOneVersion extends javax.swing.JFrame {
 									.addContainerGap())
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addComponent(lblSelectCsv)
-									.addContainerGap(600, Short.MAX_VALUE))
+									.addContainerGap(539, Short.MAX_VALUE))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 535, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(100, Short.MAX_VALUE))
+									.addContainerGap(39, Short.MAX_VALUE))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
 									.addGap(277))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(199, Short.MAX_VALUE))
+									.addContainerGap(138, Short.MAX_VALUE))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(76, Short.MAX_VALUE))
+									.addContainerGap(15, Short.MAX_VALUE))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING, false)
 										.addComponent(pnlVisualization, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1359,7 +1362,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
 										.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
-									.addGap(340))))
+									.addGap(340))
+								.addGroup(pnlGraphLayout.createSequentialGroup()
+									.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())))
 				);
 				pnlGraphLayout.setVerticalGroup(
 					pnlGraphLayout.createParallelGroup(Alignment.LEADING)
@@ -1394,7 +1400,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnVisualizeTreemap))
-							.addContainerGap())
+							.addGap(1)
+							.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
 		GroupLayout gl_pnlVisualization = new GroupLayout(pnlVisualization);
