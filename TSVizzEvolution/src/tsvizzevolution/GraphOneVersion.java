@@ -107,7 +107,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
 	public GraphOneVersion() throws IOException {
 		setTitle("TSVizzEvolution");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 733, 655);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -185,6 +185,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		frame.setMaximumSize(frame.getPreferredSize());
 		frame.setMinimumSize(frame.getPreferredSize());
 		frame.setTitle("TSVizzEvolution");
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
 
 		JPanel painel = new JPanel();
 		painel.setLayout(new BorderLayout());
@@ -295,6 +297,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				try {
 					System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 					Graph graph1 = new MultiGraph("TSVizzEvolution");
+		    		//setDefaultCloseOperation(graph1.DISPOSE_ON_CLOSE);
+
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(new FileInputStream(txtFilePathDefault1.getText())));
 					String linha = null;
@@ -1147,7 +1151,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		pnlUpload.setVisible(true);
 		pnlMethod.setVisible(false);
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
 		lblSelectCsv.setText("Select the .csv File :");
 

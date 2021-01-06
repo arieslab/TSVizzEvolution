@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
 
 public class Initial extends JFrame {
 
@@ -64,8 +65,9 @@ public class Initial extends JFrame {
 		lblTsvizzevolution.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		
 		JLabel lblTextApresentation = new JLabel();
+		lblTextApresentation.setHorizontalAlignment(SwingConstants.CENTER);
 		//"TSVizzEvolution displays the occurrences and evolution of test smells in java software through software visualization techniques." + \n\n First, you must select whether to review one or two versions. For one version we have two views available, Graph View and Treemap View. For two versions, Graph View and Timeline View.");
-		lblTextApresentation.setText("<html><body>TSVizzEvolution displays the occurrences and evolution of test smells in java software through software visualization technique<br> First, you must select whether to review one or two versions. <br>For one version we have two views available, Graph View and Treemap View. <br>For two versions, Graph View and Timeline View.</body></html>");
+		lblTextApresentation.setText("<html><body>      TSVizzEvolution displays the occurrences and evolution of test smells in java software through software visualization technique<br> First, you must select whether to review one or two versions. <br>For one version we have two views available, Graph View and Treemap View. <br>For two versions, Graph View and Timeline View.</body></html>");
 
 		JButton btnInitial = new JButton("Click here to start");
 		btnInitial.setFont(new Font("Tahoma", Font.PLAIN, 11));

@@ -119,7 +119,7 @@ public class GraphTwoVersions extends JFrame {
     public GraphTwoVersions() throws IOException {
 
 		setTitle("TSVizzEvolution");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 710, 487);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -585,6 +585,7 @@ public class GraphTwoVersions extends JFrame {
         try {
             System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
             Graph graph1 = new MultiGraph("TSVizzEvolution");
+    		//setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault1.getText())));
             String linha = null;
 
