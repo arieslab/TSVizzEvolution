@@ -2,7 +2,9 @@ package tsvizzevolution;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -50,7 +52,11 @@ public class Initial extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+
+		// Para abrir no centro da Tela
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+			
 		JPanel pnlPrincipal = new JPanel();
 	//JLabel lblImage = new JLabel(new ImageIcon(getClass().getResource("url('tsvizzevolution/logo_tsvizz.png')")));
 		

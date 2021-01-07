@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -55,7 +54,7 @@ import org.graphstream.ui.view.Viewer;
 import static org.graphstream.algorithm.Toolkit.randomNode;
 import static org.graphstream.ui.graphicGraph.GraphPosLengthUtils.nodePosition;
 
-public class GraphTwoVersions extends JFrame {
+public class GraphTwoVersions_bkp extends JFrame {
     private JButton btnChooseFileSearch1;
     private JButton btnChooseFileSearch2;
     private JButton btnVisualizeGraph;
@@ -117,19 +116,14 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
-    public GraphTwoVersions() throws IOException {
+    public GraphTwoVersions_bkp() throws IOException {
 
 		setTitle("TSVizzEvolution");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 710, 692);
+		setBounds(100, 100, 710, 487);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		
-		// Para abrir no centro da Tela
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-		
+		setContentPane(contentPane);	
         initComponents();
         pnlClass.setVisible(false);
         pnlTestSmells.setVisible(false);
@@ -193,7 +187,7 @@ public class GraphTwoVersions extends JFrame {
 
     private void btnChooseFileSearch1ActionPerformed(ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(GraphTwoVersions_bkp.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
@@ -203,7 +197,7 @@ public class GraphTwoVersions extends JFrame {
    
     private void btnChooseFileSearch2ActionPerformed(ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(GraphTwoVersions_bkp.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
@@ -213,7 +207,7 @@ public class GraphTwoVersions extends JFrame {
 
     private void btnSearchMethodActionPerformed(ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(GraphTwoVersions_bkp.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
@@ -223,7 +217,7 @@ public class GraphTwoVersions extends JFrame {
 
     private void btnSearchMethod2ActionPerformed(ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(GraphTwoVersions_bkp.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
@@ -231,17 +225,14 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
-    
     private void btnGerarTimelineActionPerformed(ActionEvent evt) {
         frame = new JFrame();
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setPreferredSize(new Dimension( 1000 + Configurations.adicionalBorda, Configurations.alturaPainel ));
         frame.setMaximumSize(frame.getPreferredSize());
         frame.setMinimumSize(frame.getPreferredSize());
 		frame.setTitle("TSVizzEvolution");
-		frame.setLocationRelativeTo(null);
-		
+
         JPanel painel = new JPanel();
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         painel.setBackground(Configurations.corPainel); //seta a cor de fundo
@@ -250,8 +241,6 @@ public class GraphTwoVersions extends JFrame {
         painel.setMaximumSize(painel.getPreferredSize());
         painel.setMinimumSize(painel.getPreferredSize());
         frame.getContentPane().add(painel);
-        
-		
         int tamanho = 0;
         try {
             String selecionado = (String) cbTimeline.getSelectedItem();
@@ -739,7 +728,7 @@ public class GraphTwoVersions extends JFrame {
                 v.disableAutoLayout();
             }
         } catch (IOException ex) {
-            Logger.getLogger(GraphTwoVersions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GraphTwoVersions_bkp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -1559,18 +1548,18 @@ public class GraphTwoVersions extends JFrame {
             }
             
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GraphTwoVersions_bkp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GraphTwoVersions_bkp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GraphTwoVersions_bkp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GraphTwoVersions_bkp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-					new GraphTwoVersions().setVisible(true);
+					new GraphTwoVersions_bkp().setVisible(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1740,7 +1729,6 @@ public class GraphTwoVersions extends JFrame {
     }
 
     private void initComponents() throws IOException {
-
         pnlGraph = new JPanel();
 		pnlLevel = new JPanel();
 		pnlTimeline = new JPanel();
@@ -1751,7 +1739,9 @@ public class GraphTwoVersions extends JFrame {
         lblGenerate = new JLabel();
 		lblGenerate2 = new JLabel();
 		
-		lblGenerate2.setVisible(false);	
+		lblGenerate2.setVisible(false);
+		
+		
 
 		btnVisualizeGraph = new JButton();
 		btnVisualizeGraph.setText("Generate Graph View");
@@ -1983,18 +1973,15 @@ public class GraphTwoVersions extends JFrame {
   		 lblSelectTheCsvMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
   		 btnSearchMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
-
   		  GroupLayout gl_contentPane = new GroupLayout(contentPane);
-  		  gl_contentPane.setHorizontalGroup(
-  		  	gl_contentPane.createParallelGroup(Alignment.LEADING)
-  		  		.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-  		  );
-  		  gl_contentPane.setVerticalGroup(
-  		  	gl_contentPane.createParallelGroup(Alignment.LEADING)
-  		  		.addGroup(gl_contentPane.createSequentialGroup()
-  		  			.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 651, GroupLayout.PREFERRED_SIZE)
-  		  			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-  		  );
+   		gl_contentPane.setHorizontalGroup(
+   			gl_contentPane.createParallelGroup(Alignment.LEADING)
+   				.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+   		);
+   		gl_contentPane.setVerticalGroup(
+   			gl_contentPane.createParallelGroup(Alignment.LEADING)
+   				.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+   		);
    		GroupLayout gl_pnlClass = new GroupLayout(pnlClass);
    		gl_pnlClass.setHorizontalGroup(
    			gl_pnlClass.createParallelGroup(Alignment.LEADING)
@@ -2092,14 +2079,14 @@ public class GraphTwoVersions extends JFrame {
    						.addComponent(cbTestSmells, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
    					.addContainerGap(16, Short.MAX_VALUE))
    		);
-   		pnlTestSmells.setLayout(gl_pnlTestSmells);
+   		pnlTestSmells.setLayout(gl_pnlTestSmells);  		
    		
    		GroupLayout gl_pnlGraph = new GroupLayout(pnlGraph);
    		gl_pnlGraph.setHorizontalGroup(
    			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
    				.addGroup(gl_pnlGraph.createSequentialGroup()
    					.addContainerGap()
-   					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
+   					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.TRAILING)
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(lblLoad, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -2121,8 +2108,22 @@ public class GraphTwoVersions extends JFrame {
    							.addComponent(pnlClass, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
    							.addGap(203))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
+   							.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
+   								.addGroup(gl_pnlGraph.createSequentialGroup()
+   									.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
+   									.addPreferredGap(ComponentPlacement.UNRELATED)
+   									.addComponent(btnChooseFileSearch1))
+   								.addGroup(gl_pnlGraph.createSequentialGroup()
+   									.addComponent(txtFilePathDefault2, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
+   									.addGap(10)
+   									.addComponent(btnChooseFileSearch2)))
+   							.addContainerGap(29, Short.MAX_VALUE))
+   						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(lblCsv2)
    							.addContainerGap(480, Short.MAX_VALUE))
+   						.addGroup(gl_pnlGraph.createSequentialGroup()
+   							.addComponent(lblCsv1)
+   							.addContainerGap(502, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlMethod, GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
    							.addContainerGap())
@@ -2139,22 +2140,12 @@ public class GraphTwoVersions extends JFrame {
    									.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
    									.addPreferredGap(ComponentPlacement.RELATED)
    									.addComponent(btnVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)))
-   							.addContainerGap(137, Short.MAX_VALUE))
-   						.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
-   							.addGroup(gl_pnlGraph.createSequentialGroup()
-   								.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
-   								.addPreferredGap(ComponentPlacement.UNRELATED)
-   								.addComponent(btnChooseFileSearch1))
-   							.addGroup(gl_pnlGraph.createSequentialGroup()
-   								.addComponent(txtFilePathDefault2, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
-   								.addGap(10)
-   								.addComponent(btnChooseFileSearch2))
-   							.addComponent(lblCsv1))))
+   							.addContainerGap(137, Short.MAX_VALUE))))
    		);
    		gl_pnlGraph.setVerticalGroup(
    			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
    				.addGroup(gl_pnlGraph.createSequentialGroup()
-   					.addContainerGap()
+   					.addGap(12)
    					.addComponent(lblCsv1)
    					.addPreferredGap(ComponentPlacement.UNRELATED)
    					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)

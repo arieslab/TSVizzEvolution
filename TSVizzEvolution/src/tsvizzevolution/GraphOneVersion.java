@@ -112,7 +112,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-
+		// Para abrir no centro da Tela
+				Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+				this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+				
 		initComponents();
 		pnlClass.setVisible(false);
 		pnlTestSmells.setVisible(false);
@@ -185,8 +188,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		frame.setMaximumSize(frame.getPreferredSize());
 		frame.setMinimumSize(frame.getPreferredSize());
 		frame.setTitle("TSVizzEvolution");
+		frame.setLocationRelativeTo(null);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
 
 		JPanel painel = new JPanel();
 		painel.setLayout(new BorderLayout());
@@ -298,7 +301,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 					Graph graph1 = new MultiGraph("TSVizzEvolution");
 		    		//setDefaultCloseOperation(graph1.DISPOSE_ON_CLOSE);
-
+					
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(new FileInputStream(txtFilePathDefault1.getText())));
 					String linha = null;
