@@ -31,7 +31,7 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.view.Viewer;
 
-public class GraphOneVersion extends javax.swing.JFrame {
+public class GraphOneVersion_bkp extends javax.swing.JFrame {
 	private JButton btnChooseFileSearch;
 	private JButton btnVisualize;
 	private JButton btnUpload;
@@ -105,7 +105,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		}
 	}
 
-	public GraphOneVersion() throws IOException {
+	public GraphOneVersion_bkp() throws IOException {
 		setTitle("TSVizzEvolution");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 733, 655);
@@ -163,7 +163,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
 	private void btnChooseFileSearchActionPerformed(java.awt.event.ActionEvent evt) {
 		final JFileChooser fc = new JFileChooser();
-		int returnVal = fc.showOpenDialog(GraphOneVersion.this);
+		int returnVal = fc.showOpenDialog(GraphOneVersion_bkp.this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathDefault1.setText(file.getPath());
@@ -173,7 +173,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
 	private void btnSearchMethodActionPerformed(java.awt.event.ActionEvent evt) {
 		final JFileChooser fc = new JFileChooser();
-		int returnVal = fc.showOpenDialog(GraphOneVersion.this);
+		int returnVal = fc.showOpenDialog(GraphOneVersion_bkp.this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathDefault1.setText(file.getPath());
@@ -439,7 +439,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						v.disableAutoLayout();
 					}
 				} catch (IOException ex) {
-					Logger.getLogger(GraphOneVersion.class.getName()).log(Level.SEVERE, null, ex);
+					Logger.getLogger(GraphOneVersion_bkp.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
 		}.start();
@@ -957,22 +957,22 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			}
 
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(GraphOneVersion.class.getName()).log(java.util.logging.Level.SEVERE,
+			java.util.logging.Logger.getLogger(GraphOneVersion_bkp.class.getName()).log(java.util.logging.Level.SEVERE,
 					null, ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(GraphOneVersion.class.getName()).log(java.util.logging.Level.SEVERE,
+			java.util.logging.Logger.getLogger(GraphOneVersion_bkp.class.getName()).log(java.util.logging.Level.SEVERE,
 					null, ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(GraphOneVersion.class.getName()).log(java.util.logging.Level.SEVERE,
+			java.util.logging.Logger.getLogger(GraphOneVersion_bkp.class.getName()).log(java.util.logging.Level.SEVERE,
 					null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(GraphOneVersion.class.getName()).log(java.util.logging.Level.SEVERE,
+			java.util.logging.Logger.getLogger(GraphOneVersion_bkp.class.getName()).log(java.util.logging.Level.SEVERE,
 					null, ex);
 		}
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new GraphOneVersion().setVisible(true);
+					new GraphOneVersion_bkp().setVisible(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

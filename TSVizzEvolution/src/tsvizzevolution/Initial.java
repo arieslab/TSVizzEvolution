@@ -64,7 +64,7 @@ public class Initial extends JFrame {
 		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		lblImage.setBounds(275, 30, 225, 225);
 		//lblImage.setIcon(new ImageIcon(getClass().getResource("url('tsvizzevolution/logo_tsvizz.png')")));
-		lblImage.setIcon(new ImageIcon("url('tsvizzevolution/logo_tsvizz.png')"));
+		lblImage.setIcon(new ImageIcon("src/tsvizzevolution/logo_tsvizz.png"));
 		pnlPrincipal.add(lblImage);
 		
 		JLabel lblTsvizzevolution = new JLabel("<html><body><b>TSVizzEvolution</body></html>");
@@ -129,7 +129,7 @@ public class Initial extends JFrame {
 					.addGap(36)
 					.addComponent(lblTsvizzevolution)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblTextApresentation, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
 					.addGap(36)
