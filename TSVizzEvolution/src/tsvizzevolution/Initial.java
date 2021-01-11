@@ -63,8 +63,7 @@ public class Initial extends JFrame {
 		JLabel lblImage = new JLabel();
 		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		lblImage.setBounds(275, 30, 225, 225);
-		//lblImage.setIcon(new ImageIcon(getClass().getResource("url('tsvizzevolution/logo_tsvizz.png')")));
-		lblImage.setIcon(new ImageIcon("src/tsvizzevolution/logo_tsvizz.png"));
+		lblImage.setIcon(new ImageIcon("logo_tsvizz.png"));
 		pnlPrincipal.add(lblImage);
 		
 		JLabel lblTsvizzevolution = new JLabel("<html><body><b>TSVizzEvolution</body></html>");

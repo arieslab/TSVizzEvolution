@@ -182,7 +182,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		int returnVal = fc.showOpenDialog(GraphOneVersion.this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			txtFilePathDefault1.setText(file.getPath());
+			txtFilePathMethod.setText(file.getPath());
 			nomeDoArquivo = file.getName();
 		}
 	}

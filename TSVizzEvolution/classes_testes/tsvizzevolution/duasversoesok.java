@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -123,7 +124,12 @@ public class duasversoesok extends JFrame {
 		setBounds(100, 100, 710, 692);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);	
+		setContentPane(contentPane);
+		
+		// Para abrir no centro da Tela
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		
         initComponents();
         pnlClass.setVisible(false);
         pnlTestSmells.setVisible(false);
@@ -225,14 +231,17 @@ public class duasversoesok extends JFrame {
         }
     }
 
+    
     private void btnGerarTimelineActionPerformed(ActionEvent evt) {
         frame = new JFrame();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setPreferredSize(new Dimension( 1000 + Configurations.adicionalBorda, Configurations.alturaPainel ));
         frame.setMaximumSize(frame.getPreferredSize());
         frame.setMinimumSize(frame.getPreferredSize());
 		frame.setTitle("TSVizzEvolution");
-
+		frame.setLocationRelativeTo(null);
+		
         JPanel painel = new JPanel();
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         painel.setBackground(Configurations.corPainel); //seta a cor de fundo
@@ -241,6 +250,8 @@ public class duasversoesok extends JFrame {
         painel.setMaximumSize(painel.getPreferredSize());
         painel.setMinimumSize(painel.getPreferredSize());
         frame.getContentPane().add(painel);
+        
+		
         int tamanho = 0;
         try {
             String selecionado = (String) cbTimeline.getSelectedItem();
@@ -1729,6 +1740,7 @@ public class duasversoesok extends JFrame {
     }
 
     private void initComponents() throws IOException {
+
         pnlGraph = new JPanel();
 		pnlLevel = new JPanel();
 		pnlTimeline = new JPanel();
@@ -1739,9 +1751,7 @@ public class duasversoesok extends JFrame {
         lblGenerate = new JLabel();
 		lblGenerate2 = new JLabel();
 		
-		lblGenerate2.setVisible(false);
-		
-		
+		lblGenerate2.setVisible(false);	
 
 		btnVisualizeGraph = new JButton();
 		btnVisualizeGraph.setText("Generate Graph View");
@@ -2091,6 +2101,9 @@ public class duasversoesok extends JFrame {
    					.addContainerGap()
    					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
    						.addGroup(gl_pnlGraph.createSequentialGroup()
+   							.addComponent(pnlMethod, GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+   							.addContainerGap())
+   						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(lblLoad, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
    							.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
@@ -2114,9 +2127,6 @@ public class duasversoesok extends JFrame {
    							.addComponent(lblCsv2)
    							.addContainerGap(480, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlMethod, GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
-   							.addContainerGap())
-   						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
    							.addContainerGap(238, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
@@ -2130,16 +2140,15 @@ public class duasversoesok extends JFrame {
    									.addPreferredGap(ComponentPlacement.RELATED)
    									.addComponent(btnVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)))
    							.addContainerGap(137, Short.MAX_VALUE))
-   						.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
-   							.addGroup(gl_pnlGraph.createSequentialGroup()
-   								.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
-   								.addPreferredGap(ComponentPlacement.UNRELATED)
-   								.addComponent(btnChooseFileSearch1))
-   							.addGroup(gl_pnlGraph.createSequentialGroup()
-   								.addComponent(txtFilePathDefault2, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
-   								.addGap(10)
-   								.addComponent(btnChooseFileSearch2))
-   							.addComponent(lblCsv1))))
+   						.addGroup(gl_pnlGraph.createSequentialGroup()
+   							.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
+   							.addPreferredGap(ComponentPlacement.UNRELATED)
+   							.addComponent(btnChooseFileSearch1))
+   						.addGroup(gl_pnlGraph.createSequentialGroup()
+   							.addComponent(txtFilePathDefault2, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
+   							.addGap(10)
+   							.addComponent(btnChooseFileSearch2))
+   						.addComponent(lblCsv1)))
    		);
    		gl_pnlGraph.setVerticalGroup(
    			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
@@ -2169,8 +2178,8 @@ public class duasversoesok extends JFrame {
    					.addGap(9)
    					.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
    					.addPreferredGap(ComponentPlacement.RELATED)
-   					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 108, Short.MAX_VALUE)
-   					.addPreferredGap(ComponentPlacement.RELATED)
+   					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+   					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
    					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
    					.addPreferredGap(ComponentPlacement.RELATED)
    					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)

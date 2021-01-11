@@ -102,10 +102,10 @@ public class GraphTwoVersions extends JFrame {
     private JTextField txtFilePathDefault1; 
     private JTextField txtFilePathDefault2;
     private JTextField txtFilePathMethod; 
+    private JTextField txtFilePathMethod2;
 
     private static final String VIRGULA = ",";
     private static String nomeDoArquivo;
-    private JTextField txtFilePathMethod2;
     private JLabel lblLoad;
 	
 
