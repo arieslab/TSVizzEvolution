@@ -58,6 +58,7 @@ public class SelectVersions extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setResizable(false);
 		
 		// Para abrir no centro da Tela
 				Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

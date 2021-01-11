@@ -125,6 +125,8 @@ public class GraphTwoVersions extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setResizable(false);
+
 		
 		// Para abrir no centro da Tela
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -241,6 +243,8 @@ public class GraphTwoVersions extends JFrame {
         frame.setMinimumSize(frame.getPreferredSize());
 		frame.setTitle("TSVizzEvolution");
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+
 		
         JPanel painel = new JPanel();
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
