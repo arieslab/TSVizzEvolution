@@ -135,6 +135,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		btnVisualize.setVisible(true);
 		lblGenerate.setVisible(true);
 		lblGenerate2.setVisible(false);
+		
+		btnVisualize.setEnabled(false);
+		btnVisualizeTreemap.setEnabled(false);
 
 		cbLevel.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
@@ -1138,6 +1141,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		cbAuthor.setModel(new DefaultComboBoxModel<>(c));
 		cbClass.setModel(new DefaultComboBoxModel<>(a));
 		cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
+		
+		btnVisualize.setEnabled(true);
+		btnVisualizeTreemap.setEnabled(true);
+
 
 	}
 

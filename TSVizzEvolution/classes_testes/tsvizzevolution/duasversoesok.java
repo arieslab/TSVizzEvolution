@@ -102,11 +102,12 @@ public class duasversoesok extends JFrame {
     private JTextField txtFilePathDefault1; 
     private JTextField txtFilePathDefault2;
     private JTextField txtFilePathMethod; 
+    private JTextField txtFilePathMethod2;
 
     private static final String VIRGULA = ",";
     private static String nomeDoArquivo;
-    private JTextField txtFilePathMethod2;
     private JLabel lblLoad;
+    private JPanel pnlProgress;
 	
 
     public static int converteInteiro(String valor) {
@@ -121,10 +122,12 @@ public class duasversoesok extends JFrame {
 
 		setTitle("TSVizzEvolution");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 710, 692);
+		setBounds(100, 100, 710, 691);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setResizable(false);
+
 		
 		// Para abrir no centro da Tela
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -241,6 +244,8 @@ public class duasversoesok extends JFrame {
         frame.setMinimumSize(frame.getPreferredSize());
 		frame.setTitle("TSVizzEvolution");
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+
 		
         JPanel painel = new JPanel();
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -1987,13 +1992,13 @@ public class duasversoesok extends JFrame {
   		  GroupLayout gl_contentPane = new GroupLayout(contentPane);
   		  gl_contentPane.setHorizontalGroup(
   		  	gl_contentPane.createParallelGroup(Alignment.LEADING)
-  		  		.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+  		  		.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
   		  );
   		  gl_contentPane.setVerticalGroup(
   		  	gl_contentPane.createParallelGroup(Alignment.LEADING)
   		  		.addGroup(gl_contentPane.createSequentialGroup()
-  		  			.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 651, GroupLayout.PREFERRED_SIZE)
-  		  			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+  		  			.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 675, GroupLayout.PREFERRED_SIZE)
+  		  			.addContainerGap(158, Short.MAX_VALUE))
   		  );
    		GroupLayout gl_pnlClass = new GroupLayout(pnlClass);
    		gl_pnlClass.setHorizontalGroup(
@@ -2094,6 +2099,8 @@ public class duasversoesok extends JFrame {
    		);
    		pnlTestSmells.setLayout(gl_pnlTestSmells);
    		
+   		pnlProgress = new JPanel();
+   		
    		GroupLayout gl_pnlGraph = new GroupLayout(pnlGraph);
    		gl_pnlGraph.setHorizontalGroup(
    			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
@@ -2101,34 +2108,34 @@ public class duasversoesok extends JFrame {
    					.addContainerGap()
    					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
    						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlMethod, GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
-   							.addContainerGap())
-   						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(lblLoad, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
    							.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(285, Short.MAX_VALUE))
+   							.addContainerGap(295, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlVisualization, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+   							.addComponent(pnlVisualization, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
    							.addGap(329))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(210, Short.MAX_VALUE))
+   							.addContainerGap(220, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(203, Short.MAX_VALUE))
+   							.addContainerGap(213, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(258, Short.MAX_VALUE))
+   							.addContainerGap(268, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlClass, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+   							.addComponent(pnlClass, GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
    							.addGap(203))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(lblCsv2)
-   							.addContainerGap(480, Short.MAX_VALUE))
+   							.addContainerGap(490, Short.MAX_VALUE))
+   						.addGroup(gl_pnlGraph.createSequentialGroup()
+   							.addComponent(pnlMethod, GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+   							.addContainerGap())
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(238, Short.MAX_VALUE))
+   							.addContainerGap(248, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
    								.addGroup(gl_pnlGraph.createSequentialGroup()
@@ -2139,7 +2146,7 @@ public class duasversoesok extends JFrame {
    									.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
    									.addPreferredGap(ComponentPlacement.RELATED)
    									.addComponent(btnVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)))
-   							.addContainerGap(137, Short.MAX_VALUE))
+   							.addContainerGap(147, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -2148,7 +2155,10 @@ public class duasversoesok extends JFrame {
    							.addComponent(txtFilePathDefault2, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
    							.addGap(10)
    							.addComponent(btnChooseFileSearch2))
-   						.addComponent(lblCsv1)))
+   						.addComponent(lblCsv1)
+   						.addGroup(gl_pnlGraph.createSequentialGroup()
+   							.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
+   							.addContainerGap())))
    		);
    		gl_pnlGraph.setVerticalGroup(
    			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
@@ -2178,8 +2188,8 @@ public class duasversoesok extends JFrame {
    					.addGap(9)
    					.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
    					.addPreferredGap(ComponentPlacement.RELATED)
-   					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-   					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+   					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 108, Short.MAX_VALUE)
+   					.addPreferredGap(ComponentPlacement.RELATED)
    					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
    					.addPreferredGap(ComponentPlacement.RELATED)
    					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
@@ -2193,7 +2203,9 @@ public class duasversoesok extends JFrame {
    					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)
    						.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
    						.addComponent(btnVisualizeTimeline))
-   					.addGap(35))
+   					.addPreferredGap(ComponentPlacement.RELATED)
+   					.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+   					.addGap(19))
    		);
    		
    		
