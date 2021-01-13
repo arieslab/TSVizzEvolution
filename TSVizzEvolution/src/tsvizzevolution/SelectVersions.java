@@ -19,11 +19,16 @@ import java.io.IOException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JRootPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.BorderFactory;
+
+import java.awt.Color;
 
 public class SelectVersions extends JFrame {
 
@@ -53,8 +58,8 @@ public class SelectVersions extends JFrame {
 	 */
 	public SelectVersions() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 214);
-		setTitle("TSVizzEvolution");
+		setBounds(100, 100, 558, 354);
+		//setTitle("TSVizzEvolution");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -71,7 +76,7 @@ public class SelectVersions extends JFrame {
 //		
 		JLabel lblVersions = new JLabel();
 		lblVersions.setText("Select the number of versions to view: ");
-		lblVersions.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblVersions.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		cbVersions = new JComboBox();
 		cbVersions.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -97,6 +102,17 @@ public class SelectVersions extends JFrame {
 	 		}
 	         });
 		
+		JLabel lblTsvizzevolution = new JLabel("<html><body><b>TSVizzEvolution</body></html>");
+		lblTsvizzevolution.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		
+		JLabel lblTextApresentation = new JLabel();
+		lblTextApresentation.setText("<html><body>      TSVizzEvolution displays the occurrences and evolution of test smells in java software through software visualization technique.<br> First, you must select whether to review one or two versions. <br>For one version we have two views available, Graph View and Treemap View. <br>For two versions, Graph View and Timeline View.</body></html>");
+		lblTextApresentation.setHorizontalAlignment(SwingConstants.CENTER);
+				
+		JLabel lblImage = new JLabel();
+		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		lblImage.setBounds(275, 30, 225, 225);
+		lblImage.setIcon(new ImageIcon("logo_tsvizz.png"));
 		
 		//JButton btnOk = new JButton("OK");
 ////		btnOk.addActionListener(new ActionListener() { 
@@ -136,33 +152,37 @@ public class SelectVersions extends JFrame {
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblVersions)
-					.addGap(34)
-					.addComponent(cbVersions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(134, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap(162, Short.MAX_VALUE)
-					//.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-					.addGap(51)
-				//	.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-					.addGap(43))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
+							.addGap(20)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblVersions)
+								.addComponent(cbVersions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblTextApresentation, GroupLayout.PREFERRED_SIZE, 275, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(171)
+							.addComponent(lblTsvizzevolution, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(47)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblVersions)
-						.addComponent(cbVersions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(53)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						//.addComponent(btnOk)
-						//.addComponent(btnCancel)
-							)
-					.addContainerGap(22, Short.MAX_VALUE))
+					.addContainerGap()
+					.addComponent(lblTsvizzevolution, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblTextApresentation)
+							.addGap(25)
+							.addComponent(lblVersions)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(cbVersions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE))
+					.addGap(41))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

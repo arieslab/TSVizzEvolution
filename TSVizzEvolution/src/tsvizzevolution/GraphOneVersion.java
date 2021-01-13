@@ -53,7 +53,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private JLabel lblVisualization;
 	private JLabel lblLoad;
 	private JLabel lblGenerate;
+	private JLabel lblGenerate_1;
 	private JLabel lblGenerate2;
+	private JLabel lblGenerate2_1;
 
 	private JPanel pnlClass;
 	private JPanel pnlTestSmells;
@@ -133,8 +135,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		pnlVisualization.setVisible(true);
 		btnVisualizeTreemap.setVisible(false);
 		btnVisualize.setVisible(true);
-		lblGenerate.setVisible(true);
-		lblGenerate2.setVisible(false);
+		lblGenerate_1.setVisible(true);
+		lblGenerate2_1.setVisible(false);
 		
 		btnVisualize.setEnabled(false);
 		btnVisualizeTreemap.setEnabled(false);
@@ -1326,11 +1328,11 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						btnVisualizeTreemap.setVisible(false);
 						btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		lblGenerate = new JLabel("Click here to generate the visualization :");
-		lblGenerate.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblGenerate_1 = new JLabel("Click here to generate the visualization :");
+		lblGenerate_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		lblGenerate2= new JLabel("Click here to generate the visualization :");
-		lblGenerate2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblGenerate2_1= new JLabel("Click here to generate the visualization :");
+		lblGenerate2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 
 		// btnVisualizeTreemap = new JButton();
@@ -1378,45 +1380,48 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							.addContainerGap()
 							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(lblload)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap())
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(lblSelectCsv)
-									.addContainerGap(539, Short.MAX_VALUE))
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 535, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(39, Short.MAX_VALUE))
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
-									.addGap(277))
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(138, Short.MAX_VALUE))
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap(15, Short.MAX_VALUE))
-								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(pnlVisualization, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(pnlLevel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE))
-									.addContainerGap())
-								.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
-								.addGroup(pnlGraphLayout.createSequentialGroup()
 									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblGenerate, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
-									.addGap(340))
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addComponent(lblload)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED))
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addComponent(lblSelectCsv)
+											.addPreferredGap(ComponentPlacement.RELATED, 539, Short.MAX_VALUE))
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 535, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnChooseFileSearch, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 39, Short.MAX_VALUE))
+										.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 514, GroupLayout.PREFERRED_SIZE)
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 138, Short.MAX_VALUE))
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 664, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 15, Short.MAX_VALUE))
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addGroup(pnlGraphLayout.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(pnlVisualization, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(pnlLevel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE))
+											.addPreferredGap(ComponentPlacement.RELATED))
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblGenerate_1, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblGenerate2_1, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addGroup(pnlGraphLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+												.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
+											.addGap(340))
+										.addGroup(pnlGraphLayout.createSequentialGroup()
+											.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)))
+									.addGap(225))
 								.addGroup(pnlGraphLayout.createSequentialGroup()
-									.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap())))
+									.addComponent(pnlTestSmells, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+									.addGap(797))))
 				);
 				pnlGraphLayout.setVerticalGroup(
 					pnlGraphLayout.createParallelGroup(Alignment.LEADING)
@@ -1440,16 +1445,16 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
+							.addGap(5)
+							.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblGenerate, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblGenerate_1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnVisualize))
 							.addPreferredGap(ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
 							.addGroup(pnlGraphLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblGenerate2_1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnVisualizeTreemap))
 							.addGap(1)
 							.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))

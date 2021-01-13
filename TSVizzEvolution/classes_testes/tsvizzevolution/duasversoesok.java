@@ -35,6 +35,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -93,6 +94,8 @@ public class duasversoesok extends JFrame {
     private JPanel pnlTimeline;
 	private JPanel pnlVisualization ;
 	private JPanel pnlMethod;
+	private JPanel pnlProgress;
+	public JProgressBar progress;
 
 	public JPanel classe;
 	public JPanel metodo;
@@ -107,9 +110,33 @@ public class duasversoesok extends JFrame {
     private static final String VIRGULA = ",";
     private static String nomeDoArquivo;
     private JLabel lblLoad;
-    private JPanel pnlProgress;
-	
 
+
+
+	public Thread progressoT = new Thread() {
+		
+		@Override
+		public void run(){
+
+			progress.setValue(0);			
+			
+//			System.out.println("Entrou na Thread");
+	
+			for (int i = 0; i <= 50; i++) {
+				progress.setValue(i);
+				try {
+					Thread.sleep(20);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		};
+	};
     public static int converteInteiro(String valor) {
         try {
             return Integer.parseInt(valor);
@@ -128,7 +155,6 @@ public class duasversoesok extends JFrame {
 		setContentPane(contentPane);
 		setResizable(false);
 
-		
 		// Para abrir no centro da Tela
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -145,7 +171,10 @@ public class duasversoesok extends JFrame {
         pnlMethod.setVisible(false); 
 		lblGenerate.setVisible(true);
 		lblGenerate2.setVisible(false);
- 		
+
+		btnVisualizeGraph.setEnabled(false);
+		btnVisualizeTimeline.setEnabled(false);
+		
         cbLevel.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
                 if (event.getItem().equals("A Specific Test Smells")) {
@@ -598,157 +627,193 @@ public class duasversoesok extends JFrame {
         return listaMetodosClasse1;
     }
     private void btnGerarGrafoActionPerformed(ActionEvent evt) {
-        try {
-            System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-            Graph graph1 = new MultiGraph("TSVizzEvolution");
-    		//setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault1.getText())));
-            String linha = null;
+    	pnlProgress.setVisible(true);
 
-            List listaDeLinhasInt = new ArrayList();
-            List listaDeLinhas = new ArrayList();
-            List listaMetodos = new ArrayList();
-            String cabecalho;
-
-            cabecalho = reader.readLine();
-
-            String[] cabecalhoLista = cabecalho.split(VIRGULA);
-            for (int i = 10; i < cabecalhoLista.length; i++) {
-                graph1.addNode(cabecalhoLista[i] + "_1");
-                Node n = graph1.getNode(cabecalhoLista[i] + "_1");
-                n.setAttribute("ui.label", cabecalhoLista[i] + "_1");
-                n.addAttribute("ui.class", "quadradoTS");
-                double x = (Math.random() * ((1000000) + 1));
-                double y = (Math.random() * ((1000000) + 1));
-                n.setAttribute("x", x);
-                n.setAttribute("y", y);
-
-            }
-
-            if (cabecalho != null) {
-                while ((linha = reader.readLine()) != null) {
-                    String[] dados = linha.split(VIRGULA);
-                    listaDeLinhas.add(dados);
-                    int[] valorInteiros = new int[dados.length];
-
-                    for (int i = 0; i < dados.length; i++) {
-                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
-                    }
-                    listaDeLinhasInt.add(valorInteiros);
-                }
-                
-            }
-
-            BufferedReader reader2 = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault2.getText())));
-            String linha2 = null;
-
-            List listaDeLinhasInt2 = new ArrayList();
-            List listaDeLinhas2 = new ArrayList();
-            String cabecalho2;
-
-            cabecalho2 = reader2.readLine();
-
-            String[] cabecalhoLista2 = cabecalho2.split(VIRGULA);
-            for (int i = 10; i < cabecalhoLista2.length; i++) {
-                graph1.addNode(cabecalhoLista2[i] + "_2");
-                Node n = graph1.getNode(cabecalhoLista2[i] + "_2");
-                n.setAttribute("ui.label", cabecalhoLista2[i] + "_2");
-                n.addAttribute("ui.class", "quadradoTS");
-                double x = (Math.random() * ((1000000) + 1));
-                double y = (Math.random() * ((1000000) + 1));
-                n.setAttribute("x", x);
-                n.setAttribute("y", y);
-
-            }
-            if (cabecalho2 != null) {
-                while ((linha2 = reader2.readLine()) != null) {
-                    String[] dados = linha2.split(VIRGULA);
-                    listaDeLinhas2.add(dados);
-                    int[] valorInteiros = new int[dados.length];
-
-                    for (int i = 0; i < dados.length; i++) {
-                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
-                    }
-                    listaDeLinhasInt2.add(valorInteiros);
-                }
-
-            }
-
-            //----------------------------------------------------------------------------------------------------------
-            String f = "All Test Classes";
-            String selecionado = (String) cbLevel.getSelectedItem();
-            int coluna = 0;
-            if (selecionado.equals("Project")) {
-                coluna = 5;
-                f = "Project";
-            }else {
-                coluna = 6;
-            }
-            List<ClassMethod> listaMetodosClasse1 = CriaListaDeMetodos(txtFilePathMethod.getText());
-            List<ClassMethod> listaMetodosClasse2 = CriaListaDeMetodos(txtFilePathMethod2.getText());
-            List<Data> l1 = retornaDados(txtFilePathDefault1.getText(), f);
-            List<Data> l2 = retornaDados(txtFilePathDefault2.getText(), f);
-            String filtro = "";
-            try {
-            	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
-                    CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1, txtFilePathDefault1.getText(), selecionado, l1);
-                    CriaGrafoCompleto(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, coluna, 2, txtFilePathDefault2.getText(), selecionado, l2);
-                } else {
-                	if (selecionado.equals("A Specific Test Class")) {
-                		filtro = (String) cbClass.getSelectedItem();
-                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
-                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 2, txtFilePathDefault2.getText(), l2);
-                        graph1 = criaNosInexistentes(graph1, concatenaLista(listaDeLinhas, listaDeLinhas2));
-
-                	}else if (selecionado.equals("Author")){
-                	    filtro = (String) cbTestSmells.getSelectedItem();
-                	    String filtroAutor = (String) cbAuthor.getSelectedItem();
-                        CriaGrafoParcialAutor(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, filtroAutor, coluna, 1, txtFilePathDefault1.getText(), l1);
-                        CriaGrafoParcialAutor(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, filtroAutor, coluna, 2, txtFilePathDefault2.getText(), l2);
-
-                	}else if (true){
-                	    String testSmell = (String) cbTestSmells.getSelectedItem();
-                	    String classe  = (String) cbClass.getSelectedItem();
-                	    CriaGrafoMetodos(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, testSmell, classe, coluna, 1, txtFilePathDefault1.getText(), l1, listaMetodosClasse1);
-                        CriaGrafoMetodos(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, testSmell, classe, coluna, 2, txtFilePathDefault1.getText(), l2, listaMetodosClasse2);
-                    }else{
-                		filtro = (String) cbTestSmells.getSelectedItem();
-                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
-                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 1, txtFilePathDefault2.getText(), l2);
-                        graph1 = removeVertices(graph1, filtro);
-                	}
-                }
-            	graph1 = removeVerticesDoisLados(graph1);
-                graph1 = CriaLegenda(graph1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-           // String path = System.getProperty("user.dir").replace('\\', '/');
-            graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
-            if (graph1.getNodeCount() == 1){
-                String msg = "";
-                if (selecionado.equals("Author")) {
-                    msg = "<html>The combination Test Smells x Author does not exist!";
-                }
-                if (selecionado.equals("A Specific Test Smells")) {
-                    msg = "<html>The selected Test Smells has no occurrences in the selected csv file!";
-                }
-                JOptionPane optionPane = new JOptionPane();
-                optionPane.setMessage(msg);
-                optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-                JDialog dialog = optionPane.createDialog(null, "Warning");
-                dialog.setVisible(true);
-                
-            }else {
-                Viewer v = graph1.display();
-                v.disableAutoLayout();
-            }
+		iniciaProcessamento();
+    }
+    
+    private void iniciaProcessamento() {
+		progress.setValue(0);
+		pnlProgress.add(progress);
+		
+		new Thread() {
+			
+			@Override
+			public void run(){
+				progress.setValue(0);
+				progressoT.run();
+	        try {
+	            System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+	            Graph graph1 = new MultiGraph("TSVizzEvolution");
+	    		//setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault1.getText())));
+	            String linha = null;
+	
+	            List listaDeLinhasInt = new ArrayList();
+	            List listaDeLinhas = new ArrayList();
+	            List listaMetodos = new ArrayList();
+	            String cabecalho;
+	
+	            cabecalho = reader.readLine();
+	
+	            String[] cabecalhoLista = cabecalho.split(VIRGULA);
+	            for (int i = 10; i < cabecalhoLista.length; i++) {
+	                graph1.addNode(cabecalhoLista[i] + "_1");
+	                Node n = graph1.getNode(cabecalhoLista[i] + "_1");
+	                n.setAttribute("ui.label", cabecalhoLista[i] + "_1");
+	                n.addAttribute("ui.class", "quadradoTS");
+	                double x = (Math.random() * ((1000000) + 1));
+	                double y = (Math.random() * ((1000000) + 1));
+	                n.setAttribute("x", x);
+	                n.setAttribute("y", y);
+	
+	            }
+				progress.setValue(55);
+	            if (cabecalho != null) {
+	                while ((linha = reader.readLine()) != null) {
+	                    String[] dados = linha.split(VIRGULA);
+	                    listaDeLinhas.add(dados);
+	                    int[] valorInteiros = new int[dados.length];
+	
+	                    for (int i = 0; i < dados.length; i++) {
+	                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
+	                    }
+	                    listaDeLinhasInt.add(valorInteiros);
+	                }
+	                
+	            }
+	
+	            BufferedReader reader2 = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault2.getText())));
+	            String linha2 = null;
+	
+	            List listaDeLinhasInt2 = new ArrayList();
+	            List listaDeLinhas2 = new ArrayList();
+	            String cabecalho2;
+	
+	            cabecalho2 = reader2.readLine();
+	
+	            String[] cabecalhoLista2 = cabecalho2.split(VIRGULA);
+	            for (int i = 10; i < cabecalhoLista2.length; i++) {
+	                graph1.addNode(cabecalhoLista2[i] + "_2");
+	                Node n = graph1.getNode(cabecalhoLista2[i] + "_2");
+	                n.setAttribute("ui.label", cabecalhoLista2[i] + "_2");
+	                n.addAttribute("ui.class", "quadradoTS");
+	                double x = (Math.random() * ((1000000) + 1));
+	                double y = (Math.random() * ((1000000) + 1));
+	                n.setAttribute("x", x);
+	                n.setAttribute("y", y);
+	
+	            }
+	            if (cabecalho2 != null) {
+	                while ((linha2 = reader2.readLine()) != null) {
+	                    String[] dados = linha2.split(VIRGULA);
+	                    listaDeLinhas2.add(dados);
+	                    int[] valorInteiros = new int[dados.length];
+	
+	                    for (int i = 0; i < dados.length; i++) {
+	                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
+	                    }
+	                    listaDeLinhasInt2.add(valorInteiros);
+	                }
+	
+	            }
+	
+	            //----------------------------------------------------------------------------------------------------------
+	            progress.setValue(75);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+	            String f = "All Test Classes";
+	            String selecionado = (String) cbLevel.getSelectedItem();
+	            int coluna = 0;
+	            if (selecionado.equals("Project")) {
+	                coluna = 5;
+	                f = "Project";
+	            }else {
+	                coluna = 6;
+	            }
+	            List<ClassMethod> listaMetodosClasse1 = CriaListaDeMetodos(txtFilePathMethod.getText());
+	            List<ClassMethod> listaMetodosClasse2 = CriaListaDeMetodos(txtFilePathMethod2.getText());
+	            List<Data> l1 = retornaDados(txtFilePathDefault1.getText(), f);
+	            List<Data> l2 = retornaDados(txtFilePathDefault2.getText(), f);
+	            String filtro = "";
+	            progress.setValue(78);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+	            try {
+	            	 if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
+	                    CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1, txtFilePathDefault1.getText(), selecionado, l1);
+	                    CriaGrafoCompleto(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, coluna, 2, txtFilePathDefault2.getText(), selecionado, l2);
+	                } else {
+	                	if (selecionado.equals("A Specific Test Class")) {
+	                		filtro = (String) cbClass.getSelectedItem();
+	                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
+	                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 2, txtFilePathDefault2.getText(), l2);
+	                        graph1 = criaNosInexistentes(graph1, concatenaLista(listaDeLinhas, listaDeLinhas2));
+	
+	                	}else if (selecionado.equals("Author")){
+	                	    filtro = (String) cbTestSmells.getSelectedItem();
+	                	    String filtroAutor = (String) cbAuthor.getSelectedItem();
+	                        CriaGrafoParcialAutor(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, filtroAutor, coluna, 1, txtFilePathDefault1.getText(), l1);
+	                        CriaGrafoParcialAutor(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, filtroAutor, coluna, 2, txtFilePathDefault2.getText(), l2);
+	
+	                	}else if (true){
+	                	    String testSmell = (String) cbTestSmells.getSelectedItem();
+	                	    String classe  = (String) cbClass.getSelectedItem();
+	                	    CriaGrafoMetodos(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, testSmell, classe, coluna, 1, txtFilePathDefault1.getText(), l1, listaMetodosClasse1);
+	                        CriaGrafoMetodos(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, testSmell, classe, coluna, 2, txtFilePathDefault1.getText(), l2, listaMetodosClasse2);
+	                    }else{
+	                		filtro = (String) cbTestSmells.getSelectedItem();
+	                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
+	                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 1, txtFilePathDefault2.getText(), l2);
+	                        graph1 = removeVertices(graph1, filtro);
+	                	}
+	                }
+	            	graph1 = removeVerticesDoisLados(graph1);
+	                graph1 = CriaLegenda(graph1);
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	           // String path = System.getProperty("user.dir").replace('\\', '/');
+	            
+	            graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
+	        	progress.setValue(99);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				progress.setValue(100);
+				progressoT.interrupt();
+	            if (graph1.getNodeCount() == 1){
+	                String msg = "";
+	                if (selecionado.equals("Author")) {
+	                    msg = "<html>The combination Test Smells x Author does not exist!";
+	                }
+	                if (selecionado.equals("A Specific Test Smells")) {
+	                    msg = "<html>The selected Test Smells has no occurrences in the selected csv file!";
+	                }
+	                JOptionPane optionPane = new JOptionPane();
+	                optionPane.setMessage(msg);
+	                optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+	                JDialog dialog = optionPane.createDialog(null, "Warning");
+	                dialog.setVisible(true);
+	                
+	            }else {
+	                Viewer v = graph1.display();
+	                v.disableAutoLayout();
+	            }
         } catch (IOException ex) {
             Logger.getLogger(duasversoesok.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
+		}
+	}
+}.start();
+}
     private static Graph CriaLegenda(Graph graph1){
         graph1.addNode("-");
         Node n = graph1.getNode("-");
@@ -1158,6 +1223,9 @@ public class duasversoesok extends JFrame {
         cbClass.setModel(new DefaultComboBoxModel<>(a));
 
         cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
+        
+        btnVisualizeGraph.setEnabled(true);
+		btnVisualizeTimeline.setEnabled(true);
 
 	}
     public static int retornaDadosDoisNos(String a, String b, String filtro, List<Data> l){
@@ -1755,6 +1823,14 @@ public class duasversoesok extends JFrame {
         btnSearchMethod = new JButton();
         lblGenerate = new JLabel();
 		lblGenerate2 = new JLabel();
+		progress = new JProgressBar(0, 100);
+		pnlProgress = new JPanel();
+		
+		pnlProgress.setVisible(false);
+
+		progress.setStringPainted(true);
+		progress.setValue(0);
+		progress.setSize(new Dimension(100, 23));
 		
 		lblGenerate2.setVisible(false);	
 
@@ -2098,9 +2174,7 @@ public class duasversoesok extends JFrame {
    					.addContainerGap(16, Short.MAX_VALUE))
    		);
    		pnlTestSmells.setLayout(gl_pnlTestSmells);
-   		
-   		pnlProgress = new JPanel();
-   		
+   		   		
    		GroupLayout gl_pnlGraph = new GroupLayout(pnlGraph);
    		gl_pnlGraph.setHorizontalGroup(
    			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
@@ -2111,31 +2185,26 @@ public class duasversoesok extends JFrame {
    							.addComponent(lblLoad, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
    							.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(295, Short.MAX_VALUE))
+   							.addContainerGap(479, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlVisualization, GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+   							.addComponent(pnlVisualization, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
    							.addGap(329))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(220, Short.MAX_VALUE))
+   							.addContainerGap(404, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(213, Short.MAX_VALUE))
+   							.addContainerGap(397, Short.MAX_VALUE))
+   						.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
    						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(268, Short.MAX_VALUE))
-   						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlClass, GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+   							.addComponent(pnlClass, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
    							.addGap(203))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(lblCsv2)
-   							.addContainerGap(490, Short.MAX_VALUE))
+   							.addContainerGap(674, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlMethod, GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+   							.addComponent(pnlMethod, GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)
    							.addContainerGap())
-   						.addGroup(gl_pnlGraph.createSequentialGroup()
-   							.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap(248, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
    								.addGroup(gl_pnlGraph.createSequentialGroup()
@@ -2146,7 +2215,7 @@ public class duasversoesok extends JFrame {
    									.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
    									.addPreferredGap(ComponentPlacement.RELATED)
    									.addComponent(btnVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)))
-   							.addContainerGap(147, Short.MAX_VALUE))
+   							.addContainerGap(331, Short.MAX_VALUE))
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 536, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -2158,7 +2227,10 @@ public class duasversoesok extends JFrame {
    						.addComponent(lblCsv1)
    						.addGroup(gl_pnlGraph.createSequentialGroup()
    							.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
-   							.addContainerGap())))
+   							.addContainerGap())
+   						.addGroup(gl_pnlGraph.createSequentialGroup()
+   							.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+   							.addContainerGap(452, Short.MAX_VALUE))))
    		);
    		gl_pnlGraph.setVerticalGroup(
    			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
@@ -2192,9 +2264,9 @@ public class duasversoesok extends JFrame {
    					.addPreferredGap(ComponentPlacement.RELATED)
    					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
    					.addPreferredGap(ComponentPlacement.RELATED)
-   					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-   					.addPreferredGap(ComponentPlacement.RELATED)
    					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+   					.addPreferredGap(ComponentPlacement.RELATED)
+   					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
    					.addGap(11)
    					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)
    						.addComponent(lblGenerate, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
