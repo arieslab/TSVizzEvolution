@@ -798,6 +798,9 @@ public class GraphTwoVersions extends JFrame {
 	                if (selecionado.equals("A Specific Test Smells")) {
 	                    msg = "<html>The selected Test Smells has no occurrences in the selected csv file!";
 	                }
+					if (selecionado.equals("Methods")) {
+						msg = "<html>The combination Test Class x Test Smells does not exist!";
+					}
 	                JOptionPane optionPane = new JOptionPane();
 	                optionPane.setMessage(msg);
 	                optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
