@@ -1337,6 +1337,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		lblGenerate2_1= new JLabel("Click here to generate the visualization :");
 		lblGenerate2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
+		btnVisualize.setEnabled(false);
+		btnVisualizeTreemap.setEnabled(false);
 
 		// btnVisualizeTreemap = new JButton();
 		// btnVisualizeTreemap.setText("Generate Treemap View");
