@@ -11,10 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -343,7 +340,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
-//            txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+            //txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -354,7 +351,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
-//            txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_5.csv");
+          //  txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_5.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -366,7 +363,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
-//            txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+           // txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -377,7 +374,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
-//            txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+           // txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -595,7 +592,19 @@ public class GraphTwoVersions extends JFrame {
                 for (int i = 0; i < listaMetodos.size(); i++) {
                     String[] dado_linha = (String[]) listaMetodos.get(i);
                     if (obj.classe.equals(dado_linha[1]) && obj.testSmell.equals(dado_linha[7])) {
-                        obj.addMethods(dado_linha[8]);
+                        int begin;
+                        int end;
+                        try {
+                            begin = Integer.valueOf(dado_linha[10]);
+                        }catch (Exception e){
+                            begin = 0;
+                        }
+                        try {
+                            end = Integer.valueOf(dado_linha[10]);
+                        }catch (Exception e){
+                            end = 0;
+                        }
+                        obj.addMethods(new MetodoData(dado_linha[8], begin, end));
                     }
                 }
             }
@@ -714,7 +723,7 @@ public class GraphTwoVersions extends JFrame {
 	                coluna = 6;
 	            }
 	            List<ClassMethod> listaMetodosClasse1 = CriaListaDeMetodos(txtFilePathMethod.getText());
-                txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv"); //depois tirar essa linha
+               // txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv"); //depois tirar essa linha
 	            List<ClassMethod> listaMetodosClasse2 = CriaListaDeMetodos(txtFilePathMethod2.getText());
 	            List<Data> l1 = retornaDados(txtFilePathDefault1.getText(), f);
 	            List<Data> l2 = retornaDados(txtFilePathDefault2.getText(), f);
@@ -1129,7 +1138,7 @@ public class GraphTwoVersions extends JFrame {
         }
         if (graph1.getEdgeCount() > 0) {
             for (ClassMethod obj : listaMetodosClasse) {
-                for (String metodo : obj.metodos) {
+                for (MetodoData metodo : obj.metodos) {
                     try {
                         graph1.addNode(metodo + complemento);
                         Node n1 = graph1.getNode(metodo + complemento);
@@ -1142,7 +1151,7 @@ public class GraphTwoVersions extends JFrame {
                         if (obj.classe.equals(classe)){
 //                            Node nodeClasse = graph1.getNode(obj.classe + complemento);
 //                            if (nodeClasse.hasEdgeBetween(obj.testSmell + complemento))
-                                graph1.addEdge(metodo + complemento, obj.classe + complemento, metodo + complemento);
+                                graph1.addEdge(metodo.metodo + complemento, obj.classe + complemento, metodo.metodo + complemento);
                         }
                     } catch (Exception e) {
                     }
@@ -1199,7 +1208,7 @@ public class GraphTwoVersions extends JFrame {
 
         a = concatena(a, a2);
         b = concatena(b, b2);
-        c = concatena(c, c2);
+        c = concatena_autor(c, c2);
 
         cbAuthor.setModel(new DefaultComboBoxModel<>(c));
 
@@ -1689,15 +1698,39 @@ public class GraphTwoVersions extends JFrame {
             }
         }
         Collections.sort(resposta);
-        resposta.add(0, "All");
         resposta.remove(1);
         String[] resposta_final = new String[resposta.size()];
         for (int i = 0; i < resposta.size(); i++) {
-            resposta_final[i] = (String) resposta.get(i);
+             resposta_final[i] = (String) resposta.get(i);
         }
         return resposta_final;
     }
     @SuppressWarnings("unchecked")
+
+    private String[] concatena_autor(String[] lista1, String[] lista2){
+        List<String> lista = new ArrayList<>();
+        for (int i = 0; i < lista1.length; i++){
+            lista.add(lista1[i]);
+        }
+        for (int i = 0; i < lista2.length; i++){
+            boolean achou = false;
+            for (int j = 0; j < lista.size(); j++){
+                if (lista.get(j).equals(lista2[i])){
+                    achou = true;
+                }
+            }
+            if (!achou){
+                lista.add(lista2[i]);
+            }
+        }
+        Collections.sort(lista);
+        lista.add(0, "All");
+        String[] resultado = new String[lista.size()];
+        for (int i = 0; i < lista.size(); i++){
+            resultado[i] = lista.get(i);
+        }
+        return resultado;
+    }
 
     private String[] concatena(String[] lista1, String[] lista2){
         List<String> lista = new ArrayList<>();
@@ -1742,7 +1775,7 @@ public class GraphTwoVersions extends JFrame {
 
             a = concatena(a, a2);
             b = concatena(b, b2);
-            c = concatena(c, c2);
+            c = concatena_autor(c, c2);
             cbAuthor.setModel(new DefaultComboBoxModel<>(c));
             cbClass.setModel(new DefaultComboBoxModel<>(a));
             cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
@@ -1823,8 +1856,52 @@ public class GraphTwoVersions extends JFrame {
         return resposta_final;
     }
 
-    private void initComponents() throws IOException {
+    private List<ClassMethod> retorna_lista_classe_metodo() throws IOException {
+        List<ClassMethod> listaMetodosClasse = new ArrayList<>();
+        List listaMetodos = new ArrayList();
+        String linha = null;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathMethod.getText())));
+        while ((linha = reader.readLine()) != null) {
+            String[] dados = linha.split(VIRGULA);
+            listaMetodos.add(dados);
+        }
 
+        for (int i = 0; i < listaMetodos.size(); i++) {
+            boolean tem = false;
+            String[] dado_linha = (String[]) listaMetodos.get(i);
+            for (ClassMethod obj : listaMetodosClasse) {
+                if (dado_linha[1].equals(obj.classe)) {
+                    tem = true;
+                }
+            }
+            if (tem == false) {
+                listaMetodosClasse.add(new ClassMethod(dado_linha[1]));
+            }
+        }
+        for (ClassMethod obj : listaMetodosClasse) {
+            for (int i = 0; i < listaMetodos.size(); i++) {
+                String[] dado_linha = (String[]) listaMetodos.get(i);
+                if (obj.classe.equals(dado_linha[1])) {
+                    int begin;
+                    int end;
+                        try {
+                            begin = Integer.valueOf(dado_linha[10]);
+                        }catch (Exception e){
+                            begin = 0;
+                        }
+                    try {
+                        end = Integer.valueOf(dado_linha[10]);
+                    }catch (Exception e){
+                        end = 0;
+                    }
+                    obj.addMethods(new MetodoData(dado_linha[8], begin, end));
+                }
+            }
+        }
+        return listaMetodosClasse;
+    }
+
+    private void initComponents() throws IOException {
         pnlGraph = new JPanel();
 		pnlLevel = new JPanel();
 		pnlTimeline = new JPanel();
@@ -1941,7 +2018,7 @@ public class GraphTwoVersions extends JFrame {
         		cbTimelineActionPerformed(evt);
             }
         });
-		   
+
         cbLevel = new JComboBox<>();
         cbLevel.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author", "Methods"}));
         cbLevel.addActionListener(new ActionListener() {
@@ -1993,6 +2070,40 @@ public class GraphTwoVersions extends JFrame {
         lblAuthor.setText("Select A Specific Author or All:");
 
         cbAuthor = new JComboBox<>();
+
+        cbAuthor.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (!String.valueOf(cbAuthor.getSelectedItem()).equals("All")) {
+                    try {
+                        if (e.getStateChange() == ItemEvent.SELECTED) {
+                            String[] result = carrega_lista_autor_test(txtFilePathDefault1.getText(), String.valueOf(cbAuthor.getSelectedItem()));
+                            cbTestSmells.setModel(new DefaultComboBoxModel<>(result));
+                            cbTestSmells.removeAllItems();
+                            for (String test : result) {
+                                cbTestSmells.addItem(test);
+                            }
+                        } else {
+                        }
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                }else{
+                    try {
+                        String[] result = carrega_lista_cabecalho(txtFilePathDefault1.getText());
+                        Arrays.sort(result);
+                        cbTestSmells.removeAllItems();
+                        for (String test : result) {
+                            cbTestSmells.addItem(test);
+                        }
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
 
         lblClass = new JLabel();
         lblClass.setText("Select a Test Class:");
@@ -2079,6 +2190,26 @@ public class GraphTwoVersions extends JFrame {
   		btnSearchMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
   		lblSelectTheSecond.setFont(new Font("Tahoma", Font.PLAIN, 16));
  		txtFilePathMethod2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+
+        cbSelectMethod = new JComboBox<String>();
+        cbClass.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                try {
+                    List<ClassMethod> l = retorna_lista_classe_metodo();
+                    cbSelectMethod.removeAllItems();
+                    for(ClassMethod obj: l){
+                        if(obj.classe.equals(String.valueOf(cbClass.getSelectedItem())))
+                            for(MetodoData Metodos: obj.metodos){
+                                cbSelectMethod.addItem(Metodos.metodo);
+                            }
+                    }
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+            }
+        });
  		   	
    		GroupLayout gl_pnlClass = new GroupLayout(pnlClass);
    		gl_pnlClass.setHorizontalGroup(

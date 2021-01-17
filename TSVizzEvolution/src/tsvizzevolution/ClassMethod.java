@@ -6,8 +6,9 @@ import java.util.List;
 public class ClassMethod {
 
     public String classe;
-    public List<String> metodos;
+    public List<MetodoData> metodos;
     public String testSmell;
+
 
     public ClassMethod(String classe) {
         this.classe = classe;
@@ -20,9 +21,9 @@ public class ClassMethod {
         this.metodos = new ArrayList();
     }
 
-    public void addMethods(String metodo){
+    public void addMethods(MetodoData metodo){
         for(int i = 0; i < metodos.size(); i++){
-            if (metodo.equals(metodos.get(i))){
+            if (metodo.metodo.equals(metodos.get(i).metodo)){
                 return;
             }
         }

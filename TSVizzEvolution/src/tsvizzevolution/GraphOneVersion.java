@@ -5,18 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.*;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +33,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private JComboBox<String> cbTestSmells;
 	private JComboBox<String> cbAuthor;
 	private JComboBox<String> cbVisualization;
+	private JComboBox<String> cbSelectMethod;
 
 	private JLabel lblSelectCsv;
 	private JLabel lblLevel;
@@ -111,6 +103,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		} catch (NumberFormatException e) {
 			return 0;
 		}
+	}
+
+	public void onchange_combo(){
+
 	}
 
 	public GraphOneVersion() throws IOException {
@@ -183,7 +179,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathDefault1.setText(file.getPath());
-//			txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+			//txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
 			nomeDoArquivo = file.getName();
 			btnGerarUploadActionPerformed(evt);
 
@@ -245,7 +241,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 																													// a
 																													// borda
 		pacote.setPreferredSize(new Dimension(1000, 500));
-		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecerï¿½ logo que passe 0,5 segundos
+		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecerÃ¯Â¿Â½ logo que passe 0,5 segundos
 		painel.add(pacote);
 
 		List<Data> dados1 = retornaDados(fileName1, filtro);
@@ -265,19 +261,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			
 			String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\"face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
             classe.setToolTipText(html_classe);
-/*
-			JLabel nomeTesteSmells = new JLabel(d.nome + ":");
-			nomeTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
-
-			String ocorrencias = "" + d.valor;
-			JLabel qtdTesteSmells = new JLabel(ocorrencias);
-			qtdTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
-*/
-			// classe.setToolTipText(html_classe);
 			pacote.add(classe);
-			//classe.add(nomeTesteSmells);
-			//classe.add(qtdTesteSmells);
-
 		}
 
 	}
@@ -305,12 +289,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	}
 
 	private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
-		
-		
 		pnlProgress.setVisible(true);
-
 		iniciaProcessamento();
-		
 	}
 
 	private void iniciaProcessamento() {
@@ -406,7 +386,19 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							for (int i = 0; i < listaMetodos.size(); i++) {
 								String[] dado_linha = (String[]) listaMetodos.get(i);
 								if (obj.classe.equals(dado_linha[1])) {
-									obj.addMethods(dado_linha[8]);
+									int begin;
+									int end;
+									try {
+										begin = Integer.valueOf(dado_linha[10]);
+									}catch (Exception e){
+										begin = 0;
+									}
+									try {
+										end = Integer.valueOf(dado_linha[10]);
+									}catch (Exception e){
+										end = 0;
+									}
+									obj.addMethods(new MetodoData(dado_linha[8], begin, end));
 								}
 							}
 						}
@@ -628,10 +620,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		}
 		if (graph1.getEdgeCount() > 0) {
 			for (ClassMethod obj : listaMetodosClasse) {
-				for (String metodo : obj.metodos) {
+				for (MetodoData metodo : obj.metodos) {
 					try {
-						graph1.addNode(metodo);
-						Node n1 = graph1.getNode(metodo);
+						graph1.addNode(metodo.metodo);
+						Node n1 = graph1.getNode(metodo.metodo);
 						n1.setAttribute("ui.label", metodo);
 						n1.addAttribute("ui.class", "metodo");
 						double x = (Math.random() * ((1000000) + 1) + 1000000);
@@ -639,7 +631,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						n1.setAttribute("x", x);
 						n1.setAttribute("y", y);
 						if (obj.classe.equals(classe))
-							graph1.addEdge(metodo, obj.classe, metodo);
+							graph1.addEdge(metodo.metodo, obj.classe, metodo.metodo);
 					} catch (Exception e) {
 					}
 				}
@@ -1135,7 +1127,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		return resposta_final;
 	}
 
-	//FUNÃ‡ÃƒO PARA ADICIONAR QUANDO ARRUMAR A FUNÃ‡ÃƒO DO COMBO BOX
+	//FUNÃƒâ€¡ÃƒÆ’O PARA ADICIONAR QUANDO ARRUMAR A FUNÃƒâ€¡ÃƒÆ’O DO COMBO BOX
 	public static String[] carrega_lista_autor_test(String path, String autor) throws IOException {
 		List<String> resposta_final_array = new ArrayList();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -1160,6 +1152,51 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			resposta_final[i] = (String) resposta_final_array.get(i);
 		}
 		return resposta_final;
+	}
+
+	private List<ClassMethod> retorna_lista_classe_metodo() throws IOException {
+		List<ClassMethod> listaMetodosClasse = new ArrayList<>();
+		List listaMetodos = new ArrayList();
+		String linha = null;
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathMethod.getText())));
+		while ((linha = reader.readLine()) != null) {
+			String[] dados = linha.split(VIRGULA);
+			listaMetodos.add(dados);
+		}
+
+		for (int i = 0; i < listaMetodos.size(); i++) {
+			boolean tem = false;
+			String[] dado_linha = (String[]) listaMetodos.get(i);
+			for (ClassMethod obj : listaMetodosClasse) {
+				if (dado_linha[1].equals(obj.classe)) {
+					tem = true;
+				}
+			}
+			if (tem == false) {
+				listaMetodosClasse.add(new ClassMethod(dado_linha[1]));
+			}
+		}
+		for (ClassMethod obj : listaMetodosClasse) {
+			for (int i = 0; i < listaMetodos.size(); i++) {
+				String[] dado_linha = (String[]) listaMetodos.get(i);
+				if (obj.classe.equals(dado_linha[1])) {
+					int begin;
+					int end;
+					try {
+						begin = Integer.valueOf(dado_linha[10]);
+					}catch (Exception e){
+						begin = 0;
+					}
+					try {
+						end = Integer.valueOf(dado_linha[10]);
+					}catch (Exception e){
+						end = 0;
+					}
+					obj.addMethods(new MetodoData(dado_linha[8], begin, end));
+				}
+			}
+		}
+		return listaMetodosClasse;
 	}
 
 	private void cbVisualizationActionPerformed(ActionEvent evt) {
@@ -1190,14 +1227,18 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private void initComponents() throws IOException {
 		btnChooseFileSearch = new JButton();
 		btnSearchMethod = new JButton();
+
 		progress = new JProgressBar(0, 100);
+
 		cbTestSmells = new JComboBox<>();
+
 		lblSelectCsv = new JLabel();
 		lblSelectClass = new JLabel();
 		lblSelectTestSmells = new JLabel();
 		lblAuthor = new JLabel();
 		lblGenerate = new JLabel();
 		lblGenerate2 = new JLabel();
+
 		pnlClass = new JPanel();
 		pnlTestSmells = new JPanel();
 		pnlAuthor = new JPanel();
@@ -1211,55 +1252,28 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		pnlSelectMethod = new JPanel();
 
 		cbClass = new JComboBox<>();
-		//se opção metodos de acordo com a classe carregar os metodos criar função carrega_lista_metodos
-				/*cbClass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						cbClassActionPerformed(evt);
-					}
-				});
-				String selecionado4 = (String) cbClass.getSelectedItem();
-				if (selecionado4.equals("")) { // se for igual metodos carrega os metodos
-					cbClass.addItemListener(new ItemListener() {
-						public void itemStateChanged(ItemEvent event) {
-							if (event.getItem().equals("")) {*/
-		
 		cbAuthor = new JComboBox<>();
-		//de acordo com o autor carregar o test smells chamar função carrega_lista_autor
-		/*cbAuthor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				cbAuthorActionPerformed(evt);
-			}
-		});
-		String selecionado3 = (String) cbVisualization.getSelectedItem();
-		if (selecionado3.equals("")) { // se for igual autor carrega os test smells deles
-			cbAuthor.addItemListener(new ItemListener() {
-				public void itemStateChanged(ItemEvent event) {
-					if (event.getItem().equals("")) {*/
-		//chamar a função 
-		pnlSelectMethod.setVisible(false);
 
+		pnlSelectMethod.setVisible(false);
 		pnlProgress.setVisible(false);
+
 		progress.setStringPainted(true);
 		progress.setValue(0);
 		progress.setSize(new Dimension(100, 23));
-;
+
 		pnlbutton.setVisible(false);
 
-		
 		lblGenerate2.setVisible(false);
-
 		lblSelectTheCsvMethod = new JLabel();
 		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
 
 		txtFilePathMethod = new JTextField();
 //		txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
-
 		txtFilePathDefault1 = new JTextField();
 
 		pnlUpload.setVisible(true);
 		pnlMethod.setVisible(false);
 		pnlSelectMethod.setVisible(false);
-
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -1276,6 +1290,60 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				}
 			}
 		});
+
+		cbAuthor.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (!String.valueOf(cbAuthor.getSelectedItem()).equals("All")) {
+					try {
+						if (e.getStateChange() == ItemEvent.SELECTED) {
+							String[] result = carrega_lista_autor_test(txtFilePathDefault1.getText(), String.valueOf(cbAuthor.getSelectedItem()));
+							cbTestSmells.setModel(new DefaultComboBoxModel<>(result));
+							cbTestSmells.removeAllItems();
+							for (String test : result) {
+								cbTestSmells.addItem(test);
+							}
+						} else {
+						}
+					} catch (Exception exception) {
+						exception.printStackTrace();
+					}
+				}else{
+					try {
+						String[] result = carrega_lista_cabecalho(txtFilePathDefault1.getText());
+						Arrays.sort(result);
+						cbTestSmells.removeAllItems();
+						for (String test : result) {
+							cbTestSmells.addItem(test);
+						}
+					} catch (IOException ioException) {
+						ioException.printStackTrace();
+					}
+
+				}
+			}
+		});
+
+		cbSelectMethod = new JComboBox<String>();
+		cbClass.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					List<ClassMethod> l = retorna_lista_classe_metodo();
+					cbSelectMethod.removeAllItems();
+					for(ClassMethod obj: l){
+						if(obj.classe.equals(String.valueOf(cbClass.getSelectedItem())))
+							for(MetodoData Metodos: obj.metodos){
+								cbSelectMethod.addItem(Metodos.metodo);
+							}
+					}
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
+
+			}
+		});
+
 
 		btnSearchMethod.setText("Search ...");
 		btnSearchMethod.addActionListener(new java.awt.event.ActionListener() {
@@ -1406,11 +1474,11 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				
 		JLabel lblMethodMethod = new JLabel();
 		lblMethodMethod.setText("Select a Method:");
-		
-		JComboBox<String> cbSelectMethod = new JComboBox<String>();
 
 		lblMethodMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+
 
 		GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
 		gl_pnlMethod.setHorizontalGroup(
