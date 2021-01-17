@@ -93,11 +93,12 @@ public class duasversoesok extends JFrame {
 	private JPanel pnlVisualization ;
 	private JPanel pnlMethod;
 	private JPanel pnlProgress;
+	private JPanel pnlSelectMethod;
 	public JProgressBar progress;
-
 	public JPanel classe;
 	public JPanel metodo;
 	public JPanel contentPane;
+	
 	public JFrame frame;
 
     private JTextField txtFilePathDefault1; 
@@ -111,14 +112,9 @@ public class duasversoesok extends JFrame {
 
 
 	public Thread progressoT = new Thread() {
-		
 		@Override
 		public void run(){
-
-			progress.setValue(0);			
-			
-//			System.out.println("Entrou na Thread");
-	
+			progress.setValue(0);				
 			for (int i = 0; i <= 50; i++) {
 				progress.setValue(i);
 				try {
@@ -134,6 +130,8 @@ public class duasversoesok extends JFrame {
 			}
 		};
 	};
+	private JLabel lblSelectMethod;
+	private JComboBox<String> cbSelectMethod;
     public static int converteInteiro(String valor) {
         try {
             return Integer.parseInt(valor);
@@ -146,7 +144,7 @@ public class duasversoesok extends JFrame {
 
 		setTitle("TSVizzEvolution");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 710, 694);
+		setBounds(100, 100, 710, 584);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -168,9 +166,29 @@ public class duasversoesok extends JFrame {
         pnlMethod.setVisible(false); 
 		lblGenerate.setVisible(true);
 		lblGenerate2.setVisible(false);
+		pnlSelectMethod.setVisible(false);
 
 		btnVisualizeGraph.setEnabled(false);
 		btnVisualizeTimeline.setEnabled(false);
+
+		GroupLayout gl_pnlSelectMethod = new GroupLayout(pnlSelectMethod);
+		gl_pnlSelectMethod.setHorizontalGroup(
+			gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlSelectMethod.createSequentialGroup()
+					.addComponent(lblSelectMethod, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+					.addGap(140))
+		);
+		gl_pnlSelectMethod.setVerticalGroup(
+			gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlSelectMethod.createSequentialGroup()
+					.addGap(3)
+					.addGroup(gl_pnlSelectMethod.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblSelectMethod)
+						.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+		);
+		pnlSelectMethod.setLayout(gl_pnlSelectMethod);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -178,7 +196,7 @@ public class duasversoesok extends JFrame {
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 656, GroupLayout.PREFERRED_SIZE)
+				.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 625, GroupLayout.PREFERRED_SIZE)
 		);
 		GroupLayout gl_pnlGraph = new GroupLayout(pnlGraph);
 		gl_pnlGraph.setHorizontalGroup(
@@ -199,10 +217,11 @@ public class duasversoesok extends JFrame {
 						.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE)
 						.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 674, GroupLayout.PREFERRED_SIZE)
+						.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 481, GroupLayout.PREFERRED_SIZE)
 						.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
 							.addComponent(lblGenerate, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
@@ -216,7 +235,6 @@ public class duasversoesok extends JFrame {
 		gl_pnlGraph.setVerticalGroup(
 			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlGraph.createSequentialGroup()
-					.addGap(16)
 					.addComponent(lblCsv1)
 					.addGap(6)
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
@@ -224,10 +242,9 @@ public class duasversoesok extends JFrame {
 						.addComponent(btnChooseFileSearch1))
 					.addGap(13)
 					.addComponent(lblCsv2)
-					.addGap(6)
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addGap(3)
+							.addGap(6)
 							.addComponent(txtFilePathDefault2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnChooseFileSearch2))
 					.addGap(6)
@@ -235,15 +252,17 @@ public class duasversoesok extends JFrame {
 					.addGap(6)
 					.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
-					.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
-					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
 					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
 					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
 					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addGap(6)
+					.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
@@ -269,26 +288,32 @@ public class duasversoesok extends JFrame {
                     pnlClass.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(false);
+            		pnlSelectMethod.setVisible(false);
                 } else if (event.getItem().equals("A Specific Test Class")) {
                     pnlClass.setVisible(true);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(false);
+            		pnlSelectMethod.setVisible(false);
                 } else if (event.getItem().equals("Author")) {
                     pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(true);
                     pnlAuthor.setVisible(true);
                     pnlMethod.setVisible(false);
+            		pnlSelectMethod.setVisible(false);
                 } else if (event.getItem().equals("Methods")) {
                     pnlClass.setVisible(true);
-                    pnlTestSmells.setVisible(true);
+                    pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(true);
+            		pnlSelectMethod.setVisible(true);
                 } else {
                     pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(false);
+            		pnlSelectMethod.setVisible(false);
+
                 }
             }
         });
@@ -297,14 +322,16 @@ public class duasversoesok extends JFrame {
             public void itemStateChanged(ItemEvent event) {
             	if (event.getItem().equals("Methods")) {
             		pnlClass.setVisible(true);
-                    pnlTestSmells.setVisible(true);
+                    pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(true);
+                    pnlSelectMethod.setVisible(true);
                 } else {
                     pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(false);
+                    pnlSelectMethod.setVisible(false);
                 }
             }
         });
@@ -316,6 +343,7 @@ public class duasversoesok extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
+//            txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -326,6 +354,7 @@ public class duasversoesok extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
+//            txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_5.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -337,6 +366,7 @@ public class duasversoesok extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
+//            txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -347,6 +377,7 @@ public class duasversoesok extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
+//            txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -390,123 +421,7 @@ public class duasversoesok extends JFrame {
 	jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	frame.getContentPane().add(jScrollPane);
 	}
-/*
-    private void btnGerarTreemapActionPerformed(ActionEvent evt) {
-        frame = new JFrame();
-        frame.setVisible(true);
-        frame.setPreferredSize(new Dimension( 1500, 1200));
-        frame.setMaximumSize(frame.getPreferredSize());
-        frame.setMinimumSize(frame.getPreferredSize());
-        frame.setTitle("TSVizzEvolution");
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        painel.setBackground(Configurations.corPainel); //seta a cor de fundo
-        painel.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-        painel.setPreferredSize(new Dimension( 1500, 1200 ));
-        painel.setMaximumSize(painel.getPreferredSize());
-        painel.setMinimumSize(painel.getPreferredSize());
-        frame.getContentPane().add(painel);
-        try {
-            String selecionado = (String) cbTimeline.getSelectedItem();
-            CriaTreeMapView(txtFilePathDefault1.getText(), txtFilePathDefault2.getText(), selecionado, painel);
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        JScrollPane jScrollPane = new JScrollPane(painel);
-        jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        frame.getContentPane().add(jScrollPane);
-    }
-    	
-	private void CriaTreeMapView(String fileName1, String fileName2, String filtro, JPanel painel){
-        JLabel versao1 = new JLabel ("V1");
-        versao1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-        painel.add(versao1);
-
-        JPanel pacote = new JPanel();
-        pacote.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        pacote.setBackground(Configurations.corPacote); //seta a cor de fundo
-        pacote.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
-        pacote.setPreferredSize(new Dimension(1000, 750));
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
-        painel.add(pacote);
-
-
-        JPanel espaco = new JPanel();
-        espaco.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        espaco.setBackground(Color.WHITE); //seta a cor de fundo
-        espaco.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
-        espaco.setPreferredSize(new Dimension(1700, 40 ));
-
-        painel.add(espaco);
-
-        JLabel versao2 = new JLabel ("V2");
-        versao2.setFont(new Font("Tahoma", Font.PLAIN, 22));
-        painel.add(versao2);
-
-        JPanel pacote2 = new JPanel();
-        pacote2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        pacote2.setBackground(Configurations.corPacote); //seta a cor de fundo
-        pacote2.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
-        pacote2.setPreferredSize(new Dimension(1000, 750));
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
-
-        painel.add(pacote2);
-
-
-        List<Data> dados1 = retornaDados(fileName1, filtro);
-        List<Data> dados2 = retornaDados(fileName2, filtro);
-        arrumaDados(dados1, dados2);
-        dados1 = OrdenaPeloNumeroOcorrencias(dados1);
-        dados2 = OrdenaPeloNumeroOcorrencias(dados2);
-
-        int maior_valor = dados1.get(0).valor;
-        Random rand = new Random();
-        for (Data d: dados1){
-            float r = rand.nextFloat();
-            float g = rand.nextFloat();
-            float b = rand.nextFloat();
-            classe = new JPanel();
-            classe.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            Color c = new Color(r, g, b);
-            classe.setBackground(c); //seta a cor de fundo
-            classe.setBorder(BorderFactory.createLineBorder(Configurations.bordaPacote, 1)); // seta a borda
-            classe.setPreferredSize(new Dimension((d.valor*500)/maior_valor, (d.valor*500)/maior_valor));
-            //String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
-            
-            JLabel nomeTesteSmells = new JLabel (d.nome+ ":");
-            nomeTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
-
-            String ocorrencias = ""+d.valor;
-            JLabel qtdTesteSmells = new JLabel (ocorrencias);
-            qtdTesteSmells.setFont(new Font("Tahoma", Font.PLAIN, 18));
-
-            //classe.setToolTipText(html_classe);
-            pacote.add(classe);
-            classe.add(nomeTesteSmells);
-            classe.add(qtdTesteSmells);
-
-        }
-
-        for (Data d: dados2){
-            float r = rand.nextFloat();
-            float g = rand.nextFloat();
-            float b = rand.nextFloat();
-            classe = new JPanel();
-            classe.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-            Color c = new Color(r, g, b);
-            classe.setBackground(c); //seta a cor de fundo
-            classe.setBorder(BorderFactory.createLineBorder(Configurations.bordaPacote, 1)); // seta a borda
-            classe.setPreferredSize(new Dimension((d.valor*500)/maior_valor, (d.valor*500)/maior_valor));
-            String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
-            classe.setToolTipText(html_classe);
-            pacote2.add(classe);
-        }
-    }
-*/
 	private int criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2, int tam){
 
         JLabel versao1 = new JLabel ("V1");
@@ -520,16 +435,6 @@ public class duasversoesok extends JFrame {
         ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
         painel.add(pacote);
 
-//        JPanel espaco = new JPanel();
-//        espaco.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-//        espaco.setBackground(Color.WHITE); //seta a cor de fundo
-//        espaco.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-//        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
-//        espaco.setPreferredSize(new Dimension(900, 10 ));
-//        //espaco.setPreferredSize(new Dimension(tam*204, Configurations.alturaPainel ));
-
-       // painel.add(espaco);
-
         JLabel versao2 = new JLabel ("V2");
         versao2.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		painel.add(versao2);
@@ -542,19 +447,6 @@ public class duasversoesok extends JFrame {
         
         painel.add(pacote2);
 
-//        JPanel espaco2 = new JPanel();
-//        espaco2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-//        espaco2.setBackground(Color.WHITE); //seta a cor de fundo
-//        espaco2.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-//        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
-//       // espaco2.setPreferredSize(new Dimension(900, 10 ));
-//        espaco2.setPreferredSize(new Dimension(tam*204, Configurations.alturaPainel ));
-//
-//        painel.add(espaco2);
-
-        //JLabel legenda = new JLabel (" COLOR LEGEND         ");
-        //legenda.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        //painel.add(legenda);
 
         String [] colunas = {"Category","V1","V2","V2 Ocurrences ","Color V1", "Color V2"};
         
@@ -569,8 +461,6 @@ public class duasversoesok extends JFrame {
         tabelaLegenda.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);        // Configura a largura para 100 pixels
         int vColIndex = 0;
         TableColumn col = tabelaLegenda.getColumnModel().getColumn(vColIndex);
-        //int width = 300;
-        //col.setPreferredWidth(width);
         
         JTableHeader header = tabelaLegenda.getTableHeader();
         header.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -824,6 +714,7 @@ public class duasversoesok extends JFrame {
 	                coluna = 6;
 	            }
 	            List<ClassMethod> listaMetodosClasse1 = CriaListaDeMetodos(txtFilePathMethod.getText());
+                txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv"); //depois tirar essa linha
 	            List<ClassMethod> listaMetodosClasse2 = CriaListaDeMetodos(txtFilePathMethod2.getText());
 	            List<Data> l1 = retornaDados(txtFilePathDefault1.getText(), f);
 	            List<Data> l2 = retornaDados(txtFilePathDefault2.getText(), f);
@@ -1249,8 +1140,8 @@ public class duasversoesok extends JFrame {
                         n1.setAttribute("x", x);
                         n1.setAttribute("y", y);
                         if (obj.classe.equals(classe)){
-                            Node nodeClasse = graph1.getNode(obj.classe + complemento);
-                            if (nodeClasse.hasEdgeBetween(obj.testSmell + complemento))
+//                            Node nodeClasse = graph1.getNode(obj.classe + complemento);
+//                            if (nodeClasse.hasEdgeBetween(obj.testSmell + complemento))
                                 graph1.addEdge(metodo + complemento, obj.classe + complemento, metodo + complemento);
                         }
                     } catch (Exception e) {
@@ -1797,12 +1688,14 @@ public class duasversoesok extends JFrame {
             	resposta.add(classe);
             }
         }
+        Collections.sort(resposta);
+        resposta.add(0, "All");
+        resposta.remove(1);
         String[] resposta_final = new String[resposta.size()];
-        for(int i = 0; i < resposta.size() - 1; i++){
-        	resposta_final[i] = (String) resposta.get(i+1);
+        for (int i = 0; i < resposta.size(); i++) {
+            resposta_final[i] = (String) resposta.get(i);
         }
-        resposta_final[resposta.size() - 1] = "All";
-		return resposta_final;
+        return resposta_final;
     }
     @SuppressWarnings("unchecked")
 
@@ -1904,6 +1797,32 @@ public class duasversoesok extends JFrame {
         return false;
     }
 
+    public static String[] carrega_lista_autor_test(String path, String autor) throws IOException {
+        List<String> resposta_final_array = new ArrayList();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+        String[] cabecalho = reader.readLine().split(VIRGULA);
+        String linha = null;
+        while ((linha = reader.readLine()) != null) {
+            String[] dados = linha.split(VIRGULA);
+            if(autor.equals(dados[1])){
+                for(int i=10; i<dados.length; i++){
+                    if(!dados[i].equals("")){
+                        if(!dados[i].equals("0")){
+                            if(!resposta_final_array.contains(cabecalho[i]))
+                                resposta_final_array.add(cabecalho[i]);
+                        }
+                    }
+                }
+            }
+        }
+        Collections.sort(resposta_final_array);
+        String[] resposta_final = new String[resposta_final_array.size()];
+        for (int i = 0; i < resposta_final_array.size(); i++) {
+            resposta_final[i] = (String) resposta_final_array.get(i);
+        }
+        return resposta_final;
+    }
+
     private void initComponents() throws IOException {
 
         pnlGraph = new JPanel();
@@ -1917,7 +1836,9 @@ public class duasversoesok extends JFrame {
 		lblGenerate2 = new JLabel();
 		progress = new JProgressBar(0, 100);
 		pnlProgress = new JPanel();
+		pnlSelectMethod = new JPanel();
 		
+		pnlSelectMethod.setVisible(false);
 		pnlProgress.setVisible(false);
 
 		progress.setStringPainted(true);
@@ -1975,6 +1896,7 @@ public class duasversoesok extends JFrame {
                  public void itemStateChanged(ItemEvent event) {
                      if (event.getItem().equals("Graph View")) {
                          pnlMethod.setVisible(false);
+                         pnlSelectMethod.setVisible(false);
                          pnlLevel.setVisible(true);
                          pnlTimeline.setVisible(false);
                          btnVisualizeGraph.setVisible(true);
@@ -1994,6 +1916,7 @@ public class duasversoesok extends JFrame {
                          pnlMethod.setVisible(false);
                          lblGenerate.setVisible(false);
  						 lblGenerate2.setVisible(true);
+                         pnlSelectMethod.setVisible(false);
                      } /*else if (event.getItem().equals("Treemap View")) {
                      	pnlClass.setVisible(false);
                         pnlTestSmells.setVisible(false);
@@ -2100,11 +2023,9 @@ public class duasversoesok extends JFrame {
  		
  		lblSelectTheSecond = new JLabel();
  		lblSelectTheSecond.setText("Select the second .csv File (By Test Smells JNose) :");
- 		lblSelectTheSecond.setFont(new Font("Tahoma", Font.PLAIN, 16));
  		   		
  		txtFilePathMethod2 = new JTextField();
- 		txtFilePathMethod2.setFont(new Font("Tahoma", Font.PLAIN, 14));
- 		   			
+ 				
  		btnSearchMethod2 = new JButton();
  		btnSearchMethod2.setText("Search ...");
  	    btnSearchMethod2.addActionListener(new java.awt.event.ActionListener() {
@@ -2119,35 +2040,46 @@ public class duasversoesok extends JFrame {
  	    });
   		
   		lblGenerate.setText("Click here to generate the visualization :");
-  		
   		lblGenerate2.setText("Click here to generate the visualization :");
+  				
+		lblSelectMethod = new JLabel();
+		lblSelectMethod.setText("Select a Method:");
+
+		cbSelectMethod = new JComboBox<String>();
+		pnlSelectMethod.setVisible(false);
+
+  		lblSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cbSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
   		lblGenerate.setFont(new Font("Tahoma", Font.PLAIN, 16));
   		lblGenerate2.setFont(new Font("Tahoma", Font.PLAIN, 16)); 		   		
- 		 btnSearchMethod2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         btnChooseFileSearch1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         btnChooseFileSearch2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         btnVisualizeTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
+ 		btnSearchMethod2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnChooseFileSearch1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnChooseFileSearch2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnVisualizeTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
      //    btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         cbAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         cbVisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         cbTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         lblTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         lblCsv1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         lblCsv2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         lblLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         lblClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         lblTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         lblAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         lblVisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
-         txtFilePathDefault1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-         txtFilePathDefault2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-         txtFilePathMethod.setFont(new Font("Tahoma", Font.PLAIN, 14));
-  		 lblSelectTheCsvMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
-  		 btnSearchMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cbAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cbVisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cbTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblCsv1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblCsv2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        lblVisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        txtFilePathDefault1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        txtFilePathDefault2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        txtFilePathMethod.setFont(new Font("Tahoma", Font.PLAIN, 14));
+  		lblSelectTheCsvMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+  		btnSearchMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+  		lblSelectTheSecond.setFont(new Font("Tahoma", Font.PLAIN, 16));
+ 		txtFilePathMethod2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+ 		   	
    		GroupLayout gl_pnlClass = new GroupLayout(pnlClass);
    		gl_pnlClass.setHorizontalGroup(
    			gl_pnlClass.createParallelGroup(Alignment.LEADING)
@@ -2247,8 +2179,6 @@ public class duasversoesok extends JFrame {
    		);
    		pnlTestSmells.setLayout(gl_pnlTestSmells);
    		
-   		
-   		
    		GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
    		gl_pnlMethod.setHorizontalGroup(
    			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
@@ -2256,31 +2186,33 @@ public class duasversoesok extends JFrame {
    					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING)
    						.addComponent(lblSelectTheCsvMethod)
    						.addGroup(gl_pnlMethod.createSequentialGroup()
+   							.addGap(2)
    							.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
    							.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
    						.addComponent(lblSelectTheSecond, GroupLayout.PREFERRED_SIZE, 456, GroupLayout.PREFERRED_SIZE)
    						.addGroup(gl_pnlMethod.createSequentialGroup()
+   							.addGap(2)
    							.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
    							.addComponent(btnSearchMethod2, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
-   					.addContainerGap(140, Short.MAX_VALUE))
+   					.addContainerGap(29, Short.MAX_VALUE))
    		);
    		gl_pnlMethod.setVerticalGroup(
    			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
    				.addGroup(gl_pnlMethod.createSequentialGroup()
    					.addGap(9)
    					.addComponent(lblSelectTheCsvMethod)
-   					.addGap(18)
+   					.addPreferredGap(ComponentPlacement.RELATED)
    					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
-   						.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-   						.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+   						.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+   						.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
    					.addPreferredGap(ComponentPlacement.RELATED)
    					.addComponent(lblSelectTheSecond, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
    					.addPreferredGap(ComponentPlacement.RELATED)
    					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
-   						.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-   						.addComponent(btnSearchMethod2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+   						.addComponent(btnSearchMethod2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+   						.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
    					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
    		);
    		pnlMethod.setLayout(gl_pnlMethod);
