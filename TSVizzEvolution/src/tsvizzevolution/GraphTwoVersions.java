@@ -67,7 +67,8 @@ public class GraphTwoVersions extends JFrame {
     private JComboBox<String> cbAuthor;  
     private JComboBox<String> cbVisualization;
     private JComboBox<String> cbTimeline;
-    
+    private JComboBox<String> cbSelectMethod;
+
     private JLabel lblTimeline;
     private JLabel lblCsv1;
     private JLabel lblCsv2;
@@ -78,9 +79,10 @@ public class GraphTwoVersions extends JFrame {
     private JLabel lblVisualization;
     private JLabel lblSelectTheCsvMethod;
     private JLabel lblSelectTheSecond;
-    private JLabel lblGenerate;
-	private JLabel lblGenerate2;
-    
+    private JLabel lblVisualizeGraph;
+	private JLabel lblVisualizeTimeline;
+	private JLabel lblSelectMethod;
+
     private JPanel pnlClass;
     private JPanel pnlTestSmells;
     private JPanel pnlAuthor;
@@ -127,9 +129,8 @@ public class GraphTwoVersions extends JFrame {
 			}
 		};
 	};
-	private JLabel lblSelectMethod;
-	private JComboBox<String> cbSelectMethod;
-    public static int converteInteiro(String valor) {
+
+	public static int converteInteiro(String valor) {
         try {
             return Integer.parseInt(valor);
         } catch (NumberFormatException e) {
@@ -161,8 +162,8 @@ public class GraphTwoVersions extends JFrame {
         btnVisualizeGraph.setVisible(true);
         btnVisualizeTimeline.setVisible(false);
         pnlMethod.setVisible(false); 
-		lblGenerate.setVisible(true);
-		lblGenerate2.setVisible(false);
+		lblVisualizeGraph.setVisible(true);
+		lblVisualizeTimeline.setVisible(false);
 		pnlSelectMethod.setVisible(false);
 
 		btnVisualizeGraph.setEnabled(false);
@@ -174,8 +175,8 @@ public class GraphTwoVersions extends JFrame {
 				.addGroup(gl_pnlSelectMethod.createSequentialGroup()
 					.addComponent(lblSelectMethod, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-					.addGap(140))
+					.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 247, GroupLayout.PREFERRED_SIZE)
+					.addGap(71))
 		);
 		gl_pnlSelectMethod.setVerticalGroup(
 			gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
@@ -220,11 +221,11 @@ public class GraphTwoVersions extends JFrame {
 						.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addComponent(lblGenerate, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblVisualizeGraph, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
 							.addComponent(btnVisualizeGraph, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addComponent(lblGenerate2, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
 							.addComponent(btnVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE))
 						.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)))
@@ -264,13 +265,13 @@ public class GraphTwoVersions extends JFrame {
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
 							.addGap(4)
-							.addComponent(lblGenerate))
+							.addComponent(lblVisualizeGraph))
 						.addComponent(btnVisualizeGraph))
 					.addGap(11)
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
 							.addGap(4)
-							.addComponent(lblGenerate2))
+							.addComponent(lblVisualizeTimeline))
 						.addComponent(btnVisualizeTimeline))
 					.addGap(6)
 					.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -340,7 +341,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
-            //txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+         //   txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -351,7 +352,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
-          //  txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_5.csv");
+           // txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_5.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -363,7 +364,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
-           // txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+        //    txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -374,7 +375,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
-           // txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+          //  txtFilePathMethod2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\softwar\\eall_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -463,9 +464,9 @@ public class GraphTwoVersions extends JFrame {
         header.setFont(new Font("Tahoma", Font.BOLD, 12));
              
         painel.add(new JScrollPane(tabelaLegenda));
-
+        //txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         List<ClassMethod> l1 = CriaListaDeMetodos(txtFilePathMethod.getText());
-        List<ClassMethod> l2 = CriaListaDeMetodos(txtFilePathMethod.getText());
+        List<ClassMethod> l2 = CriaListaDeMetodos(txtFilePathMethod2.getText());
         List<Data> dados1 = retornaDados(fileName1, filtro);
         List<Data> dados2 = retornaDados(fileName2, filtro);
         arrumaDados(dados1, dados2);
@@ -600,11 +601,11 @@ public class GraphTwoVersions extends JFrame {
                             begin = 0;
                         }
                         try {
-                            end = Integer.valueOf(dado_linha[10]);
+                            end = Integer.valueOf(dado_linha[11]);
                         }catch (Exception e){
                             end = 0;
                         }
-                        obj.addMethods(new MetodoData(dado_linha[8], begin, end));
+                        obj.addMethods(new MethodData(dado_linha[8], begin, end));
                     }
                 }
             }
@@ -1138,20 +1139,18 @@ public class GraphTwoVersions extends JFrame {
         }
         if (graph1.getEdgeCount() > 0) {
             for (ClassMethod obj : listaMetodosClasse) {
-                for (MetodoData metodo : obj.metodos) {
+                for (MethodData metodo : obj.metodos) {
                     try {
-                        graph1.addNode(metodo + complemento);
-                        Node n1 = graph1.getNode(metodo + complemento);
-                        n1.setAttribute("ui.label", metodo + complemento);
+                        graph1.addNode(metodo.metodo + complemento);
+                        Node n1 = graph1.getNode(metodo.metodo + complemento);
+                        n1.setAttribute("ui.label", metodo.metodo+ complemento + "," + metodo.begin + "-" + metodo.end);
                         n1.addAttribute("ui.class", "metodo");
                         double x = (Math.random() * ((1000000) + 1) + 1000000);
                         double y = (Math.random() * ((1000000) + 1) + 1000000);
                         n1.setAttribute("x", x);
                         n1.setAttribute("y", y);
                         if (obj.classe.equals(classe)){
-//                            Node nodeClasse = graph1.getNode(obj.classe + complemento);
-//                            if (nodeClasse.hasEdgeBetween(obj.testSmell + complemento))
-                                graph1.addEdge(metodo.metodo + complemento, obj.classe + complemento, metodo.metodo + complemento);
+                            graph1.addEdge(metodo.metodo + complemento, obj.classe + complemento, metodo.metodo + complemento);
                         }
                     } catch (Exception e) {
                     }
@@ -1697,6 +1696,7 @@ public class GraphTwoVersions extends JFrame {
             	resposta.add(classe);
             }
         }
+        resposta.remove(0);
         Collections.sort(resposta);
         resposta.remove(1);
         String[] resposta_final = new String[resposta.size()];
@@ -1890,11 +1890,11 @@ public class GraphTwoVersions extends JFrame {
                             begin = 0;
                         }
                     try {
-                        end = Integer.valueOf(dado_linha[10]);
+                        end = Integer.valueOf(dado_linha[11]);
                     }catch (Exception e){
                         end = 0;
                     }
-                    obj.addMethods(new MetodoData(dado_linha[8], begin, end));
+                    obj.addMethods(new MethodData(dado_linha[8], begin, end));
                 }
             }
         }
@@ -1909,8 +1909,8 @@ public class GraphTwoVersions extends JFrame {
 	    txtFilePathDefault1 = new JTextField();
         txtFilePathDefault2 = new JTextField();
         btnSearchMethod = new JButton();
-        lblGenerate = new JLabel();
-		lblGenerate2 = new JLabel();
+        lblVisualizeGraph = new JLabel();
+		lblVisualizeTimeline = new JLabel();
 		progress = new JProgressBar(0, 100);
 		pnlProgress = new JPanel();
 		pnlSelectMethod = new JPanel();
@@ -1922,7 +1922,7 @@ public class GraphTwoVersions extends JFrame {
 		progress.setValue(0);
 		progress.setSize(new Dimension(100, 23));
 		
-		lblGenerate2.setVisible(false);	
+		lblVisualizeTimeline.setVisible(false);	
 
 		btnVisualizeGraph = new JButton();
 		btnVisualizeGraph.setText("Generate Graph View");
@@ -1941,18 +1941,9 @@ public class GraphTwoVersions extends JFrame {
 
 
         });
-        
-   		/*btnVisualizeTreemap = new JButton("Generate Treemap View");
-   		btnVisualizeTreemap.addActionListener(new ActionListener() {
-   			public void actionPerformed(ActionEvent evt) {
-                btnGerarTreemapActionPerformed(evt);
-
-   			}
-   		});
-   		*/
-    
+          
         cbVisualization = new JComboBox<>();
-        cbVisualization.setModel(new DefaultComboBoxModel<>(new String[] {"Graph View",  "Timeline View" })); //"Treemap View"
+        cbVisualization.setModel(new DefaultComboBoxModel<>(new String[] {"Graph View",  "Timeline View" })); 
         cbVisualization.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent evt) {
         		cbVisualizationActionPerformed(evt);
@@ -1978,9 +1969,8 @@ public class GraphTwoVersions extends JFrame {
                          pnlTimeline.setVisible(false);
                          btnVisualizeGraph.setVisible(true);
                          btnVisualizeTimeline.setVisible(false);
- 						 lblGenerate.setVisible(true);
- 						 lblGenerate2.setVisible(false);
-                        // btnVisualizeTreemap.setVisible(false);
+ 						 lblVisualizeGraph.setVisible(true);
+ 						 lblVisualizeTimeline.setVisible(false);
                      } else if (event.getItem().equals("Timeline View")) {
                     	 pnlClass.setVisible(false);
                          pnlTestSmells.setVisible(false);
@@ -1989,23 +1979,11 @@ public class GraphTwoVersions extends JFrame {
                          pnlLevel.setVisible(false);
                          btnVisualizeTimeline.setVisible(true);
                          btnVisualizeGraph.setVisible(false);
-                      //   btnVisualizeTreemap.setVisible(false);
                          pnlMethod.setVisible(false);
-                         lblGenerate.setVisible(false);
- 						 lblGenerate2.setVisible(true);
+                         lblVisualizeGraph.setVisible(false);
+ 						 lblVisualizeTimeline.setVisible(true);
                          pnlSelectMethod.setVisible(false);
-                     } /*else if (event.getItem().equals("Treemap View")) {
-                     	pnlClass.setVisible(false);
-                        pnlTestSmells.setVisible(false);
-                        pnlAuthor.setVisible(false); 
-                    	pnlTimeline.setVisible(false);
-                        pnlLevel.setVisible(false);
-                        btnVisualizeTimeline.setVisible(false);
-                        btnVisualizeGraph.setVisible(false);
-                        btnVisualizeTreemap.setVisible(true);
-                        pnlUpload.setVisible(true);
-                        pnlMethod.setVisible(false);
-                    }*/
+                     } 
                      
                  }
              });           
@@ -2150,25 +2128,25 @@ public class GraphTwoVersions extends JFrame {
  	        }
  	    });
   		
-  		lblGenerate.setText("Click here to generate the visualization :");
-  		lblGenerate2.setText("Click here to generate the visualization :");
+  		lblVisualizeGraph.setText("Click here to generate the visualization :");
+  		lblVisualizeTimeline.setText("Click here to generate the visualization :");
   				
 		lblSelectMethod = new JLabel();
 		lblSelectMethod.setText("Select a Method:");
 
-		cbSelectMethod = new JComboBox<String>();
+        cbSelectMethod = new JComboBox<String>();
+
 		pnlSelectMethod.setVisible(false);
 
   		lblSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
-  		lblGenerate.setFont(new Font("Tahoma", Font.PLAIN, 16));
-  		lblGenerate2.setFont(new Font("Tahoma", Font.PLAIN, 16)); 		   		
+  		lblVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
+  		lblVisualizeTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16)); 		   		
  		btnSearchMethod2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnChooseFileSearch1.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnChooseFileSearch2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnVisualizeTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
-     //    btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
         cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
         cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
         cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -2191,7 +2169,7 @@ public class GraphTwoVersions extends JFrame {
   		lblSelectTheSecond.setFont(new Font("Tahoma", Font.PLAIN, 16));
  		txtFilePathMethod2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-        cbSelectMethod = new JComboBox<String>();
+        
         cbClass.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -2200,7 +2178,7 @@ public class GraphTwoVersions extends JFrame {
                     cbSelectMethod.removeAllItems();
                     for(ClassMethod obj: l){
                         if(obj.classe.equals(String.valueOf(cbClass.getSelectedItem())))
-                            for(MetodoData Metodos: obj.metodos){
+                            for(MethodData Metodos: obj.metodos){
                                 cbSelectMethod.addItem(Metodos.metodo);
                             }
                     }

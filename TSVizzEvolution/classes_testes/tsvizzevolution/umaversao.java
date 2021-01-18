@@ -24,7 +24,7 @@ import org.graphstream.ui.view.Viewer;
 
 public class umaversao extends javax.swing.JFrame {
 	private JButton btnChooseFileSearch;
-	private JButton btnVisualize;
+	private JButton btnVisualizeGraph;
 	private JButton btnSearchMethod;
 	private JButton btnVisualizeTreemap;
 
@@ -43,10 +43,10 @@ public class umaversao extends javax.swing.JFrame {
 	private JLabel lblSelectTheCsvMethod;
 	private JLabel lblVisualization;
 	private JLabel lblLoad;
-	private JLabel lblGenerate;
-	private JLabel lblGenerate_1;
-	private JLabel lblGenerate2;
-	private JLabel lblGenerate2_1;
+	private JLabel lblVisualizeGraph;
+	private JLabel lblVisualizeTreemap;
+	private JLabel lblSelectMethod;
+	private JLabel lblSelect;
 
 	private JPanel pnlClass;
 	private JPanel pnlTestSmells;
@@ -130,9 +130,9 @@ public class umaversao extends javax.swing.JFrame {
 		pnlMethod.setVisible(false);
 		pnlVisualization.setVisible(true);
 		btnVisualizeTreemap.setVisible(false);
-		btnVisualize.setVisible(true);
-		lblGenerate_1.setVisible(true);
-		lblGenerate2_1.setVisible(false);
+		btnVisualizeGraph.setVisible(true);
+		lblVisualizeGraph.setVisible(true);
+		lblVisualizeTreemap.setVisible(false);
 		pnlSelectMethod.setVisible(false);
 
 		cbLevel.addItemListener(new ItemListener() {
@@ -195,6 +195,7 @@ public class umaversao extends javax.swing.JFrame {
 			//txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
 			nomeDoArquivo = file.getName();
 			btnGerarUploadActionPerformed(evt);
+
 		}
 	}
 
@@ -394,11 +395,11 @@ public class umaversao extends javax.swing.JFrame {
 										begin = 0;
 									}
 									try {
-										end = Integer.valueOf(dado_linha[10]);
+										end = Integer.valueOf(dado_linha[11]);
 									}catch (Exception e){
 										end = 0;
 									}
-									obj.addMethods(new MetodoData(dado_linha[8], begin, end));
+									obj.addMethods(new MethodData(dado_linha[8], begin, end));
 								}
 							}
 						}
@@ -620,11 +621,11 @@ public class umaversao extends javax.swing.JFrame {
 		}
 		if (graph1.getEdgeCount() > 0) {
 			for (ClassMethod obj : listaMetodosClasse) {
-				for (MetodoData metodo : obj.metodos) {
+				for (MethodData metodo : obj.metodos) {
 					try {
 						graph1.addNode(metodo.metodo);
 						Node n1 = graph1.getNode(metodo.metodo);
-						n1.setAttribute("ui.label", metodo);
+						n1.setAttribute("ui.label", metodo.metodo + "," + metodo.begin + "-" + metodo.end);
 						n1.addAttribute("ui.class", "metodo");
 						double x = (Math.random() * ((1000000) + 1) + 1000000);
 						double y = (Math.random() * ((1000000) + 1) + 1000000);
@@ -1117,9 +1118,9 @@ public class umaversao extends javax.swing.JFrame {
 				resposta.add(classe);
 			}
 		}
+		resposta.remove(0);
 		Collections.sort(resposta);
 		resposta.add(0, "All");
-		resposta.remove(1);
 		String[] resposta_final = new String[resposta.size()];
 		for (int i = 0; i < resposta.size(); i++) {
 			resposta_final[i] = (String) resposta.get(i);
@@ -1127,7 +1128,6 @@ public class umaversao extends javax.swing.JFrame {
 		return resposta_final;
 	}
 
-	//FUNÃ‡ÃƒO PARA ADICIONAR QUANDO ARRUMAR A FUNÃ‡ÃƒO DO COMBO BOX
 	public static String[] carrega_lista_autor_test(String path, String autor) throws IOException {
 		List<String> resposta_final_array = new ArrayList();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -1188,11 +1188,11 @@ public class umaversao extends javax.swing.JFrame {
 						begin = 0;
 					}
 					try {
-						end = Integer.valueOf(dado_linha[10]);
+						end = Integer.valueOf(dado_linha[11]);
 					}catch (Exception e){
 						end = 0;
 					}
-					obj.addMethods(new MetodoData(dado_linha[8], begin, end));
+					obj.addMethods(new MethodData(dado_linha[8], begin, end));
 				}
 			}
 		}
@@ -1216,13 +1216,11 @@ public class umaversao extends javax.swing.JFrame {
 		cbClass.setModel(new DefaultComboBoxModel<>(a));
 		cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
 		
-		btnVisualize.setEnabled(true);
+		btnVisualizeGraph.setEnabled(true);
 		btnVisualizeTreemap.setEnabled(true);
 
 
 	}
-
-	@SuppressWarnings("unchecked")
 
 	private void initComponents() throws IOException {
 		btnChooseFileSearch = new JButton();
@@ -1230,14 +1228,11 @@ public class umaversao extends javax.swing.JFrame {
 
 		progress = new JProgressBar(0, 100);
 
-		cbTestSmells = new JComboBox<>();
-
 		lblSelectCsv = new JLabel();
 		lblSelectClass = new JLabel();
 		lblSelectTestSmells = new JLabel();
 		lblAuthor = new JLabel();
-		lblGenerate = new JLabel();
-		lblGenerate2 = new JLabel();
+		lblSelectTheCsvMethod = new JLabel();
 
 		pnlClass = new JPanel();
 		pnlTestSmells = new JPanel();
@@ -1251,6 +1246,7 @@ public class umaversao extends javax.swing.JFrame {
 		pnlProgress = new JPanel();
 		pnlSelectMethod = new JPanel();
 
+		cbTestSmells = new JComboBox<>();
 		cbClass = new JComboBox<>();
 		cbAuthor = new JComboBox<>();
 
@@ -1263,8 +1259,6 @@ public class umaversao extends javax.swing.JFrame {
 
 		pnlbutton.setVisible(false);
 
-		lblGenerate2.setVisible(false);
-		lblSelectTheCsvMethod = new JLabel();
 		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
 
 		txtFilePathMethod = new JTextField();
@@ -1333,7 +1327,7 @@ public class umaversao extends javax.swing.JFrame {
 					cbSelectMethod.removeAllItems();
 					for(ClassMethod obj: l){
 						if(obj.classe.equals(String.valueOf(cbClass.getSelectedItem())))
-							for(MetodoData Metodos: obj.metodos){
+							for(MethodData Metodos: obj.metodos){
 								cbSelectMethod.addItem(Metodos.metodo);
 							}
 					}
@@ -1359,15 +1353,6 @@ public class umaversao extends javax.swing.JFrame {
 		lblSelectClass.setText("Select a Test Class:");
 		lblSelectTestSmells.setText("Select a Test Smells:");
 		lblAuthor.setText("Select A Specific Author or All:");
-	/*	btnUpload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				try {
-					btnGerarUploadActionPerformed(evt);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});*/
 
 		cbVisualization = new JComboBox<>();
 		cbVisualization.setModel(new DefaultComboBoxModel<>(new String[] { "Graph View", "Treemap View" }));
@@ -1386,22 +1371,22 @@ public class umaversao extends javax.swing.JFrame {
 						pnlMethod.setVisible(false);
 						pnlSelectMethod.setVisible(false);
 						pnlLevel.setVisible(true);
-						btnVisualize.setVisible(true);
-						lblGenerate.setVisible(true);
-						lblGenerate2.setVisible(false);
+						btnVisualizeGraph.setVisible(true);
+						lblVisualizeGraph.setVisible(true);
 						btnVisualizeTreemap.setVisible(false);
+						lblVisualizeTreemap.setVisible(false);
 					} else if (event.getItem().equals("Treemap View")) {
 						pnlClass.setVisible(false);
 						pnlTestSmells.setVisible(false);
 						pnlAuthor.setVisible(false);
 						pnlLevel.setVisible(false);
-						lblGenerate.setVisible(false);
-						lblGenerate2.setVisible(true);
-						btnVisualizeTreemap.setVisible(true);
 						pnlUpload.setVisible(true);
 						pnlMethod.setVisible(false);
-						btnVisualize.setVisible(false);
 						pnlSelectMethod.setVisible(false);
+						btnVisualizeGraph.setVisible(false);
+						lblVisualizeGraph.setVisible(false);
+						btnVisualizeTreemap.setVisible(true);
+						lblVisualizeTreemap.setVisible(true);
 					}
 
 				}
@@ -1426,7 +1411,7 @@ public class umaversao extends javax.swing.JFrame {
 
 		// });
 
-		JLabel lblSelect = new JLabel("Select a view type:");
+		lblSelect = new JLabel("Select a view type:");
 		lblSelect.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		lblLevel = new JLabel();
@@ -1442,15 +1427,15 @@ public class umaversao extends javax.swing.JFrame {
 				cbLevelActionPerformed(evt);
 			}
 		});
-		btnVisualize = new JButton();
+		btnVisualizeGraph = new JButton();
 		
-				btnVisualize.setText("Generate Graph View");
-				btnVisualize.addActionListener(new java.awt.event.ActionListener() {
+				btnVisualizeGraph.setText("Generate Graph View");
+				btnVisualizeGraph.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						btnGerarGrafoActionPerformed(evt);
 					}
 				});
-		btnVisualize.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		btnVisualizeTreemap = new JButton("Generate Treemap View");
 			btnVisualizeTreemap.addActionListener(new ActionListener() {
@@ -1460,22 +1445,22 @@ public class umaversao extends javax.swing.JFrame {
 		});
 				
 		btnVisualizeTreemap.setVisible(false);
-		btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		lblGenerate_1 = new JLabel("Click here to generate the visualization :");
-		lblGenerate_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblVisualizeGraph = new JLabel("Click here to generate the visualization :");
 		
-		lblGenerate2_1= new JLabel("Click here to generate the visualization :");
-		lblGenerate2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblVisualizeTreemap= new JLabel("Click here to generate the visualization :");
 
-		btnVisualize.setEnabled(false);
+		btnVisualizeGraph.setEnabled(false);
 		btnVisualizeTreemap.setEnabled(false);
 
 				
-		JLabel lblMethodMethod = new JLabel();
-		lblMethodMethod.setText("Select a Method:");
-
-		lblMethodMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblSelectMethod = new JLabel();
+		lblSelectMethod.setText("Select a Method:");
+		
+		btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 
@@ -1607,11 +1592,11 @@ public class umaversao extends javax.swing.JFrame {
 						.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblGenerate_1, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblVisualizeGraph, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnVisualize, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnVisualizeGraph, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addComponent(lblGenerate2_1, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
 							.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
 						.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))
@@ -1651,13 +1636,13 @@ public class umaversao extends javax.swing.JFrame {
 					.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnVisualize)
-						.addComponent(lblGenerate_1))
+						.addComponent(btnVisualizeGraph)
+						.addComponent(lblVisualizeGraph))
 					.addGap(6)
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
 							.addGap(4)
-							.addComponent(lblGenerate2_1))
+							.addComponent(lblVisualizeTreemap))
 						.addComponent(btnVisualizeTreemap))
 					.addGap(1)
 					.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -1668,7 +1653,7 @@ public class umaversao extends javax.swing.JFrame {
 			gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlSelectMethod.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblMethodMethod)
+					.addComponent(lblSelectMethod)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(39, Short.MAX_VALUE))
@@ -1678,7 +1663,7 @@ public class umaversao extends javax.swing.JFrame {
 				.addGroup(gl_pnlSelectMethod.createSequentialGroup()
 					.addGroup(gl_pnlSelectMethod.createParallelGroup(Alignment.BASELINE)
 						.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblMethodMethod))
+						.addComponent(lblSelectMethod))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		pnlSelectMethod.setLayout(gl_pnlSelectMethod);
