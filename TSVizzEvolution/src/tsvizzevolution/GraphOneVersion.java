@@ -20,6 +20,9 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
+import org.graphstream.ui.spriteManager.Sprite;
+import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 
 public class GraphOneVersion extends javax.swing.JFrame {
@@ -307,8 +310,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				try {
 					System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 					Graph graph1 = new MultiGraph("TSVizzEvolution");
-		    		//setDefaultCloseOperation(graph1.DISPOSE_ON_CLOSE);
-					
+							        
 					BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault1.getText())));
 					String linha = null;
 
@@ -475,7 +477,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					} else {
 						Viewer v = graph1.display();
 						v.disableAutoLayout();
-						setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+						v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 					}
 				} catch (IOException ex) {
 					Logger.getLogger(GraphOneVersion.class.getName()).log(Level.SEVERE, null, ex);
@@ -1063,7 +1065,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			}
 		}
 		n.setAttribute("x", maior_x + 1000);
-		n.setAttribute("y", 0);
+	    n.setAttribute("y", 0);
 		return graph1;
 	}
 

@@ -800,6 +800,7 @@ public class GraphTwoVersions extends JFrame {
 	            }else {
 	                Viewer v = graph1.display();
 	                v.disableAutoLayout();
+					v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 	            }
         } catch (IOException ex) {
             Logger.getLogger(GraphTwoVersions.class.getName()).log(Level.SEVERE, null, ex);
