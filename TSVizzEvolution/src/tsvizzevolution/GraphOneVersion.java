@@ -19,11 +19,13 @@ import javax.swing.border.EmptyBorder;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.DefaultGraph;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
+
 
 public class GraphOneVersion extends javax.swing.JFrame {
 	private JButton btnChooseFileSearch;
@@ -74,6 +76,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private static String nomeDoArquivo;
 	private JPanel pnlLevel;
 	
+	// teste
 
 	public Thread progressoT = new Thread() {
 		
@@ -81,9 +84,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		public void run(){
 
 			progress.setValue(0);			
-			
-//			System.out.println("Entrou na Thread");
-	
+				
 			for (int i = 0; i <= 50; i++) {
 				progress.setValue(i);
 				try {
@@ -138,6 +139,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		lblVisualizeTreemap.setVisible(false);
 		pnlSelectMethod.setVisible(false);
 
+		
 		cbLevel.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
 				if (event.getItem().equals("A Specific Test Smells")) {
@@ -182,7 +184,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathDefault1.setText(file.getPath());
-			//txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+//			txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
 			nomeDoArquivo = file.getName();
 			btnGerarUploadActionPerformed(evt);
 
@@ -195,10 +197,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathMethod.setText(file.getPath());
-			//txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+//			txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
 			nomeDoArquivo = file.getName();
+			cbClass.removeAllItems();
 			btnGerarUploadActionPerformed(evt);
-
 		}
 	}
 
@@ -245,7 +247,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 																													// a
 																													// borda
 		pacote.setPreferredSize(new Dimension(1000, 500));
-		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecerï¿½ logo que passe 0,5 segundos
+		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecerÃ¯Â¿Â½ logo que passe 0,5 segundos
 		painel.add(pacote);
 
 		List<Data> dados1 = retornaDados(fileName1, filtro);
@@ -309,8 +311,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				progressoT.run();
 				try {
 					System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-					Graph graph1 = new MultiGraph("TSVizzEvolution");
-							        
+					System.setProperty("org.graphstream.ui", "swing");
+					Graph graph1 = new DefaultGraph("TSVizzEvolution");
 					BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(txtFilePathDefault1.getText())));
 					String linha = null;
 
@@ -412,7 +414,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							e.printStackTrace();
 						}
 					}
-
 					try {
 						if (selecionado.equals("Project") || selecionado.equals("All Test Classes")) {
 							CriaGrafoCompleto(listaClassesInt, listaClasses, listaTestSmells, graph1, coluna, 1,
@@ -446,8 +447,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					// String path = System.getProperty("user.dir").replace('\\', '/');
 					// graph1.addAttribute("ui.stylesheet", "url('" + path +
 					// "/src/tsvizzevolution/Config.css')");
+					CriaLegenda(graph1);
 					graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
-					graph1 = CriaLegenda(graph1);
 					progress.setValue(99);
 					try {
 						Thread.sleep(100);
@@ -475,9 +476,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 					} else {
-						Viewer v = graph1.display();
-						v.disableAutoLayout();
-						v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+//						Viewer v = graph1.display();
+//						v.disableAutoLayout();
+//						v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 					}
 				} catch (IOException ex) {
 					Logger.getLogger(GraphOneVersion.class.getName()).log(Level.SEVERE, null, ex);
@@ -518,7 +519,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				}
 			}
 		}
-
 		boolean stop = false;
 		while (!stop) {
 			boolean Flag = false;
@@ -1048,24 +1048,20 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	}
 
 	private static Graph CriaLegenda(Graph graph1) {
-		graph1.addNode("-");
-		Node n = graph1.getNode("-");
-		n.addAttribute("ui.class", "legenda");
-		float maior_x = 0;
-		for (int i = 0; i < graph1.getNodeCount(); i++) {
-			Node n1 = graph1.getNode(i);
-			String value_x = "0";
-			try {
-				value_x = n1.getAttribute("x").toString();
-			} catch (Exception e) {
-
-			}
-			if (Float.parseFloat(value_x) > maior_x) {
-				maior_x = Float.parseFloat(value_x);
-			}
-		}
-		n.setAttribute("x", maior_x + 1000);
-	    n.setAttribute("y", 0);
+		SpriteManager sm = new SpriteManager(graph1);
+		Sprite legenda = sm.addSprite("legenda");
+		legenda.setPosition(StyleConstants.Units.PX, 720, 500, 0);
+		graph1.addAttribute("ui.stylesheet" , "" +
+				"sprite#legenda  {" +
+				"   size: 5px; " +
+				"   fill-color: white;  " +
+				"   icon-mode: at-left; " +
+				"   icon: url('tsvizzevolution/legenda.png');" +
+				"}"
+		);
+		Viewer v = graph1.display();
+		v.disableAutoLayout();
+		v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 		return graph1;
 	}
 
@@ -1329,8 +1325,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					cbSelectMethod.removeAllItems();
 					for(ClassMethod obj: l){
 						if(obj.classe.equals(String.valueOf(cbClass.getSelectedItem())))
-							for(MethodData Metodos: obj.metodos){
-								cbSelectMethod.addItem(Metodos.metodo);
+							if(obj.metodos.size() > 0) {
+								for (MethodData Metodos : obj.metodos) {
+									cbSelectMethod.addItem(Metodos.metodo);
+								}
 							}
 					}
 				} catch (IOException ioException) {
