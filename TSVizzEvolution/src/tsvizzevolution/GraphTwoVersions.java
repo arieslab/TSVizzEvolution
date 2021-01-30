@@ -46,6 +46,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
@@ -148,6 +149,7 @@ public class GraphTwoVersions extends JFrame {
 		setContentPane(contentPane);
 		setResizable(false);
 
+		
 		// Para abrir no centro da Tela
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -341,7 +343,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
-         //   txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+//            txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -352,7 +354,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
-           // txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_5.csv");
+//            txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_5.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -364,7 +366,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
-        //    txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
+//            txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -375,7 +377,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
-          //  txtFilePathMethod2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\softwar\\eall_report_by_testsmells.csv");
+//            txtFilePathMethod2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\softwar\\eall_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -430,7 +432,7 @@ public class GraphTwoVersions extends JFrame {
         pacote.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pacote.setBackground(Configurations.corPacote); //seta a cor de fundo
         pacote.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer· logo que passe 0,5 segundos
+        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer√° logo que passe 0,5 segundos
         painel.add(pacote);
 
         JLabel versao2 = new JLabel ("V2");
@@ -441,7 +443,7 @@ public class GraphTwoVersions extends JFrame {
         pacote2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pacote2.setBackground(Configurations.corPacote); //seta a cor de fundo
         pacote2.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer· logo que passe 0,5 segundos
+        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer√° logo que passe 0,5 segundos
         
         painel.add(pacote2);
 
@@ -494,7 +496,7 @@ public class GraphTwoVersions extends JFrame {
                     espaco3.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
                     espaco3.setBackground(Color.WHITE); //seta a cor de fundo
                     espaco3.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-                    ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer· logo que passe 0,5 segundos
+                    ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer√° logo que passe 0,5 segundos
                     espaco3.setPreferredSize(new Dimension(800, 10 ));
                     
                     pacote.add(espaco3);
@@ -765,12 +767,11 @@ public class GraphTwoVersions extends JFrame {
 	                	}
 	                }
 	            	graph1 = removeVerticesDoisLados(graph1);
-	                graph1 = CriaLegenda(graph1);
 	            } catch (Exception e) {
 	                e.printStackTrace();
 	            }
 	           // String path = System.getProperty("user.dir").replace('\\', '/');
-	            
+                CriaLegenda(graph1);
 	            graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
 	        	progress.setValue(99);
 				try {
@@ -798,9 +799,8 @@ public class GraphTwoVersions extends JFrame {
 	                dialog.setVisible(true);
 	                
 	            }else {
-	                Viewer v = graph1.display();
-	                v.disableAutoLayout();
-					v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+//	                v.disableAutoLayout();
+//					v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 	            }
         } catch (IOException ex) {
             Logger.getLogger(GraphTwoVersions.class.getName()).log(Level.SEVERE, null, ex);
@@ -808,25 +808,21 @@ public class GraphTwoVersions extends JFrame {
 	}
 }.start();
 }
-    private static Graph CriaLegenda(Graph graph1){
-        graph1.addNode("-");
-        Node n = graph1.getNode("-");
-        n.addAttribute("ui.class", "legenda");
-        float maior_x = 0;
-        for (int i = 0; i < graph1.getNodeCount(); i++) {
-            Node n1 = graph1.getNode(i);
-            String value_x = "0";
-            try{
-                value_x = n1.getAttribute("x").toString();
-            }catch (Exception e){
-
-            }
-            if (Float.parseFloat(value_x) > maior_x){
-                maior_x = Float.parseFloat(value_x);
-            }
-        }
-        n.setAttribute("x", maior_x + 1000);
-        n.setAttribute("y", 0);
+    private static Graph CriaLegenda(Graph graph1) {
+        SpriteManager sm = new SpriteManager(graph1);
+        Sprite legenda = sm.addSprite("legenda");
+        legenda.setPosition(StyleConstants.Units.PX, 720, 500, 0);
+        graph1.addAttribute("ui.stylesheet" , "" +
+                "sprite#legenda  {" +
+                "   size: 5px; " +
+                "   fill-color: white;  " +
+                "   icon-mode: at-left; " +
+                "   icon: url('tsvizzevolution/legenda.jpg');" +
+                "}"
+        );
+        Viewer v = graph1.display();
+        v.disableAutoLayout();
+        v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
         return graph1;
     }
     
