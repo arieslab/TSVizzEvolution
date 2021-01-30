@@ -7,6 +7,7 @@ node{
 
 node:clicked {
     fill-color: green;
+
 }
 
 node.quadradoTS{
@@ -40,13 +41,5 @@ node.x{
     fill-mode: image-scaled;
     fill-image: 
 url('tsvizzevolution/x.jpeg');
-
-}
-node.legenda{
-    shape: box;
-    size:180px;
-    fill-mode: image-scaled;
-    fill-image: 
-url('tsvizzevolution/legenda.png');
 
 }
