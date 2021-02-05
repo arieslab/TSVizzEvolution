@@ -26,7 +26,6 @@ import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 
-
 public class GraphOneVersion extends javax.swing.JFrame {
 	private JButton btnChooseFileSearch;
 	private JButton btnVisualizeGraph;
@@ -76,7 +75,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private static String nomeDoArquivo;
 	private JPanel pnlLevel;
 	
-	// teste
 
 	public Thread progressoT = new Thread() {
 		
@@ -84,7 +82,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		public void run(){
 
 			progress.setValue(0);			
-				
+			
+//			System.out.println("Entrou na Thread");
+	
 			for (int i = 0; i <= 50; i++) {
 				progress.setValue(i);
 				try {
@@ -139,39 +139,73 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		lblVisualizeTreemap.setVisible(false);
 		pnlSelectMethod.setVisible(false);
 
-		
 		cbLevel.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
+				String[] a = null;
 				if (event.getItem().equals("A Specific Test Smells")) {
 					pnlTestSmells.setVisible(true);
 					pnlClass.setVisible(false);
 					pnlAuthor.setVisible(false);
 					pnlMethod.setVisible(false);
 					pnlSelectMethod.setVisible(false);
+					try {
+						a = carrega_lista_linhas(txtFilePathDefault1.getText());
+						for(String item: a){
+							cbClass.addItem(item);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				} else if (event.getItem().equals("A Specific Test Class")) {
 					pnlClass.setVisible(true);
 					pnlTestSmells.setVisible(false);
 					pnlAuthor.setVisible(false);
 					pnlMethod.setVisible(false);
 					pnlSelectMethod.setVisible(false);
+					try {
+						a = carrega_lista_linhas(txtFilePathDefault1.getText());
+						for(String item: a){
+							cbClass.addItem(item);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				} else if (event.getItem().equals("Author")) {
 					pnlClass.setVisible(false);
 					pnlTestSmells.setVisible(true);
 					pnlAuthor.setVisible(true);
 					pnlMethod.setVisible(false);
 					pnlSelectMethod.setVisible(false);
+					try {
+						a = carrega_lista_linhas(txtFilePathDefault1.getText());
+						for(String item: a){
+							cbClass.addItem(item);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				} else if (event.getItem().equals("Methods")) {
 					pnlClass.setVisible(true);
 					pnlTestSmells.setVisible(false);
 					pnlAuthor.setVisible(false);
 					pnlMethod.setVisible(true);
 					pnlSelectMethod.setVisible(true);
+					cbClass.removeAllItems();
+					txtFilePathMethod.setText("");
 				} else {
 					pnlClass.setVisible(false);
 					pnlTestSmells.setVisible(false);
 					pnlAuthor.setVisible(false);
 					pnlMethod.setVisible(false);
 					pnlSelectMethod.setVisible(false);
+					try {
+						a = carrega_lista_linhas(txtFilePathDefault1.getText());
+						for(String item: a){
+							cbClass.addItem(item);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -199,8 +233,17 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			txtFilePathMethod.setText(file.getPath());
 //			txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
 			nomeDoArquivo = file.getName();
-			cbClass.removeAllItems();
-			btnGerarUploadActionPerformed(evt);
+			List<ClassMethod> l = retorna_lista_classe_metodo();
+			List<String> list = new ArrayList<>();
+			for(ClassMethod obj: l){
+				if(obj.metodos.size() != 0){
+					list.add(obj.classe);
+				}
+			}
+			Collections.sort(list);
+			for(String s: list){
+				cbClass.addItem(s);
+			}
 		}
 	}
 
@@ -247,7 +290,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 																													// a
 																													// borda
 		pacote.setPreferredSize(new Dimension(1000, 500));
-		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecerÃ¯Â¿Â½ logo que passe 0,5 segundos
+		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecerï¿½ logo que passe 0,5 segundos
 		painel.add(pacote);
 
 		List<Data> dados1 = retornaDados(fileName1, filtro);
@@ -457,7 +500,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					}
 					progress.setValue(100);
 					progressoT.interrupt();
-					if (graph1.getNodeCount() == 1) {
+					if (graph1.getNodeCount() == 0) {
 						String msg = "";
 						if (selecionado.equals("Author")) {
 							msg = "<html>The combination Test Smells x Author does not exist!";
@@ -537,7 +580,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	}
 
 	private static void CriaGrafoParcial(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1,
-			String nome, int coluna, String file) throws IOException {
+										 String nome, int coluna, String file) throws IOException {
 		List<Data> l = retornaDados(file, "All Test Classes");
 		for (int i = 0; i < listaClassesInt.size(); i++) {
 			int[] linhaInt = (int[]) listaClassesInt.get(i);
@@ -1056,7 +1099,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				"   size: 5px; " +
 				"   fill-color: white;  " +
 				"   icon-mode: at-left; " +
-				"   icon: url('tsvizzevolution/legenda.png');" +
+				"   icon: url('tsvizzevolution/legenda.jpg');" +
 				"}"
 		);
 		Viewer v = graph1.display();
@@ -1317,6 +1360,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		});
 
 		cbSelectMethod = new JComboBox<String>();
+
 		cbClass.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -1332,9 +1376,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							}
 					}
 				} catch (IOException ioException) {
-					ioException.printStackTrace();
 				}
-
 			}
 		});
 
