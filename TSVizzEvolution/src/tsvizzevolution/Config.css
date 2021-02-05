@@ -6,8 +6,7 @@ node{
 }
 
 node:clicked {
-    fill-color: green;
-
+    size: 0px;
 }
 
 node.quadradoTS{
