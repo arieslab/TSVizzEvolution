@@ -149,7 +149,6 @@ public class GraphTwoVersions extends JFrame {
 		setContentPane(contentPane);
 		setResizable(false);
 
-		
 		// Para abrir no centro da Tela
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -283,37 +282,71 @@ public class GraphTwoVersions extends JFrame {
 		
         cbLevel.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
+                String[] a = null;
                 if (event.getItem().equals("A Specific Test Smells")) {
                     pnlTestSmells.setVisible(true);
                     pnlClass.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(false);
-            		pnlSelectMethod.setVisible(false);
+                    pnlSelectMethod.setVisible(false);
+                    try {
+                        a = carrega_lista_linhas(txtFilePathDefault1.getText());
+                        for(String item: a){
+                            cbClass.addItem(item);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else if (event.getItem().equals("A Specific Test Class")) {
                     pnlClass.setVisible(true);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(false);
-            		pnlSelectMethod.setVisible(false);
+                    pnlSelectMethod.setVisible(false);
+                    try {
+                        a = carrega_lista_linhas(txtFilePathDefault1.getText());
+                        for(String item: a){
+                            cbClass.addItem(item);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else if (event.getItem().equals("Author")) {
                     pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(true);
                     pnlAuthor.setVisible(true);
                     pnlMethod.setVisible(false);
-            		pnlSelectMethod.setVisible(false);
+                    pnlSelectMethod.setVisible(false);
+                    try {
+                        a = carrega_lista_linhas(txtFilePathDefault1.getText());
+                        for(String item: a){
+                            cbClass.addItem(item);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else if (event.getItem().equals("Methods")) {
                     pnlClass.setVisible(true);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(true);
-            		pnlSelectMethod.setVisible(true);
+                    pnlSelectMethod.setVisible(true);
+                    cbClass.removeAllItems();
+                    txtFilePathMethod.setText("");
                 } else {
                     pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(false);
-            		pnlSelectMethod.setVisible(false);
-
+                    pnlSelectMethod.setVisible(false);
+                    try {
+                        a = carrega_lista_linhas(txtFilePathDefault1.getText());
+                        for(String item: a){
+                            cbClass.addItem(item);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -366,7 +399,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
-//            txtFilePathMethod.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\software\\all_report_by_testsmells.csv");
+//            txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -377,9 +410,19 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
-//            txtFilePathMethod2.setText("C:\\Users\\Adriana\\Desktop\\mestrado\\softwar\\eall_report_by_testsmells.csv");
+//            txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
             nomeDoArquivo = file.getName();
-            btnGerarUploadActionPerformed(evt);
+            List<ClassMethod> l = retorna_lista_classe_metodo();
+            List<String> list = new ArrayList<>();
+            for(ClassMethod obj: l){
+                if(obj.metodos.size() != 0){
+                    list.add(obj.classe);
+                }
+            }
+            Collections.sort(list);
+            for(String s: list){
+                cbClass.addItem(s);
+            }
         }
     }
 
@@ -781,7 +824,7 @@ public class GraphTwoVersions extends JFrame {
 				}
 				progress.setValue(100);
 				progressoT.interrupt();
-	            if (graph1.getNodeCount() == 1){
+	            if (graph1.getNodeCount() == 0){
 	                String msg = "";
 	                if (selecionado.equals("Author")) {
 	                    msg = "<html>The combination Test Smells x Author does not exist!";
@@ -2180,7 +2223,6 @@ public class GraphTwoVersions extends JFrame {
                             }
                     }
                 } catch (IOException ioException) {
-                    ioException.printStackTrace();
                 }
 
             }
