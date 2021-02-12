@@ -58,7 +58,7 @@ public class SelectVersions extends JFrame {
 	 */
 	public SelectVersions() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 558, 354);
+		setBounds(100, 100, 733, 420);
 		//setTitle("TSVizzEvolution");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -76,7 +76,7 @@ public class SelectVersions extends JFrame {
 //		
 		JLabel lblVersions = new JLabel();
 		lblVersions.setText("Select the number of versions to view: ");
-		lblVersions.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblVersions.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		cbVersions = new JComboBox();
 		cbVersions.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -103,10 +103,11 @@ public class SelectVersions extends JFrame {
 	         });
 		
 		JLabel lblTsvizzevolution = new JLabel("<html><body><b>TSVizzEvolution</body></html>");
-		lblTsvizzevolution.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblTsvizzevolution.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
 		JLabel lblTextApresentation = new JLabel();
-		lblTextApresentation.setText("<html><body>      TSVizzEvolution displays the occurrences and evolution of test smells in java software through software visualization technique.<br> First, you must select whether to review one or two versions. <br>For one version we have two views available, Graph View and Treemap View. <br>For two versions, Graph View and Timeline View.</body></html>");
+		lblTextApresentation.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTextApresentation.setText("<html><body>      TSVizzEvolution displays the occurrences and evolution of test smells in java software through software visualization technique.<br><br> First, you must select whether to review one or two versions. <br><br>For one version we have two views available, Graph View and Treemap View. <br><br>For two versions, Graph View and Timeline View.</body></html>");
 		lblTextApresentation.setHorizontalAlignment(SwingConstants.CENTER);
 				
 		JLabel lblImage = new JLabel();
@@ -137,7 +138,7 @@ public class SelectVersions extends JFrame {
 ////							}
 ////				        }
 ////				    }
-////  });					/// colocar condição se 1
+////  });					/// colocar condiÃ§Ã£o se 1
 ////				
 ////			}
 ////		});
@@ -158,31 +159,31 @@ public class SelectVersions extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
-							.addGap(20)
+							.addGap(38)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTextApresentation, GroupLayout.PREFERRED_SIZE, 424, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblVersions)
-								.addComponent(cbVersions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblTextApresentation, GroupLayout.PREFERRED_SIZE, 275, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(cbVersions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(171)
-							.addComponent(lblTsvizzevolution, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(12, Short.MAX_VALUE))
+							.addGap(199)
+							.addComponent(lblTsvizzevolution, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblTsvizzevolution, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-					.addGap(11)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblTextApresentation)
-							.addGap(25)
+							.addGap(34)
 							.addComponent(lblVersions)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(cbVersions, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE))
-					.addGap(41))
+						.addComponent(lblImage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(81, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
