@@ -2,10 +2,10 @@ package tsvizzevolution;
 
 public class MethodData {
     public String metodo;
-    public int begin;
-    public int end;
+    public String begin;
+    public String end;
 
-    public MethodData(String metodo, int begin, int end) {
+    public MethodData(String metodo, String begin, String end) {
         this.metodo = metodo;
         this.begin = begin;
         this.end = end;

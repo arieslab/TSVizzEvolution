@@ -71,7 +71,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private JTextField txtFilePathDefault1;
 	private JTextField txtFilePathMethod;
 
-	private static final String VIRGULA = ",";
+	private static final String VIRGULA = ";";
 	private static String nomeDoArquivo;
 	private JPanel pnlLevel;
 	
@@ -218,7 +218,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathDefault1.setText(file.getPath());
-//			txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+			txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
 			nomeDoArquivo = file.getName();
 			btnGerarUploadActionPerformed(evt);
 
@@ -231,7 +231,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathMethod.setText(file.getPath());
-//			txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+			txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
 			nomeDoArquivo = file.getName();
 			List<ClassMethod> l = retorna_lista_classe_metodo();
 			List<String> list = new ArrayList<>();
@@ -304,7 +304,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			classe = new JPanel();
 			classe.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			Color c = new Color(r, g, b);
-			classe.setBackground(c); // seta a cor de fundo
+			classe.setBackground(c);
 			classe.setBorder(BorderFactory.createLineBorder(Configurations.bordaPacote, 1)); // seta a borda
 			classe.setPreferredSize(new Dimension((d.valor * 500) / maior_valor, (d.valor * 500) / maior_valor));
 			
@@ -434,17 +434,17 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							for (int i = 0; i < listaMetodos.size(); i++) {
 								String[] dado_linha = (String[]) listaMetodos.get(i);
 								if (obj.classe.equals(dado_linha[1])) {
-									int begin;
-									int end;
+									String begin;
+									String end;
 									try {
-										begin = Integer.valueOf(dado_linha[10]);
+										begin = dado_linha[9];
 									}catch (Exception e){
-										begin = 0;
+										begin = "0";
 									}
 									try {
-										end = Integer.valueOf(dado_linha[11]);
+										end = dado_linha[10];
 									}catch (Exception e){
-										end = 0;
+										end = "0";
 									}
 									obj.addMethods(new MethodData(dado_linha[8], begin, end));
 								}
@@ -1099,7 +1099,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				"   size: 5px; " +
 				"   fill-color: white;  " +
 				"   icon-mode: at-left; " +
-				"   icon: url('tsvizzevolution/legenda.jpg');" +
+				"   icon: url('tsvizzevolution/legenda.png');" +
 				"}"
 		);
 		Viewer v = graph1.display();
@@ -1221,17 +1221,17 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			for (int i = 0; i < listaMetodos.size(); i++) {
 				String[] dado_linha = (String[]) listaMetodos.get(i);
 				if (obj.classe.equals(dado_linha[1])) {
-					int begin;
-					int end;
+					String begin;
+					String end;
 					try {
-						begin = Integer.valueOf(dado_linha[10]);
+						begin = dado_linha[9];
 					}catch (Exception e){
-						begin = 0;
+						begin = "0";
 					}
 					try {
-						end = Integer.valueOf(dado_linha[11]);
+						end = dado_linha[10];
 					}catch (Exception e){
-						end = 0;
+						end = "0";
 					}
 					obj.addMethods(new MethodData(dado_linha[8], begin, end));
 				}

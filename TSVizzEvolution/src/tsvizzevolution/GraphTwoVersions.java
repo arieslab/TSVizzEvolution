@@ -106,7 +106,7 @@ public class GraphTwoVersions extends JFrame {
     private JTextField txtFilePathMethod; 
     private JTextField txtFilePathMethod2;
 
-    private static final String VIRGULA = ",";
+    private static final String VIRGULA = ";";
     private static String nomeDoArquivo;
 
 
@@ -376,7 +376,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
-//            txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+            txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -387,7 +387,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
-//            txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_5.csv");
+            txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -399,7 +399,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
-//            txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+            txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -410,7 +410,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
-//            txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
+            txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
             nomeDoArquivo = file.getName();
             List<ClassMethod> l = retorna_lista_classe_metodo();
             List<String> list = new ArrayList<>();
@@ -638,17 +638,17 @@ public class GraphTwoVersions extends JFrame {
                 for (int i = 0; i < listaMetodos.size(); i++) {
                     String[] dado_linha = (String[]) listaMetodos.get(i);
                     if (obj.classe.equals(dado_linha[1]) && obj.testSmell.equals(dado_linha[7])) {
-                        int begin;
-                        int end;
+                        String begin;
+                        String end;
                         try {
-                            begin = Integer.valueOf(dado_linha[10]);
+                            begin = dado_linha[9];
                         }catch (Exception e){
-                            begin = 0;
+                            begin = "0";
                         }
                         try {
-                            end = Integer.valueOf(dado_linha[11]);
+                            end = dado_linha[10];
                         }catch (Exception e){
-                            end = 0;
+                            end = "0";
                         }
                         obj.addMethods(new MethodData(dado_linha[8], begin, end));
                     }
@@ -860,7 +860,7 @@ public class GraphTwoVersions extends JFrame {
                 "   size: 5px; " +
                 "   fill-color: white;  " +
                 "   icon-mode: at-left; " +
-                "   icon: url('tsvizzevolution/legenda.jpg');" +
+                "   icon: url('tsvizzevolution/legenda.png');" +
                 "}"
         );
         Viewer v = graph1.display();
@@ -1922,17 +1922,17 @@ public class GraphTwoVersions extends JFrame {
             for (int i = 0; i < listaMetodos.size(); i++) {
                 String[] dado_linha = (String[]) listaMetodos.get(i);
                 if (obj.classe.equals(dado_linha[1])) {
-                    int begin;
-                    int end;
+                    String begin;
+                    String end;
                         try {
-                            begin = Integer.valueOf(dado_linha[10]);
+                            begin = dado_linha[9];
                         }catch (Exception e){
-                            begin = 0;
+                            begin = "0";
                         }
                     try {
-                        end = Integer.valueOf(dado_linha[11]);
+                        end = dado_linha[10];
                     }catch (Exception e){
-                        end = 0;
+                        end = "0";
                     }
                     obj.addMethods(new MethodData(dado_linha[8], begin, end));
                 }
