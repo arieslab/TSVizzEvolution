@@ -376,7 +376,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
-            txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
+            //txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -387,7 +387,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
-            txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
+            //txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -399,7 +399,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
-            txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
+            //txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -410,7 +410,7 @@ public class GraphTwoVersions extends JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
-            txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
+            //txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
             nomeDoArquivo = file.getName();
             List<ClassMethod> l = retorna_lista_classe_metodo();
             List<String> list = new ArrayList<>();
@@ -800,8 +800,8 @@ public class GraphTwoVersions extends JFrame {
 	                	}else if (true){
 	                	    String testSmell = (String) cbTestSmells.getSelectedItem();
 	                	    String classe  = (String) cbClass.getSelectedItem();
-	                	    CriaGrafoMetodos(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, testSmell, classe, coluna, 1, txtFilePathDefault1.getText(), l1, listaMetodosClasse1);
-	                        CriaGrafoMetodos(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, testSmell, classe, coluna, 2, txtFilePathDefault1.getText(), l2, listaMetodosClasse2);
+	                	    CriaGrafoMetodos(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, testSmell, classe, coluna, 1, txtFilePathDefault1.getText(), l1, listaMetodosClasse1, (String) cbSelectMethod.getSelectedItem());
+	                        CriaGrafoMetodos(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, testSmell, classe, coluna, 2, txtFilePathDefault1.getText(), l2, listaMetodosClasse2, (String) cbSelectMethod.getSelectedItem());
 	                    }else{
 	                		filtro = (String) cbTestSmells.getSelectedItem();
 	                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
@@ -1141,7 +1141,7 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
-    private static void CriaGrafoMetodos(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1, String nome, String classe, int coluna, int flag, String file, List<Data> l, List<ClassMethod> listaMetodosClasse) throws IOException {
+    private static void CriaGrafoMetodos(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1, String nome, String classe, int coluna, int flag, String file, List<Data> l, List<ClassMethod> listaMetodosClasse, String metodoFiltro) throws IOException {
         String complemento = "";
         if (flag == 1){
             complemento = "_1";
@@ -1180,19 +1180,20 @@ public class GraphTwoVersions extends JFrame {
         if (graph1.getEdgeCount() > 0) {
             for (ClassMethod obj : listaMetodosClasse) {
                 for (MethodData metodo : obj.metodos) {
-                    try {
-                        graph1.addNode(metodo.metodo + complemento);
-                        Node n1 = graph1.getNode(metodo.metodo + complemento);
-                        n1.setAttribute("ui.label", metodo.metodo+ complemento + "," + metodo.begin + "-" + metodo.end);
-                        n1.addAttribute("ui.class", "metodo");
-                        double x = (Math.random() * ((1000000) + 1) + 1000000);
-                        double y = (Math.random() * ((1000000) + 1) + 1000000);
-                        n1.setAttribute("x", x);
-                        n1.setAttribute("y", y);
-                        if (obj.classe.equals(classe)){
-                            graph1.addEdge(metodo.metodo + complemento, obj.classe + complemento, metodo.metodo + complemento);
+                    if (obj.classe.equals(classe)) {
+                        try {
+                            graph1.addNode(metodo.metodo + complemento);
+                            Node n1 = graph1.getNode(metodo.metodo + complemento);
+                            n1.setAttribute("ui.label", metodo.metodo+ complemento + "," + metodo.begin + "-" + metodo.end);
+                            n1.addAttribute("ui.class", "metodo");
+                            double x = (Math.random() * ((1000000) + 1) + 1000000);
+                            double y = (Math.random() * ((1000000) + 1) + 1000000);
+                            n1.setAttribute("x", x);
+                            n1.setAttribute("y", y);
+                            if (metodo.metodo.equals(metodoFiltro))
+                                graph1.addEdge(metodo.metodo + complemento, obj.classe + complemento, metodo.metodo + complemento);
+                        } catch (Exception e) {
                         }
-                    } catch (Exception e) {
                     }
                 }
             }
