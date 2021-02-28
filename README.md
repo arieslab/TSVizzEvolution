@@ -24,9 +24,11 @@ TSVizzEvolution has two types of analysis (Single Analysis and Evolution Analysi
   
 ## Tool Execution
 
-To run the TSVizzEvolution tool, simply download the available jar (TSVizzEvolution.jar) and does not run any command prompt: java -jar TSVizzEvolution.jar
+To run the TSVizzEvolution tool, simply download the available jar available in Release. Run TSVizzEvolution.jar with double click.
 
 Some files generated for the Commons IO system's JNose tool are available at files_cvs_jnose.
 
 ## Contact Email:
 adrianapriscila06@gmail.com
+adriana.cruz@estudante.ufla.br
+
