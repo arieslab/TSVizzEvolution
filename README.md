@@ -30,5 +30,4 @@ Some files generated for the Commons IO system's JNose tool are available at fil
 
 ## Contact Email:
 adrianapriscila06@gmail.com
-adriana.cruz@estudante.ufla.br
 
