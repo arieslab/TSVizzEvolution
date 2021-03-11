@@ -1302,7 +1302,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
 		pnlbutton.setVisible(false);
 
-		lblSelectTheCsvMethod.setText("Select the .csv File (By Test Smells JNose) :");
+		lblSelectTheCsvMethod.setText("Select the .csv File (''project''_result_byclasstest_testsmells.csv) :");
 
 		txtFilePathMethod = new JTextField();
 //		txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
@@ -1314,7 +1314,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-		lblSelectCsv.setText("Select the .csv File :");
+		lblSelectCsv.setText("Select the .csv File (resultado_evolution1.csv):");
 
 		btnChooseFileSearch.setText("Search ...");
 		btnChooseFileSearch.addActionListener(new java.awt.event.ActionListener() {

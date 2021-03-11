@@ -2132,10 +2132,10 @@ public class GraphTwoVersions extends JFrame {
         cbClass = new JComboBox<>();
 
         lblCsv2 = new JLabel();
-        lblCsv2.setText("Select the second .csv File :");
+        lblCsv2.setText("Select the second .csv File (resultado_evolution1.csv):");
         lblCsv1 = new JLabel();
 
-        lblCsv1.setText("Select the first .csv File :");
+        lblCsv1.setText("Select the first .csv File (resultado_evolution1.csv):");
         lblCsv1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
         lblTestSmells = new JLabel();
@@ -2146,13 +2146,13 @@ public class GraphTwoVersions extends JFrame {
         pnlVisualization = new JPanel();
 
  		lblSelectTheCsvMethod = new JLabel();
- 		lblSelectTheCsvMethod.setText("Select the first .csv File (By Test Smells JNose) :");
+ 		lblSelectTheCsvMethod.setText("Select the first .csv File (''project''_result_byclasstest_testsmells.csv) :");
  		
  		txtFilePathMethod = new JTextField();
  	// txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
  		
  		lblSelectTheSecond = new JLabel();
- 		lblSelectTheSecond.setText("Select the second .csv File (By Test Smells JNose) :");
+ 		lblSelectTheSecond.setText("Select the second .csv File (''project''_result_byclasstest_testsmells.csv) :");
  		   		
  		txtFilePathMethod2 = new JTextField();
  				
