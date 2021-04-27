@@ -30,7 +30,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private JButton btnChooseFileSearch;
 	private JButton btnVisualizeGraph;
 	private JButton btnSearchMethod;
-	private JButton btnVisualizeTreemap;
+	//private JButton btnVisualizeTreemap;
 
 	private JComboBox<String> cbLevel;
 	private JComboBox<String> cbClass;
@@ -133,10 +133,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		pnlUpload.setVisible(true);
 		pnlMethod.setVisible(false);
 		pnlVisualization.setVisible(true);
-		btnVisualizeTreemap.setVisible(false);
+//		btnVisualizeTreemap.setVisible(false);
 		btnVisualizeGraph.setVisible(true);
 		lblVisualizeGraph.setVisible(true);
-		lblVisualizeTreemap.setVisible(false);
+		//lblVisualizeTreemap.setVisible(false);
 		pnlSelectMethod.setVisible(false);
 
 		cbLevel.addItemListener(new ItemListener() {
@@ -247,7 +247,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		}
 	}
 
-	private void btnGerarTreemapActionPerformed() {
+	/*private void btnGerarTreemapActionPerformed() {
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setPreferredSize(new Dimension(1200, 900));
@@ -314,7 +314,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		}
 
 	}
-
+*/
 	public static List<Data> OrdenaPeloNumeroOcorrencias(List<Data> l) {
 		Data[] v = new Data[l.size()];
 		for (int i = 0; i < v.length; i++) {
@@ -1260,7 +1260,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
 		
 		btnVisualizeGraph.setEnabled(true);
-		btnVisualizeTreemap.setEnabled(true);
+		//btnVisualizeTreemap.setEnabled(true);
 
 
 	}
@@ -1417,7 +1417,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						pnlLevel.setVisible(true);
 						btnVisualizeGraph.setVisible(true);
 						lblVisualizeGraph.setVisible(true);
-						btnVisualizeTreemap.setVisible(false);
+						//btnVisualizeTreemap.setVisible(false);
 						lblVisualizeTreemap.setVisible(false);
 					} else if (event.getItem().equals("Treemap View")) {
 						pnlClass.setVisible(false);
@@ -1429,7 +1429,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						pnlSelectMethod.setVisible(false);
 						btnVisualizeGraph.setVisible(false);
 						lblVisualizeGraph.setVisible(false);
-						btnVisualizeTreemap.setVisible(true);
+						//btnVisualizeTreemap.setVisible(true);
 						lblVisualizeTreemap.setVisible(true);
 					}
 
@@ -1481,7 +1481,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				});
 		btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		btnVisualizeTreemap = new JButton("Generate Treemap View");
+		/*btnVisualizeTreemap = new JButton("Generate Treemap View");
 			btnVisualizeTreemap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnGerarTreemapActionPerformed();
@@ -1489,21 +1489,20 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		});
 				
 		btnVisualizeTreemap.setVisible(false);
-		
+		*/
 		lblVisualizeGraph = new JLabel("Click here to generate the visualization :");
 		
-		lblVisualizeTreemap= new JLabel("Click here to generate the visualization :");
+		//lblVisualizeTreemap= new JLabel("Click here to generate the visualization :");
 
 		btnVisualizeGraph.setEnabled(false);
-		btnVisualizeTreemap.setEnabled(false);
+	//	btnVisualizeTreemap.setEnabled(false);
 
 				
 		lblSelectMethod = new JLabel();
 		lblSelectMethod.setText("Select a Method:");
 		
-		btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+	//	btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
@@ -1640,9 +1639,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnVisualizeGraph, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addComponent(lblVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+							//.addComponent(lblVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
+							//.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+							)
 						.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))
 				.addGroup(gl_pnlGraph.createSequentialGroup()
 					.addContainerGap()
@@ -1686,8 +1686,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
 							.addGap(4)
-							.addComponent(lblVisualizeTreemap))
-						.addComponent(btnVisualizeTreemap))
+							//.addComponent(lblVisualizeTreemap)
+							)
+						//.addComponent(btnVisualizeTreemap)
+						)
 					.addGap(1)
 					.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		);
