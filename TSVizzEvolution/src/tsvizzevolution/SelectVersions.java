@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JRootPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+import javax.print.DocFlavor.URL;
 import javax.swing.BorderFactory;
 
 import java.awt.Color;
@@ -112,8 +113,11 @@ public class SelectVersions extends JFrame {
 				
 		JLabel lblImage = new JLabel();
 		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		lblImage.setBounds(275, 30, 225, 225);
-		lblImage.setIcon(new ImageIcon("logo_tsvizz.png"));
+		lblImage.setBounds(225, 25, 225, 225);
+		//lblImage.setIcon(new ImageIcon("logo_tsvizz.png"));
+		
+		java.net.URL url = SelectVersions.class.getResource("logo_tsvizz.png");
+		lblImage.setIcon(new ImageIcon(url));
 		
 		//JButton btnOk = new JButton("OK");
 ////		btnOk.addActionListener(new ActionListener() { 
@@ -158,7 +162,7 @@ public class SelectVersions extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 							.addGap(38)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblTextApresentation, GroupLayout.PREFERRED_SIZE, 424, GroupLayout.PREFERRED_SIZE)

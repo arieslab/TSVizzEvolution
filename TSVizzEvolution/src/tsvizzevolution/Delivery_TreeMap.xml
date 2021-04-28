@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<states>
+	<state name="Treemap" offices="35" rating="20.8">
+		<cities>
+			<city test_smells="Assertion Roulette" occurences="9036" coverage="0.3130326335481189" />
+			<city test_smells="Magic Number Test" occurences="4929" coverage="0.17075452088962795" />
+			<city test_smells="Lazy Test" occurences="2866" coverage="0.09928635765260167" />
+			<city test_smells="Exception Catching Throwing" occurences="2613" coverage="0.09052172105591354" />
+			<city test_smells="Eager Test" occurences="1864" coverage="0.06457423958982886" />
+			<city test_smells="Unknown Test" occurences="1590" coverage="0.055082103512783205" />
+			<city test_smells="Conditional Test Logic" occurences="1507" coverage="0.05220674842375113" />
+			<city test_smells="Duplicate Assert" occurences="1444" coverage="0.050024249982678584" />
+			<city test_smells="Sensitive Equality" occurences="1013" coverage="0.035093189219150556" />
+			<city test_smells="Verbose Test" occurences="719" coverage="0.02490819649414536" />
+			<city test_smells="Mystery Guest" occurences="345" coverage="0.011951777177302017" />
+			<city test_smells="Resource Optimism" occurences="344" coverage="0.011917134344904039" />
+			<city test_smells="IgnoredTest" occurences="333" coverage="0.011536063188526294" />
+			<city test_smells="General Fixture" occurences="231" coverage="0.008002494283932654" />
+			<city test_smells="Print Statement" occurences="18" coverage="6.235709831635835E-4" />
+			<city test_smells="EmptyTest" occurences="10" coverage="3.464283239797686E-4" />
+			<city test_smells="Constructor Initialization" occurences="4" coverage="1.3857132959190744E-4" />
+		</cities>
+	</state>
+</states>

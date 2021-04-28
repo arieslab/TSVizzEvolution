@@ -30,7 +30,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private JButton btnChooseFileSearch;
 	private JButton btnVisualizeGraph;
 	private JButton btnSearchMethod;
-	//private JButton btnVisualizeTreemap;
+	private JButton btnVisualizeTreemap;
 
 	private JComboBox<String> cbLevel;
 	private JComboBox<String> cbClass;
@@ -133,10 +133,10 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		pnlUpload.setVisible(true);
 		pnlMethod.setVisible(false);
 		pnlVisualization.setVisible(true);
-//		btnVisualizeTreemap.setVisible(false);
+		btnVisualizeTreemap.setVisible(false);
 		btnVisualizeGraph.setVisible(true);
 		lblVisualizeGraph.setVisible(true);
-		//lblVisualizeTreemap.setVisible(false);
+		lblVisualizeTreemap.setVisible(false);
 		pnlSelectMethod.setVisible(false);
 
 		cbLevel.addItemListener(new ItemListener() {
@@ -231,7 +231,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathMethod.setText(file.getPath());
-			//txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
+		//	txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
 			//nomeDoArquivo = file.getName();
 			List<ClassMethod> l = retorna_lista_classe_metodo();
 			List<String> list = new ArrayList<>();
@@ -247,8 +247,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		}
 	}
 
-	/*private void btnGerarTreemapActionPerformed() {
-		frame = new JFrame();
+	private void btnGerarTreemapActionPerformed() {
+		CriaXMLTreeMapView(txtFilePathDefault1.getText(), "Project");
+		/*frame = new JFrame();
 		frame.setVisible(true);
 		frame.setPreferredSize(new Dimension(1200, 900));
 		frame.setMaximumSize(frame.getPreferredSize());
@@ -269,7 +270,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		painel.setMinimumSize(painel.getPreferredSize());
 		frame.getContentPane().add(painel);
 		try {
-			CriaTreeMapView(txtFilePathDefault1.getText(), "Project", painel);
+			CriaXMLTreeMapView(txtFilePathDefault1.getText(), "Project");
+			//CriaTreeMapView(txtFilePathDefault1.getText(), "Project", painel);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -277,7 +279,42 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		JScrollPane jScrollPane = new JScrollPane(painel);
 		jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		frame.getContentPane().add(jScrollPane);
+		frame.getContentPane().add(jScrollPane);*/
+	}
+
+	private void CriaXMLTreeMapView(String fileName1, String filtro){
+		List<Data> dados1 = retornaDados(fileName1, filtro);
+		dados1 = OrdenaPeloNumeroOcorrencias(dados1);
+		int somaTotal = 0;
+		for (Data d: dados1) {
+			somaTotal += d.valor;
+		}
+
+		try {
+			FileWriter arq = new FileWriter("Delivery_TreeMap.xml");
+			PrintWriter gravarArq = new PrintWriter(arq);
+			gravarArq.println("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+			gravarArq.println("<states>");
+			gravarArq.println("\t<state name=\"Tree Map\" offices=\"35\" rating=\"47.8\">");
+			gravarArq.println("\t\t<cities>");
+			for (Data d: dados1) {
+				double coverage = (d.valor+ 0.0)/(somaTotal + 0.0);
+				String nome = d.nome;
+				int valor = d.valor;
+				if(valor > 0)
+					gravarArq.println("\t\t\t<city test_smells=\"" + nome + "\" occurences=\"" + valor + "\" coverage=\"" + coverage + "\" />");
+			}
+			gravarArq.println("\t\t</cities>");
+			gravarArq.println("\t</state>");
+			gravarArq.println("</states>");
+			arq.close();
+			SwingUtilities.invokeLater(() -> {
+				TreemapView window = new TreemapView();
+				window.setVisible(true);
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void CriaTreeMapView(String fileName1, String filtro, JPanel painel) {
@@ -290,12 +327,13 @@ public class GraphOneVersion extends javax.swing.JFrame {
 																													// a
 																													// borda
 		pacote.setPreferredSize(new Dimension(1000, 500));
-		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecerï¿½ logo que passe 0,5 segundos
+		ToolTipManager.sharedInstance().setInitialDelay(500);// aparece logo que passe 0,5 segundos
 		painel.add(pacote);
 
 		List<Data> dados1 = retornaDados(fileName1, filtro);
 		dados1 = OrdenaPeloNumeroOcorrencias(dados1);
 		int maior_valor = dados1.get(0).valor;
+
 		Random rand = new Random();
 		for (Data d : dados1) {
 			float r = rand.nextFloat();
@@ -314,7 +352,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		}
 
 	}
-*/
+
 	public static List<Data> OrdenaPeloNumeroOcorrencias(List<Data> l) {
 		Data[] v = new Data[l.size()];
 		for (int i = 0; i < v.length; i++) {
@@ -1260,7 +1298,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
 		
 		btnVisualizeGraph.setEnabled(true);
-		//btnVisualizeTreemap.setEnabled(true);
+		btnVisualizeTreemap.setEnabled(true);
 
 
 	}
@@ -1417,7 +1455,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						pnlLevel.setVisible(true);
 						btnVisualizeGraph.setVisible(true);
 						lblVisualizeGraph.setVisible(true);
-						//btnVisualizeTreemap.setVisible(false);
+						btnVisualizeTreemap.setVisible(false);
 						lblVisualizeTreemap.setVisible(false);
 					} else if (event.getItem().equals("Treemap View")) {
 						pnlClass.setVisible(false);
@@ -1429,7 +1467,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						pnlSelectMethod.setVisible(false);
 						btnVisualizeGraph.setVisible(false);
 						lblVisualizeGraph.setVisible(false);
-						//btnVisualizeTreemap.setVisible(true);
+						btnVisualizeTreemap.setVisible(true);
 						lblVisualizeTreemap.setVisible(true);
 					}
 
@@ -1481,7 +1519,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				});
 		btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		/*btnVisualizeTreemap = new JButton("Generate Treemap View");
+		btnVisualizeTreemap = new JButton("Generate Treemap View");
 			btnVisualizeTreemap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnGerarTreemapActionPerformed();
@@ -1489,20 +1527,21 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		});
 				
 		btnVisualizeTreemap.setVisible(false);
-		*/
+		
 		lblVisualizeGraph = new JLabel("Click here to generate the visualization :");
 		
-		//lblVisualizeTreemap= new JLabel("Click here to generate the visualization :");
+		lblVisualizeTreemap= new JLabel("Click here to generate the visualization :");
 
 		btnVisualizeGraph.setEnabled(false);
-	//	btnVisualizeTreemap.setEnabled(false);
+		btnVisualizeTreemap.setEnabled(false);
 
 				
 		lblSelectMethod = new JLabel();
 		lblSelectMethod.setText("Select a Method:");
 		
-	//	btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
@@ -1639,10 +1678,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnVisualizeGraph, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							//.addComponent(lblVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							//.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-							)
+							.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
 						.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))
 				.addGroup(gl_pnlGraph.createSequentialGroup()
 					.addContainerGap()
@@ -1686,10 +1724,8 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
 							.addGap(4)
-							//.addComponent(lblVisualizeTreemap)
-							)
-						//.addComponent(btnVisualizeTreemap)
-						)
+							.addComponent(lblVisualizeTreemap))
+						.addComponent(btnVisualizeTreemap))
 					.addGap(1)
 					.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		);
