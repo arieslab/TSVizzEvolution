@@ -4,7 +4,10 @@
 
 ## Description
 TSVizzEvolution is a tool for visualizing the test smells and their evolution on software projects. 
-It implements tree visualization techniques: (i) **Graph View**, draws the associations between the test smells and the software artifacts (e.g., projectand test classes) and authors; (ii) **Timeline View**, presents the test smells evolution over time; and (iii) **Treemap View**, instantly present the test smells of the project as a whole.
+It implements tree visualization techniques: 
+(i) **Graph View**, draws the associations between the test smells and the software artifacts (e.g., projectand test classes) and authors; 
+(ii) **Timeline View**, presents the test smells evolution over time; and 
+(iii) **Treemap View**, instantly present the test smells of the project as a whole.
 TSVizzEvolution integrates a conceptual framework under development by an inter-institutional researchers’ team, which consists of test smells prevention, identification, refactoring, and visualization to improve the test codequality. 
 
 
