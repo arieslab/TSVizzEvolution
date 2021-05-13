@@ -26,6 +26,8 @@ import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 
+import static tsvizzevolution.GraphTwoVersions.OrdenaPeloNumeroOcorrencias;
+
 public class GraphOneVersion extends javax.swing.JFrame {
 	private JButton btnChooseFileSearch;
 	private JButton btnVisualizeGraph;
@@ -231,7 +233,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathMethod.setText(file.getPath());
-		//	txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
+			//txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\commons-io_result_byclasstest_testsmells.csv");
 			//nomeDoArquivo = file.getName();
 			List<ClassMethod> l = retorna_lista_classe_metodo();
 			List<String> list = new ArrayList<>();
@@ -308,10 +310,22 @@ public class GraphOneVersion extends javax.swing.JFrame {
 			gravarArq.println("\t</state>");
 			gravarArq.println("</states>");
 			arq.close();
-			SwingUtilities.invokeLater(() -> {
-				TreemapView window = new TreemapView();
-				window.setVisible(true);
-			});
+			pnlProgress.setVisible(true);
+			progress.setValue(0);
+			pnlProgress.add(progress);
+			new Thread() {
+
+				@Override
+				public void run(){
+					progress.setValue(0);
+					progressoT.run();
+					SwingUtilities.invokeLater(() -> {
+						TreemapView window = new TreemapView();
+						window.setVisible(true);
+						progress.setValue(100);
+					});
+				}
+			}.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -327,7 +341,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 																													// a
 																													// borda
 		pacote.setPreferredSize(new Dimension(1000, 500));
-		ToolTipManager.sharedInstance().setInitialDelay(500);// aparece logo que passe 0,5 segundos
+		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecer� logo que passe 0,5 segundos
 		painel.add(pacote);
 
 		List<Data> dados1 = retornaDados(fileName1, filtro);
@@ -358,7 +372,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		for (int i = 0; i < v.length; i++) {
 			v[i] = l.get(i);
 		}
-
 		for (int i = 0; i < v.length - 1; i++) {
 			for (int j = 0; j < v.length - 1 - i; j++) {
 				if (v[j].valor < v[j + 1].valor) {
