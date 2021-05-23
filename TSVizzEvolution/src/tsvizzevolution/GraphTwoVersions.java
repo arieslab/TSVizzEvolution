@@ -245,11 +245,11 @@ public class GraphTwoVersions extends JFrame {
         cbTimeline.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
             	if (event.getItem().equals("Methods")) {
-            		pnlClass.setVisible(true);
+            		pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(false);
                     pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(true);
-                    pnlSelectMethod.setVisible(true);
+                    pnlSelectMethod.setVisible(false);
                 } else {
                     pnlClass.setVisible(false);
                     pnlTestSmells.setVisible(false);
@@ -366,7 +366,7 @@ public class GraphTwoVersions extends JFrame {
         pacote.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pacote.setBackground(Configurations.corPacote); //seta a cor de fundo
         pacote.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer√° logo que passe 0,5 segundos
+        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer· logo que passe 0,5 segundos
         painel.add(pacote);
 
         JLabel versao2 = new JLabel ("V2");
@@ -377,7 +377,7 @@ public class GraphTwoVersions extends JFrame {
         pacote2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         pacote2.setBackground(Configurations.corPacote); //seta a cor de fundo
         pacote2.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta a borda
-        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer√° logo que passe 0,5 segundos
+        ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer· logo que passe 0,5 segundos
         
         painel.add(pacote2);
 
@@ -430,7 +430,7 @@ public class GraphTwoVersions extends JFrame {
                     espaco3.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
                     espaco3.setBackground(Color.WHITE); //seta a cor de fundo
                     espaco3.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-                    ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer√° logo que passe 0,5 segundos
+                    ToolTipManager.sharedInstance().setInitialDelay(500);//aparecer· logo que passe 0,5 segundos
                     espaco3.setPreferredSize(new Dimension(800, 10 ));
                     
                     pacote.add(espaco3);

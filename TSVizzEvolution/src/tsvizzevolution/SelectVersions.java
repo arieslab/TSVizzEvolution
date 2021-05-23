@@ -108,9 +108,7 @@ public class SelectVersions extends JFrame {
 		
 		JLabel lblTextApresentation = new JLabel();
 		lblTextApresentation.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTextApresentation.setText("<html><body>      TSVizzEvolution displays the occurrences and evolution of test smells in java software through software visualization technique.<br><br> First, you must select whether to review one or two versions. <br><br>For one version we have two views available, Graph View and Treemap View. <br><br>For two versions, Graph View and Timeline View.</body></html>");
-		lblTextApresentation.setHorizontalAlignment(SwingConstants.CENTER);
-				
+		lblTextApresentation.setText("<html><body>      TSVizzEvolution displays the occurrences and evolution of test smells in java software through software visualization technique.<br><br> First, you must select whether to analyze one or two versions. <br><br>For one version we have two views available, Graph View and Treemap View. <br><br>For two version we have one views available, Timeline View.</body></html>");		lblTextApresentation.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblImage = new JLabel();
 		lblImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		lblImage.setBounds(225, 25, 225, 225);

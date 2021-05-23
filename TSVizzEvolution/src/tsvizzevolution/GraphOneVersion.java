@@ -554,13 +554,13 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					if (graph1.getNodeCount() == 0) {
 						String msg = "";
 						if (selecionado.equals("Author")) {
-							msg = "<html>The combination Test Smells x Author does not exist!";
+							msg = "<html>The combination Test Smell x Author does not exist!";
 						}
 						if (selecionado.equals("A Specific Test Smells")) {
-							msg = "<html>The selected Test Smells has no occurrences in the selected csv file!";
+							msg = "<html>The selected Test Smell has no occurrences in the selected csv file!";
 						}
 						if (selecionado.equals("Methods")) {
-							msg = "<html>The combination Test Class x Test Smells does not exist!";
+							msg = "<html>The combination Test Class x Test Smell does not exist!";
 						}
 						JOptionPane optionPane = new JOptionPane();
 						optionPane.setMessage(msg);
@@ -1541,9 +1541,9 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				
 		btnVisualizeTreemap.setVisible(false);
 		
-		lblVisualizeGraph = new JLabel("Click here to generate the visualization :");
+		lblVisualizeGraph = new JLabel("Click here to generate the visualization:");
 		
-		lblVisualizeTreemap= new JLabel("Click here to generate the visualization :");
+		lblVisualizeTreemap= new JLabel("Click here to generate the visualization:");
 
 		btnVisualizeGraph.setEnabled(false);
 		btnVisualizeTreemap.setEnabled(false);
