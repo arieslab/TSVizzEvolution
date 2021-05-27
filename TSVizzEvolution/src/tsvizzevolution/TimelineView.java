@@ -233,7 +233,7 @@ public class TimelineView extends JFrame {
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         painel.setBackground(Configurations.corPainel); //seta a cor de fundo
         painel.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-        painel.setPreferredSize(new Dimension( 700, 500 ));
+        painel.setPreferredSize(new Dimension( 700, 300 ));
         painel.setMaximumSize(painel.getPreferredSize());
         painel.setMinimumSize(painel.getPreferredSize());
         frame.getContentPane().add(painel);
@@ -247,7 +247,7 @@ public class TimelineView extends JFrame {
         } catch (Exception e){
             e.printStackTrace();
         }
-    painel.setPreferredSize(new Dimension(tamanho*204, Configurations.alturaPainel ));
+    painel.setPreferredSize(new Dimension(tamanho*204, 300 ));
     
 	JScrollPane jScrollPane = new JScrollPane(painel);
 	jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -346,8 +346,8 @@ public class TimelineView extends JFrame {
                     classe.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaClasse, Configurations.larguraBorda)); // seta a borda
                     classe.setPreferredSize(new Dimension(204, Configurations.alturaClasse));
                     String novo_nome_segundo_vertice = classe_analisada.substring(0, classe_analisada.length()-2);
-                 //   String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Class: <body></b>" + novo_nome_segundo_vertice +"</font></p></html>";
-                 //   classe.setToolTipText(html_classe);
+                    String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\" face=\"Arial\"><b> Test Class: <body></b>" + novo_nome_segundo_vertice +"</font></p></html>";
+                    classe.setToolTipText(html_classe);
                     pacote.add(classe);
                     for (int j = i; j < dados.size(); j++){
                         if (dados.get(j).classe.equals(classe_analisada)){
