@@ -216,22 +216,24 @@ public class TimelineView extends JFrame {
 
     
     private void btnGerarTimelineActionPerformed(ActionEvent evt) {
+    	dispose();
         frame = new JFrame();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.setPreferredSize(new Dimension( 1000 + Configurations.adicionalBorda, Configurations.alturaPainel ));
+        frame.setPreferredSize(new Dimension( 800 + Configurations.adicionalBorda, Configurations.alturaPainel ));
         frame.setMaximumSize(frame.getPreferredSize());
         frame.setMinimumSize(frame.getPreferredSize());
 		frame.setTitle("TSVizzEvolution");
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
+		frame.setLocation(100, 100);
 
 		
         JPanel painel = new JPanel();
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         painel.setBackground(Configurations.corPainel); //seta a cor de fundo
         painel.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
-        painel.setPreferredSize(new Dimension( 1000, Configurations.alturaPainel ));
+        painel.setPreferredSize(new Dimension( 700, 500 ));
         painel.setMaximumSize(painel.getPreferredSize());
         painel.setMinimumSize(painel.getPreferredSize());
         frame.getContentPane().add(painel);
@@ -248,13 +250,13 @@ public class TimelineView extends JFrame {
     painel.setPreferredSize(new Dimension(tamanho*204, Configurations.alturaPainel ));
     
 	JScrollPane jScrollPane = new JScrollPane(painel);
-	//jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	//jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	frame.getContentPane().add(jScrollPane);
 	}
 
 	private int criaRetangulos(JPanel painel, String filtro, String fileName1, String fileName2, int tam){
-
+		
         JLabel versao1 = new JLabel ("V1");
         versao1.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		painel.add(versao1);
@@ -277,26 +279,7 @@ public class TimelineView extends JFrame {
         ToolTipManager.sharedInstance().setInitialDelay(500);//aparecerá logo que passe 0,5 segundos
         
         painel.add(pacote2);
-
-
-        String [] colunas = {"Category","V1","V2","V2 Ocurrences ","Color V1", "Color V2"};
-        
-        Object [][] dados = {
-        		{"New", "False", "True","Not apply    ", "Gray", "Green"},
-        		{"Removed", "True", "False", "Not apply    ", "Green", "Gray"},
-        		{"Propagated", "True", "True", "Equal", "Green", "Yellow"},
-        		{"Increased", "True", "True", "Increase", "Green", "Red"},
-        		{"Decreased", "True", "True", "Decrease", "Green", "Blue"},
-        };
-        JTable tabelaLegenda = new JTable(dados, colunas);
-        tabelaLegenda.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);        // Configura a largura para 100 pixels
-        int vColIndex = 0;
-        TableColumn col = tabelaLegenda.getColumnModel().getColumn(vColIndex);
-        
-        JTableHeader header = tabelaLegenda.getTableHeader();
-        header.setFont(new Font("Tahoma", Font.BOLD, 12));
-             
-        painel.add(new JScrollPane(tabelaLegenda));
+       
         //txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         List<ClassMethod> l1 = CriaListaDeMetodos(txtFilePathMethod.getText());
         List<ClassMethod> l2 = CriaListaDeMetodos(txtFilePathMethod2.getText());
@@ -305,7 +288,12 @@ public class TimelineView extends JFrame {
         arrumaDados(dados1, dados2);
         int tamanho = constroiBlocos(dados1, filtro, pacote, l1);
         tamanho = constroiBlocos(dados2, filtro, pacote2, l2);
+        
+        LegendTimeline t = new LegendTimeline();
+		LegendTimeline.main(null);
+		
         return tamanho;
+      
     }
 
     private int constroiBlocos(List<Data> dados, String filtro, JPanel pacote, List<ClassMethod> l){

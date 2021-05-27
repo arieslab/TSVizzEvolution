@@ -322,6 +322,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 					SwingUtilities.invokeLater(() -> {
 						TreemapView window = new TreemapView();
 						window.setVisible(true);
+						dispose();
 						progress.setValue(100);
 					});
 				}
@@ -329,42 +330,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void CriaTreeMapView(String fileName1, String filtro, JPanel painel) {
-
-		JPanel pacote = new JPanel();
-		pacote.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		pacote.setBackground(Configurations.corPacote); // seta a cor de fundo
-		pacote.setBorder(
-				BorderFactory.createLineBorder((Color) Configurations.bordaPacote, Configurations.larguraBorda)); // seta
-																													// a
-																													// borda
-		pacote.setPreferredSize(new Dimension(1000, 500));
-		ToolTipManager.sharedInstance().setInitialDelay(500);// aparecer� logo que passe 0,5 segundos
-		painel.add(pacote);
-
-		List<Data> dados1 = retornaDados(fileName1, filtro);
-		dados1 = OrdenaPeloNumeroOcorrencias(dados1);
-		int maior_valor = dados1.get(0).valor;
-
-		Random rand = new Random();
-		for (Data d : dados1) {
-			float r = rand.nextFloat();
-			float g = rand.nextFloat();
-			float b = rand.nextFloat();
-			classe = new JPanel();
-			classe.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-			Color c = new Color(r, g, b);
-			classe.setBackground(c);
-			classe.setBorder(BorderFactory.createLineBorder(Configurations.bordaPacote, 1)); // seta a borda
-			classe.setPreferredSize(new Dimension((d.valor * 500) / maior_valor, (d.valor * 500) / maior_valor));
-			
-			String html_classe = "<html><p><font color=\"#000000\" " + "size=\"4\"face=\"Arial\"><b> "+ d.nome+": <body></b>" + d.valor +"</font></p></html>";
-            classe.setToolTipText(html_classe);
-			pacote.add(classe);
-		}
-
 	}
 
 	public static List<Data> OrdenaPeloNumeroOcorrencias(List<Data> l) {
@@ -404,6 +369,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				progress.setValue(0);
 				progressoT.run();
 				try {
+					dispose();
 					System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 					System.setProperty("org.graphstream.ui", "swing");
 					Graph graph1 = new DefaultGraph("TSVizzEvolution");
