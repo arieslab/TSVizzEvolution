@@ -54,41 +54,24 @@ import org.graphstream.ui.view.Viewer;
 import static org.graphstream.algorithm.Toolkit.randomNode;
 import static org.graphstream.ui.graphicGraph.GraphPosLengthUtils.nodePosition;
 
-public class GraphTwoVersions extends JFrame {
+public class TimelineView extends JFrame {
     private JButton btnChooseFileSearch1;
     private JButton btnChooseFileSearch2;
-    private JButton btnVisualizeGraph;
     private JButton btnVisualizeTimeline;
     private JButton btnSearchMethod;
     private JButton btnSearchMethod2;
-    
-    private JComboBox<String> cbLevel;
-    private JComboBox<String> cbClass;
-    private JComboBox<String> cbTestSmells;
-    private JComboBox<String> cbAuthor;  
-    private JComboBox<String> cbVisualization;
     private JComboBox<String> cbTimeline;
     private JComboBox<String> cbSelectMethod;
 
     private JLabel lblTimeline;
     private JLabel lblCsv1;
     private JLabel lblCsv2;
-    private JLabel lblLevel;
-    private JLabel lblClass;
-    private JLabel lblTestSmells;
-    private JLabel lblAuthor;
     private JLabel lblVisualization;
     private JLabel lblSelectTheCsvMethod;
     private JLabel lblSelectTheSecond;
-    private JLabel lblVisualizeGraph;
 	private JLabel lblVisualizeTimeline;
 	private JLabel lblSelectMethod;
-
-    private JPanel pnlClass;
-    private JPanel pnlTestSmells;
-    private JPanel pnlAuthor;
     private JPanel pnlGraph;
-    private JPanel pnlLevel;
     private JPanel pnlTimeline;
 	private JPanel pnlVisualization ;
 	private JPanel pnlMethod;
@@ -139,11 +122,11 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
-    public GraphTwoVersions() throws IOException {
+    public TimelineView() throws IOException {
 
 		setTitle("TSVizzEvolution");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 710, 584);
+		setBounds(100, 100, 715, 510);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -154,106 +137,20 @@ public class GraphTwoVersions extends JFrame {
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
         initComponents();
-        pnlClass.setVisible(false);
-        pnlTestSmells.setVisible(false);
-        pnlAuthor.setVisible(false); 
         pnlVisualization.setVisible(true);
-        pnlLevel.setVisible(true);
-        pnlTimeline.setVisible(false);
-        btnVisualizeGraph.setVisible(true);
-        btnVisualizeTimeline.setVisible(false);
-        pnlMethod.setVisible(false); 
-		lblVisualizeGraph.setVisible(true);
-		lblVisualizeTimeline.setVisible(false);
+        pnlTimeline.setVisible(true);
+        btnVisualizeTimeline.setVisible(true);
+        pnlMethod.setVisible(false);
+		lblVisualizeTimeline.setVisible(true);
 		pnlSelectMethod.setVisible(false);
-
-		btnVisualizeGraph.setEnabled(false);
 		btnVisualizeTimeline.setEnabled(false);
-
-				
-        cbLevel.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent event) {
-                String[] a = null;
-                if (event.getItem().equals("A Specific Test Smells")) {
-                    pnlTestSmells.setVisible(true);
-                    pnlClass.setVisible(false);
-                    pnlAuthor.setVisible(false);
-                    pnlMethod.setVisible(false);
-                    pnlSelectMethod.setVisible(false);
-                    try {
-                        a = carrega_lista_linhas(txtFilePathDefault1.getText());
-                        for(String item: a){
-                            cbClass.addItem(item);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else if (event.getItem().equals("A Specific Test Class")) {
-                    pnlClass.setVisible(true);
-                    pnlTestSmells.setVisible(false);
-                    pnlAuthor.setVisible(false);
-                    pnlMethod.setVisible(false);
-                    pnlSelectMethod.setVisible(false);
-                    try {
-                        a = carrega_lista_linhas(txtFilePathDefault1.getText());
-                        for(String item: a){
-                            cbClass.addItem(item);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else if (event.getItem().equals("Author")) {
-                    pnlClass.setVisible(false);
-                    pnlTestSmells.setVisible(true);
-                    pnlAuthor.setVisible(true);
-                    pnlMethod.setVisible(false);
-                    pnlSelectMethod.setVisible(false);
-                    try {
-                        a = carrega_lista_linhas(txtFilePathDefault1.getText());
-                        for(String item: a){
-                            cbClass.addItem(item);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else if (event.getItem().equals("Methods")) {
-                    pnlClass.setVisible(true);
-                    pnlTestSmells.setVisible(false);
-                    pnlAuthor.setVisible(false);
-                    pnlMethod.setVisible(true);
-                    pnlSelectMethod.setVisible(true);
-                    cbClass.removeAllItems();
-                    txtFilePathMethod.setText("");
-                } else {
-                    pnlClass.setVisible(false);
-                    pnlTestSmells.setVisible(false);
-                    pnlAuthor.setVisible(false);
-                    pnlMethod.setVisible(false);
-                    pnlSelectMethod.setVisible(false);
-                    try {
-                        a = carrega_lista_linhas(txtFilePathDefault1.getText());
-                        for(String item: a){
-                            cbClass.addItem(item);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
         
         cbTimeline.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
             	if (event.getItem().equals("Methods")) {
-            		pnlClass.setVisible(false);
-                    pnlTestSmells.setVisible(false);
-                    pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(true);
                     pnlSelectMethod.setVisible(false);
                 } else {
-                    pnlClass.setVisible(false);
-                    pnlTestSmells.setVisible(false);
-                    pnlAuthor.setVisible(false);
                     pnlMethod.setVisible(false);
                     pnlSelectMethod.setVisible(false);
                 }
@@ -263,7 +160,7 @@ public class GraphTwoVersions extends JFrame {
 
     private void btnChooseFileSearch1ActionPerformed(ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(TimelineView.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
@@ -274,7 +171,7 @@ public class GraphTwoVersions extends JFrame {
    
     private void btnChooseFileSearch2ActionPerformed(ActionEvent evt) throws IOException {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(TimelineView.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
@@ -286,7 +183,7 @@ public class GraphTwoVersions extends JFrame {
 
     private void btnSearchMethodActionPerformed(ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(TimelineView.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
@@ -297,7 +194,7 @@ public class GraphTwoVersions extends JFrame {
 
     private void btnSearchMethod2ActionPerformed(ActionEvent evt) throws IOException {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(TimelineView.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
@@ -312,7 +209,7 @@ public class GraphTwoVersions extends JFrame {
             }
             Collections.sort(list);
             for(String s: list){
-                cbClass.addItem(s);
+                //cbClass.addItem(s);
             }
         }
     }
@@ -352,7 +249,7 @@ public class GraphTwoVersions extends JFrame {
     
 	JScrollPane jScrollPane = new JScrollPane(painel);
 	//jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+	//jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	frame.getContentPane().add(jScrollPane);
 	}
 
@@ -551,11 +448,6 @@ public class GraphTwoVersions extends JFrame {
         }
         return listaMetodosClasse1;
     }
-    private void btnGerarGrafoActionPerformed(ActionEvent evt) {
-    	pnlProgress.setVisible(true);
-
-		iniciaProcessamento();
-    }
     
     private void iniciaProcessamento() {
 		progress.setValue(0);
@@ -651,7 +543,7 @@ public class GraphTwoVersions extends JFrame {
 					e.printStackTrace();
 				}
 	            String f = "All Test Classes";
-	            String selecionado = (String) cbLevel.getSelectedItem();
+	            String selecionado = (String) cbTimeline.getSelectedItem();///////
 	            int coluna = 0;
 	            if (selecionado.equals("Project")) {
 	                coluna = 5;
@@ -676,29 +568,7 @@ public class GraphTwoVersions extends JFrame {
 	                    CriaGrafoCompleto(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, coluna, 1, txtFilePathDefault1.getText(), selecionado, l1);
 	                    CriaGrafoCompleto(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, coluna, 2, txtFilePathDefault2.getText(), selecionado, l2);
 	                } else {
-	                	if (selecionado.equals("A Specific Test Class")) {
-	                		filtro = (String) cbClass.getSelectedItem();
-	                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
-	                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 2, txtFilePathDefault2.getText(), l2);
-	                        graph1 = criaNosInexistentes(graph1, concatenaLista(listaDeLinhas, listaDeLinhas2));
-	
-	                	}else if (selecionado.equals("Author")){
-	                	    filtro = (String) cbTestSmells.getSelectedItem();
-	                	    String filtroAutor = (String) cbAuthor.getSelectedItem();
-	                        CriaGrafoParcialAutor(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, filtroAutor, coluna, 1, txtFilePathDefault1.getText(), l1);
-	                        CriaGrafoParcialAutor(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, filtroAutor, coluna, 2, txtFilePathDefault2.getText(), l2);
-	
-	                	}else if (true){
-	                	    String testSmell = (String) cbTestSmells.getSelectedItem();
-	                	    String classe  = (String) cbClass.getSelectedItem();
-	                	    CriaGrafoMetodos(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, testSmell, classe, coluna, 1, txtFilePathDefault1.getText(), l1, listaMetodosClasse1, (String) cbSelectMethod.getSelectedItem());
-	                        CriaGrafoMetodos(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, testSmell, classe, coluna, 2, txtFilePathDefault1.getText(), l2, listaMetodosClasse2, (String) cbSelectMethod.getSelectedItem());
-	                    }else{
-	                		filtro = (String) cbTestSmells.getSelectedItem();
-	                        CriaGrafoParcial(listaDeLinhasInt, listaDeLinhas, cabecalhoLista, graph1, filtro, coluna, 1, txtFilePathDefault1.getText(), l1);
-	                        CriaGrafoParcial(listaDeLinhasInt2, listaDeLinhas2, cabecalhoLista2, graph1, filtro, coluna, 1, txtFilePathDefault2.getText(), l2);
-	                        graph1 = removeVertices(graph1, filtro);
-	                	}
+	                	
 	                }
 	            	graph1 = removeVerticesDoisLados(graph1);
 	            } catch (Exception e) {
@@ -737,7 +607,7 @@ public class GraphTwoVersions extends JFrame {
 //					v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 	            }
         } catch (IOException ex) {
-            Logger.getLogger(GraphTwoVersions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TimelineView.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 }.start();
@@ -1110,11 +980,6 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
-    private void cbLevelActionPerformed(ActionEvent evt) {
-    }
-    private void cbVisualizationActionPerformed(ActionEvent evt) {
-    }
-
     private void cbTimelineActionPerformed(ActionEvent evt) {
     }
 
@@ -1141,13 +1006,7 @@ public class GraphTwoVersions extends JFrame {
         b = concatena(b, b2);
         c = concatena_autor(c, c2);
 
-        cbAuthor.setModel(new DefaultComboBoxModel<>(c));
-
-        cbClass.setModel(new DefaultComboBoxModel<>(a));
-
-        cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
         
-        btnVisualizeGraph.setEnabled(true);
 		btnVisualizeTimeline.setEnabled(true);
 
 	}
@@ -1555,18 +1414,18 @@ public class GraphTwoVersions extends JFrame {
             }
             
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TimelineView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TimelineView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TimelineView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TimelineView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-					new GraphTwoVersions().setVisible(true);
+					new TimelineView().setVisible(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1708,11 +1567,7 @@ public class GraphTwoVersions extends JFrame {
             a = concatena(a, a2);
             b = concatena(b, b2);
             c = concatena_autor(c, c2);
-            cbAuthor.setModel(new DefaultComboBoxModel<>(c));
-            cbClass.setModel(new DefaultComboBoxModel<>(a));
-            cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
-
-        }catch (Exception e){
+           }catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -1835,105 +1690,38 @@ public class GraphTwoVersions extends JFrame {
 
     private void initComponents() throws IOException {
         pnlGraph = new JPanel();
-		pnlLevel = new JPanel();
 		pnlTimeline = new JPanel();
 	    pnlMethod = new JPanel();
 	    txtFilePathDefault1 = new JTextField();
         txtFilePathDefault2 = new JTextField();
         btnSearchMethod = new JButton();
-        lblVisualizeGraph = new JLabel();
-		lblVisualizeTimeline = new JLabel();
 		progress = new JProgressBar(0, 100);
-		pnlProgress = new JPanel();
 		pnlSelectMethod = new JPanel();
 		
 		pnlSelectMethod.setVisible(false);
-		pnlProgress.setVisible(false);
 
 		progress.setStringPainted(true);
 		progress.setValue(0);
 		progress.setSize(new Dimension(100, 23));
-		
-		lblVisualizeTimeline.setVisible(false);	
-
-		btnVisualizeGraph = new JButton();
-		btnVisualizeGraph.setText("Generate Graph View");
-		btnVisualizeGraph.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				btnGerarGrafoActionPerformed(evt);
-            }
-		});
-
-        btnVisualizeTimeline = new JButton();
-        btnVisualizeTimeline.setText("Generate Timeline View");
-        btnVisualizeTimeline.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                btnGerarTimelineActionPerformed(evt);
-            }
-
-
-        });
-          
-        cbVisualization = new JComboBox<>();
-        cbVisualization.setModel(new DefaultComboBoxModel<>(new String[] {"Graph View",  "Timeline View" })); 
-        cbVisualization.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent evt) {
-        		cbVisualizationActionPerformed(evt);
-        }
-       });
-        
-        pnlLevel.setVisible(true);
-        pnlTimeline.setVisible(false);
-        btnVisualizeGraph.setVisible(true);
-        btnVisualizeTimeline.setVisible(false);
+        pnlTimeline.setVisible(true);
         pnlMethod.setVisible(false);
-
-
-        
-        String selecionado2 = (String) cbVisualization.getSelectedItem();
-        if (selecionado2.equals("Graph View")) {
-        	 cbVisualization.addItemListener(new ItemListener() {
-                 public void itemStateChanged(ItemEvent event) {
-                     if (event.getItem().equals("Graph View")) {
+                     /*if (event.getItem().equals("Graph View")) {
                          pnlMethod.setVisible(false);
                          pnlSelectMethod.setVisible(false);
-                         pnlLevel.setVisible(true);
                          pnlTimeline.setVisible(false);
-                         btnVisualizeGraph.setVisible(true);
                          btnVisualizeTimeline.setVisible(false);
- 						 lblVisualizeGraph.setVisible(true);
- 						 lblVisualizeTimeline.setVisible(false);
-                     } else if (event.getItem().equals("Timeline View")) {
-                    	 pnlClass.setVisible(false);
-                         pnlTestSmells.setVisible(false);
-                         pnlAuthor.setVisible(false); 
-                         pnlTimeline.setVisible(true);
-                         pnlLevel.setVisible(false);
+ 						 lblVisualizeTimeline.setVisible(false);}*/
+                        /* pnlTimeline.setVisible(true);
                          btnVisualizeTimeline.setVisible(true);
-                         btnVisualizeGraph.setVisible(false);
                          pnlMethod.setVisible(false);
-                         lblVisualizeGraph.setVisible(false);
  						 lblVisualizeTimeline.setVisible(true);
-                         pnlSelectMethod.setVisible(false);
-                     } 
-                     
-                 }
-             });           
-        
-        }            
+                         pnlSelectMethod.setVisible(false);*/
+                                         
         cbTimeline = new JComboBox<>();
         cbTimeline.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "Methods" }));
         cbTimeline.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent evt) {
         		cbTimelineActionPerformed(evt);
-            }
-        });
-
-        cbLevel = new JComboBox<>();
-        cbLevel.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "A Specific Test Class", "A Specific Test Smells", "Author", "Methods"}));
-        cbLevel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cbLevelActionPerformed(evt);
             }
         });
 
@@ -1969,58 +1757,7 @@ public class GraphTwoVersions extends JFrame {
         lblTimeline.setText("Select the level of granularity:");
 
         lblVisualization = new JLabel();
-        lblVisualization.setText("Select a view type:");
-
-        lblLevel = new JLabel();
-        lblLevel.setText("Select the level of granularity:");
-
-        pnlAuthor = new JPanel();
-
-        lblAuthor = new JLabel();
-        lblAuthor.setText("Select A Specific Author or All:");
-
-        cbAuthor = new JComboBox<>();
-
-        cbAuthor.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (!String.valueOf(cbAuthor.getSelectedItem()).equals("All")) {
-                    try {
-                        if (e.getStateChange() == ItemEvent.SELECTED) {
-                            String[] result = carrega_lista_autor_test(txtFilePathDefault1.getText(), String.valueOf(cbAuthor.getSelectedItem()));
-                            cbTestSmells.setModel(new DefaultComboBoxModel<>(result));
-                            cbTestSmells.removeAllItems();
-                            for (String test : result) {
-                                cbTestSmells.addItem(test);
-                            }
-                        } else {
-                        }
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                }else{
-                    try {
-                        String[] result = carrega_lista_cabecalho(txtFilePathDefault1.getText());
-                        Arrays.sort(result);
-                        cbTestSmells.removeAllItems();
-                        for (String test : result) {
-                            cbTestSmells.addItem(test);
-                        }
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-
-                }
-            }
-        });
-
-
-        lblClass = new JLabel();
-        lblClass.setText("Select a Test Class:");
-
-        pnlClass = new JPanel();
-
-        cbClass = new JComboBox<>();
+        lblVisualization.setText("View type: Timeline View");
 
         lblCsv2 = new JLabel();
         lblCsv2.setText("Select the second .csv File (resultado_evolution1.csv):");
@@ -2028,12 +1765,6 @@ public class GraphTwoVersions extends JFrame {
 
         lblCsv1.setText("Select the first .csv File (resultado_evolution1.csv):");
         lblCsv1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
-        lblTestSmells = new JLabel();
-        pnlTestSmells = new JPanel();
-
-        lblTestSmells.setText("Select a Test Smells:");
-        cbTestSmells = new JComboBox<>();
         pnlVisualization = new JPanel();
 
  		lblSelectTheCsvMethod = new JLabel();
@@ -2059,9 +1790,6 @@ public class GraphTwoVersions extends JFrame {
 				}
  	        }
  	    });
-  		
-  		lblVisualizeGraph.setText("Click here to generate the visualization :");
-  		lblVisualizeTimeline.setText("Click here to generate the visualization :");
   				
 		lblSelectMethod = new JLabel();
 		lblSelectMethod.setText("Select a Method:");
@@ -2072,26 +1800,13 @@ public class GraphTwoVersions extends JFrame {
 
   		lblSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbSelectMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
-  		lblVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
-  		lblVisualizeTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16)); 		   		
  		btnSearchMethod2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnChooseFileSearch1.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnChooseFileSearch2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnVisualizeTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        cbLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        cbClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        cbTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        cbAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        cbVisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
         cbTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblCsv1.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblCsv2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblLevel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblClass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblTestSmells.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblAuthor.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblVisualization.setFont(new Font("Tahoma", Font.PLAIN, 16));
         txtFilePathDefault1.setFont(new Font("Tahoma", Font.PLAIN, 14));
         txtFilePathDefault2.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -2100,25 +1815,28 @@ public class GraphTwoVersions extends JFrame {
   		btnSearchMethod.setFont(new Font("Tahoma", Font.PLAIN, 16));
   		lblSelectTheSecond.setFont(new Font("Tahoma", Font.PLAIN, 16));
  		txtFilePathMethod2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+ 		
+lblVisualizeTimeline = new JLabel();
+		
+		lblVisualizeTimeline.setVisible(true);
+		lblVisualizeTimeline.setText("Click here to generate the visualization :");
+		lblVisualizeTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		pnlProgress = new JPanel();
+		pnlProgress.setVisible(false);
+		
+		        btnVisualizeTimeline = new JButton();
+		        btnVisualizeTimeline.setText("Generate Timeline View");
+		        btnVisualizeTimeline.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent evt) {
+		                btnGerarTimelineActionPerformed(evt);
+		            }
 
-        
-        cbClass.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                try {
-                    List<ClassMethod> l = retorna_lista_classe_metodo();
-                    cbSelectMethod.removeAllItems();
-                    for(ClassMethod obj: l){
-                        if(obj.classe.equals(String.valueOf(cbClass.getSelectedItem())))
-                            for(MethodData Metodos: obj.metodos){
-                                cbSelectMethod.addItem(Metodos.metodo);
-                            }
-                    }
-                } catch (IOException ioException) {
-                }
 
-            }
-        });
+		        });
+		        btnVisualizeTimeline.setVisible(true);
+		        btnVisualizeTimeline.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		   		
+		   		
         GroupLayout gl_pnlSelectMethod = new GroupLayout(pnlSelectMethod);
 		gl_pnlSelectMethod.setHorizontalGroup(
 			gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
@@ -2140,22 +1858,24 @@ public class GraphTwoVersions extends JFrame {
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(pnlGraph, GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 625, GroupLayout.PREFERRED_SIZE)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 454, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(22, Short.MAX_VALUE))
 		);
+		   		
 		GroupLayout gl_pnlGraph = new GroupLayout(pnlGraph);
 		gl_pnlGraph.setHorizontalGroup(
 			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlGraph.createSequentialGroup()
-					.addGap(10)
-					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addComponent(pnlMethod, 0, 0, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(gl_pnlGraph.createSequentialGroup()
+							.addGap(10)
 							.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblCsv1)
 								.addGroup(gl_pnlGraph.createSequentialGroup()
@@ -2168,22 +1888,23 @@ public class GraphTwoVersions extends JFrame {
 									.addGap(6)
 									.addComponent(btnChooseFileSearch2))
 								.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 481, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
+								.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_pnlGraph.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
+								.addComponent(pnlMethod, 0, 0, Short.MAX_VALUE)
 								.addGroup(gl_pnlGraph.createSequentialGroup()
-									.addComponent(lblVisualizeGraph, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
-									.addGap(4)
-									.addComponent(btnVisualizeGraph, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_pnlGraph.createSequentialGroup()
-									.addComponent(lblVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
-									.addGap(4)
-									.addComponent(btnVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE))
-								.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
-							.addGap(33))))
+									.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(23))))
+						.addGroup(gl_pnlGraph.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pnlGraph.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnVisualizeTimeline, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		gl_pnlGraph.setVerticalGroup(
 			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
@@ -2202,75 +1923,22 @@ public class GraphTwoVersions extends JFrame {
 						.addComponent(btnChooseFileSearch2))
 					.addGap(6)
 					.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(pnlTimeline, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addGap(4)
-							.addComponent(lblVisualizeGraph))
-						.addComponent(btnVisualizeGraph))
-					.addGap(11)
-					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addGap(4)
-							.addComponent(lblVisualizeTimeline))
+					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblVisualizeTimeline)
 						.addComponent(btnVisualizeTimeline))
-					.addGap(6)
-					.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(199)
+					.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+					.addGap(75))
 		);
 		pnlGraph.setLayout(gl_pnlGraph);
 		contentPane.setLayout(gl_contentPane);
-   		GroupLayout gl_pnlClass = new GroupLayout(pnlClass);
-   		gl_pnlClass.setHorizontalGroup(
-   			gl_pnlClass.createParallelGroup(Alignment.LEADING)
-   				.addGroup(gl_pnlClass.createSequentialGroup()
-   					.addComponent(lblClass)
-   					.addPreferredGap(ComponentPlacement.UNRELATED)
-   					.addComponent(cbClass, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
-   					.addContainerGap(50, Short.MAX_VALUE))
-   		);
-   		gl_pnlClass.setVerticalGroup(
-   			gl_pnlClass.createParallelGroup(Alignment.LEADING)
-   				.addGroup(gl_pnlClass.createSequentialGroup()
-   					.addGroup(gl_pnlClass.createParallelGroup(Alignment.BASELINE)
-   						.addComponent(lblClass)
-   						.addComponent(cbClass, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-   					.addContainerGap(67, Short.MAX_VALUE))
-   		);
-   		pnlClass.setLayout(gl_pnlClass);
-   		
-   		GroupLayout gl_pnlLevel = new GroupLayout(pnlLevel);
-   		gl_pnlLevel.setHorizontalGroup(
-   			gl_pnlLevel.createParallelGroup(Alignment.LEADING)
-   				.addGroup(gl_pnlLevel.createSequentialGroup()
-   					.addComponent(lblLevel)
-   					.addPreferredGap(ComponentPlacement.RELATED)
-   					.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
-   					.addContainerGap(59, Short.MAX_VALUE))
-   		);
-   		gl_pnlLevel.setVerticalGroup(
-   			gl_pnlLevel.createParallelGroup(Alignment.LEADING)
-   				.addGroup(gl_pnlLevel.createSequentialGroup()
-   					.addContainerGap()
-   					.addGroup(gl_pnlLevel.createParallelGroup(Alignment.BASELINE)
-   						.addComponent(lblLevel)
-   						.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-   					.addContainerGap(48, Short.MAX_VALUE))
-   		);
-   		pnlLevel.setLayout(gl_pnlLevel);		
    		
    		GroupLayout gl_pnlTimeline = new GroupLayout(pnlTimeline);
    		gl_pnlTimeline.setHorizontalGroup(
@@ -2290,47 +1958,6 @@ public class GraphTwoVersions extends JFrame {
    					.addContainerGap(23, Short.MAX_VALUE))
    		);
  		 pnlTimeline.setLayout(gl_pnlTimeline);
- 		 
- 		 GroupLayout gl_pnlAuthor = new GroupLayout(pnlAuthor);
- 		 gl_pnlAuthor.setHorizontalGroup(
- 		 	gl_pnlAuthor.createParallelGroup(Alignment.LEADING)
- 		 		.addGroup(gl_pnlAuthor.createSequentialGroup()
- 		 			.addComponent(lblAuthor)
- 		 			.addPreferredGap(ComponentPlacement.RELATED)
- 		 			.addComponent(cbAuthor, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
- 		 			.addContainerGap(33, Short.MAX_VALUE))
- 		 );
- 		 gl_pnlAuthor.setVerticalGroup(
- 		 	gl_pnlAuthor.createParallelGroup(Alignment.LEADING)
- 		 		.addGroup(gl_pnlAuthor.createSequentialGroup()
- 		 			.addContainerGap()
- 		 			.addGroup(gl_pnlAuthor.createParallelGroup(Alignment.BASELINE)
- 		 				.addComponent(lblAuthor)
- 		 				.addComponent(cbAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
- 		 			.addContainerGap(35, Short.MAX_VALUE))
- 		 );
-   		pnlAuthor.setLayout(gl_pnlAuthor);
-   		
-   		
-   		GroupLayout gl_pnlTestSmells = new GroupLayout(pnlTestSmells);
-   		gl_pnlTestSmells.setHorizontalGroup(
-   			gl_pnlTestSmells.createParallelGroup(Alignment.LEADING)
-   				.addGroup(gl_pnlTestSmells.createSequentialGroup()
-   					.addComponent(lblTestSmells)
-   					.addPreferredGap(ComponentPlacement.RELATED)
-   					.addComponent(cbTestSmells, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-   					.addContainerGap(66, Short.MAX_VALUE))
-   		);
-   		gl_pnlTestSmells.setVerticalGroup(
-   			gl_pnlTestSmells.createParallelGroup(Alignment.LEADING)
-   				.addGroup(gl_pnlTestSmells.createSequentialGroup()
-   					.addContainerGap()
-   					.addGroup(gl_pnlTestSmells.createParallelGroup(Alignment.BASELINE)
-   						.addComponent(lblTestSmells)
-   						.addComponent(cbTestSmells, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-   					.addContainerGap(16, Short.MAX_VALUE))
-   		);
-   		pnlTestSmells.setLayout(gl_pnlTestSmells);
    		
    		GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
    		gl_pnlMethod.setHorizontalGroup(
@@ -2349,7 +1976,7 @@ public class GraphTwoVersions extends JFrame {
    							.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
    							.addComponent(btnSearchMethod2, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
-   					.addContainerGap(29, Short.MAX_VALUE))
+   					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
    		);
    		gl_pnlMethod.setVerticalGroup(
    			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
@@ -2366,7 +1993,7 @@ public class GraphTwoVersions extends JFrame {
    					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
    						.addComponent(btnSearchMethod2, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
    						.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-   					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+   					.addContainerGap(41, Short.MAX_VALUE))
    		);
    		pnlMethod.setLayout(gl_pnlMethod);
    		
@@ -2375,20 +2002,15 @@ public class GraphTwoVersions extends JFrame {
    			gl_pnlVisualization.createParallelGroup(Alignment.LEADING)
    				.addGroup(gl_pnlVisualization.createSequentialGroup()
    					.addComponent(lblVisualization)
-   					.addPreferredGap(ComponentPlacement.RELATED)
-   					.addComponent(cbVisualization, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-   					.addContainerGap(70, Short.MAX_VALUE))
+   					.addContainerGap(280, Short.MAX_VALUE))
    		);
    		gl_pnlVisualization.setVerticalGroup(
    			gl_pnlVisualization.createParallelGroup(Alignment.LEADING)
-   				.addGroup(Alignment.TRAILING, gl_pnlVisualization.createSequentialGroup()
+   				.addGroup(gl_pnlVisualization.createSequentialGroup()
    					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-   					.addGroup(gl_pnlVisualization.createParallelGroup(Alignment.BASELINE)
-   						.addComponent(lblVisualization)
-   						.addComponent(cbVisualization, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+   					.addComponent(lblVisualization)
    					.addContainerGap())
    		);
    		pnlVisualization.setLayout(gl_pnlVisualization);
 	}
-    
 }

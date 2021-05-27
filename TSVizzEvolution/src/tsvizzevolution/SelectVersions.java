@@ -96,9 +96,11 @@ public class SelectVersions extends JFrame {
 	 			if(cbVersions.getSelectedItem().equals("1")){
 	 	            GraphOneVersion g = new GraphOneVersion();
 					GraphOneVersion.main(null);	 
+					dispose();
 	 	        }else if(cbVersions.getSelectedItem().equals("2")) {
-	 	            GraphTwoVersions gt = new GraphTwoVersions();
-	 	            GraphTwoVersions.main(null);	
+	 	            TimelineView gt = new TimelineView();
+	 	            TimelineView.main(null);	
+					dispose();
 	 	        }	 			
 	 		}
 	         });

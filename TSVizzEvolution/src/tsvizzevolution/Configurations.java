@@ -9,7 +9,7 @@ public class Configurations {
 	public static final int alturaMetodo = 40;
 	public static final int alturaClasse = 204;
 	public static final int alturaPacote = 414;
-	public static final int alturaPainel = 590;
+	public static final int alturaPainel = 615;
 	
 	//larguras
 	public static final int larguraBorda = 2;

@@ -28,7 +28,7 @@ public class TreemapView extends JFrame {
     public TreemapView() {
       //  setSize(new Dimension(1200, 700));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1200, 700);
+		setBounds(100, 100, 1000, 600);
         setTitle("Treemap View");
 		setResizable(false);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -44,10 +44,10 @@ public class TreemapView extends JFrame {
         diagram.setDefaultShape(com.mindfusion.diagramming.Shape.fromId("Rectangle"));
         diagram.setBackBrush(new SolidBrush(Color.WHITE));
         diagram.setMeasureUnit(GraphicsUnit.Millimeter);
-        diagram.setBounds(new Rectangle2D.Float(0,0,1200,700));
+        diagram.setBounds(new Rectangle2D.Float(0,0,1000,600));
 
         diagramView = new DiagramView(diagram);
-        diagramView.setBounds(100, 100, 1200, 700);
+        diagramView.setBounds(100, 100, 1000, 600);
         getContentPane().add(BorderLayout.CENTER, diagramView );
         
         assignData();
@@ -163,7 +163,7 @@ public class TreemapView extends JFrame {
         TreeMapLayout layout = new TreeMapLayout();
         layout.setPadding(0);
         layout.setContainerPadding(3);//4
-        layout.setLayoutArea(new Rectangle2D.Float(0, 0, 900/coef, 500/coef)); //540
+        layout.setLayoutArea(new Rectangle2D.Float(0, 0, 700/coef, 400/coef)); //540
         layout.arrange(diagram);
       // diagramView.zoomToFit();
 

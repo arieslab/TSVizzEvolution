@@ -26,7 +26,7 @@ import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 
-import static tsvizzevolution.GraphTwoVersions.OrdenaPeloNumeroOcorrencias;
+import static tsvizzevolution.TimelineView.OrdenaPeloNumeroOcorrencias;
 
 public class GraphOneVersion extends javax.swing.JFrame {
 	private JButton btnChooseFileSearch;
@@ -568,6 +568,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 						JDialog dialog = optionPane.createDialog(null, "Warning");
 						dialog.setVisible(true);
 						setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		 	            
 
 					} else {
 //						Viewer v = graph1.display();
