@@ -2,7 +2,12 @@ node{
     size:50px;
     fill-color: blue;
     stroke-mode: plain;
-    stroke-color: black;   
+    stroke-color: black;
+    text-size: 15px;
+}
+
+edge{
+    text-size: 15px;
 }
 
 node:clicked {
@@ -12,21 +17,25 @@ node:clicked {
 node.quadradoTS{
     fill-color: rgb(205,205,205);
     shape: box;
+    text-size: 15px;
 }
 node.projetoTS{
     fill-color: rgb(147,219,112);
     shape: circle;
+    text-size: 15px;
 }
 node.metodo{
     size:25px;
     fill-color: yellow;
     stroke-mode: plain;
-    stroke-color: black;   
+    stroke-color: black;
+    text-size: 15px; 
 }
 
 node.boneco{
     fill-mode: image-scaled; 
     fill-image: url('tsvizzevolution/boneco.png');
+    text-size: 15px;
     
 }
 
@@ -34,11 +43,14 @@ node.projeto{
     fill-mode: image-scaled; 
     fill-image: 
 url('tsvizzevolution/projeto.png');
+    text-size: 15px;
     
 }
 node.x{
     fill-mode: image-scaled;
     fill-image: 
 url('tsvizzevolution/x.jpeg');
+    text-size: 15px;
 
 }
+
