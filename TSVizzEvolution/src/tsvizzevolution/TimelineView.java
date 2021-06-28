@@ -124,7 +124,7 @@ public class TimelineView extends JFrame {
 
     public TimelineView() throws IOException {
 
-		setTitle("TSVizzEvolution");
+		setTitle("TSVizzEvolution - Two Versions");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 715, 510);
 		contentPane = new JPanel();

@@ -17,6 +17,13 @@ import java.util.Random;
 
 
 public class TreemapView extends JFrame {
+	
+	Diagram diagram;
+    DiagramView diagramView;
+    private NodeList stateNodes;
+    private Color[] scale;
+    private final float coef = 3;
+    private static final long serialVersionUID = 1;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -34,16 +41,16 @@ public class TreemapView extends JFrame {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
-        scale = new Color[]{
+        /*scale = new Color[]{
                 Color.decode("#20C300"),
                 Color.decode("#FFFF00"),
                 Color.decode("#FF8000")
-        };
+        };*/
 
         diagram = new Diagram();
-        diagram.setDefaultShape(com.mindfusion.diagramming.Shape.fromId("Rectangle"));
-        diagram.setBackBrush(new SolidBrush(Color.WHITE));
-        diagram.setMeasureUnit(GraphicsUnit.Millimeter);
+      //  diagram.setDefaultShape(com.mindfusion.diagramming.Shape.fromId("Rectangle"));
+     //   diagram.setBackBrush(new SolidBrush(Color.WHITE));
+      //  diagram.setMeasureUnit(GraphicsUnit.Millimeter);
         diagram.setBounds(new Rectangle2D.Float(0,0,1000,600));
 
         diagramView = new DiagramView(diagram);
@@ -168,11 +175,5 @@ public class TreemapView extends JFrame {
       // diagramView.zoomToFit();
 
     }
-        Diagram diagram;
-        DiagramView diagramView;
-        private NodeList stateNodes;
-        private Color[] scale;
-        private final float coef = 3;
-        private static final long serialVersionUID = 1;
-
+        
 }

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -77,7 +78,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	private static String nomeDoArquivo;
 	private JPanel pnlLevel;
 	
-
 	public Thread progressoT = new Thread() {
 		
 		@Override
@@ -116,7 +116,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 	}
 
 	public GraphOneVersion() throws IOException {
-		setTitle("TSVizzEvolution");
+		setTitle("TSVizzEvolution - One Version");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 733, 655);
 		contentPane = new JPanel();
@@ -127,7 +127,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		// Para abrir no centro da Tela
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-				
+
 		initComponents();
 		pnlClass.setVisible(false);
 		pnlTestSmells.setVisible(false);
@@ -650,7 +650,7 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
 	private static void CriaGrafoMetodos(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1,
 			String nome, String classe, int coluna, String file, List<ClassMethod> listaMetodosClasse, String metodoFiltro) throws IOException {
-		System.out.println(metodoFiltro);
+		//System.out.println(metodoFiltro);
 		List<Data> l = retornaDados(file, "All Test Classes");
 		for (int i = 0; i < listaClassesInt.size(); i++) {
 			int[] linhaInt = (int[]) listaClassesInt.get(i);
