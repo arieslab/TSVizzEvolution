@@ -1127,7 +1127,7 @@ lblVisualizeTimeline = new JLabel();
 						try {
 							window = new TimelineView();
 							window.setVisible(true);
-							dispose();
+							//dispose();
 
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
