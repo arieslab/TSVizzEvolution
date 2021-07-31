@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Graphs extends javax.swing.JFrame{
+public class GraphView extends javax.swing.JFrame{
     public JProgressBar progress;
 
     public Thread progressoT = new Thread() {

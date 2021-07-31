@@ -352,7 +352,7 @@ public class OneVersion extends javax.swing.JFrame {
 
 	private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
 		pnlProgress.setVisible(true);
-		Graphs c = new Graphs();
+		GraphView c = new GraphView();
 		c.iniciaProcessamento(txtFilePathDefault1.getText(),progress,pnlProgress,cbLevel,cbClass,cbTestSmells,cbAuthor,cbSelectMethod);
 		dispose();
 
