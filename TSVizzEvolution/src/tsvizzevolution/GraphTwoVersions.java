@@ -1123,9 +1123,9 @@ lblVisualizeTimeline = new JLabel();
 		        btnVisualizeTimeline.setText("Generate Timeline View");
 		        btnVisualizeTimeline.addActionListener(new ActionListener() {
 		            public void actionPerformed(ActionEvent evt) {
-		            	TimelineView3 window;
+		            	TimelineView window;
 						try {
-							window = new TimelineView3();
+							window = new TimelineView();
 							window.setVisible(true);
 							dispose();
 

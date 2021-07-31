@@ -57,7 +57,7 @@ import org.graphstream.ui.view.Viewer;
 import static org.graphstream.algorithm.Toolkit.randomNode;
 import static org.graphstream.ui.graphicGraph.GraphPosLengthUtils.nodePosition;
 
-public class TimelineView3 extends JFrame {
+public class TimelineViewTeste extends JFrame {
     private JButton btnChooseFileSearch1;
     private JButton btnChooseFileSearch2;
     private JButton btnVisualizeTimeline;
@@ -125,7 +125,7 @@ public class TimelineView3 extends JFrame {
         }
     }
 
-    public TimelineView3() throws IOException {
+    public TimelineViewTeste() throws IOException {
 
         frame = new JFrame();
         frame.setLocationRelativeTo(null);
@@ -196,7 +196,7 @@ public class TimelineView3 extends JFrame {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						TimelineView3 tv = new TimelineView3();
+						TimelineViewTeste tv = new TimelineViewTeste();
 						tv.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -698,18 +698,18 @@ public class TimelineView3 extends JFrame {
             }
             
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TimelineView3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TimelineViewTeste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TimelineView3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TimelineViewTeste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TimelineView3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TimelineViewTeste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TimelineView3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TimelineViewTeste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-					new TimelineView3().setVisible(true);
+					new TimelineViewTeste().setVisible(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
