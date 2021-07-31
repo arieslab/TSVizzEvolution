@@ -57,7 +57,7 @@ import org.graphstream.ui.view.Viewer;
 import static org.graphstream.algorithm.Toolkit.randomNode;
 import static org.graphstream.ui.graphicGraph.GraphPosLengthUtils.nodePosition;
 
-public class GraphTwoVersions extends JFrame {
+public class TwoVersions extends JFrame {
     private JButton btnChooseFileSearch1;
     private JButton btnChooseFileSearch2;
     private JButton btnVisualizeTimeline;
@@ -125,7 +125,7 @@ public class GraphTwoVersions extends JFrame {
         }
     }
 
-    public GraphTwoVersions() throws IOException {
+    public TwoVersions() throws IOException {
 
 		setTitle("TSVizzEvolution - Two Versions");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -219,7 +219,7 @@ addWindowListener(new WindowListener() {
 
     private void btnChooseFileSearch1ActionPerformed(ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(TwoVersions.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
@@ -230,7 +230,7 @@ addWindowListener(new WindowListener() {
    
     private void btnChooseFileSearch2ActionPerformed(ActionEvent evt) throws IOException {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(TwoVersions.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
@@ -242,7 +242,7 @@ addWindowListener(new WindowListener() {
 
     private void btnSearchMethodActionPerformed(ActionEvent evt) {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(TwoVersions.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod.setText(file.getPath());
@@ -253,7 +253,7 @@ addWindowListener(new WindowListener() {
 
     private void btnSearchMethod2ActionPerformed(ActionEvent evt) throws IOException {
         final JFileChooser fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(GraphTwoVersions.this);
+        int returnVal = fc.showOpenDialog(TwoVersions.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathMethod2.setText(file.getPath());
@@ -709,18 +709,18 @@ addWindowListener(new WindowListener() {
             }
             
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GraphTwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TwoVersions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-					new GraphTwoVersions().setVisible(true);
+					new TwoVersions().setVisible(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

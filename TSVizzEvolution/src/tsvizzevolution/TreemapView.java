@@ -98,7 +98,7 @@ public class TreemapView extends JFrame {
 				java.awt.EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							new GraphOneVersion().setVisible(true);
+							new OneVersion().setVisible(true);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

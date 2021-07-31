@@ -94,8 +94,8 @@ public class SelectVersions extends JFrame {
 
 	 		private void cbVersionsActionPerformed(ActionEvent evt) throws IOException {
 	 			if(cbVersions.getSelectedItem().equals("1")){
-	 	            GraphOneVersion g = new GraphOneVersion();
-					GraphOneVersion.main(null);	 
+	 	            OneVersion g = new OneVersion();
+					OneVersion.main(null);	 
 					dispose();
 	 	        }else if(cbVersions.getSelectedItem().equals("2")) {
 	 	            TimelineView gt = new TimelineView();

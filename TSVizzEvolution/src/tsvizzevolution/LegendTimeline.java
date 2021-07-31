@@ -126,7 +126,7 @@ public class LegendTimeline extends JFrame {
 				java.awt.EventQueue.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
-							new GraphTwoVersions().setVisible(true); //voltar para a GraphTwoVersions
+							new TwoVersions().setVisible(true); //voltar para a TwoVersions
 							dispose();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block

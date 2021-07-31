@@ -22,12 +22,12 @@ public class Data implements Comparable<Data>{
         this.valor = valor;
         this.autor = autor;
     }
-    String classe;
-    String nome;
-    int valor;
-    Color cor;
-    String projeto;
-    String autor;
+    public  String classe;
+    public String nome;
+    public int valor;
+    public Color cor;
+    public String projeto;
+    public String autor;
 
     @Override
     public int compareTo(Data o) {
