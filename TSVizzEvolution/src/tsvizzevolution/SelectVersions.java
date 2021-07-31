@@ -99,7 +99,7 @@ public class SelectVersions extends JFrame {
 					dispose();
 	 	        }else if(cbVersions.getSelectedItem().equals("2")) {
 	 	            TimelineView gt = new TimelineView();
-	 	            TimelineView.main(null);	
+	 	           TimelineView.main(null);	
 					dispose();
 	 	        }	 			
 	 		}

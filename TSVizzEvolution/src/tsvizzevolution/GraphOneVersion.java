@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -211,7 +212,61 @@ public class GraphOneVersion extends javax.swing.JFrame {
 				}
 			}
 		});
-
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							SelectVersions frame = new SelectVersions();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
 	}
 
 	private void btnChooseFileSearchActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
@@ -251,37 +306,6 @@ public class GraphOneVersion extends javax.swing.JFrame {
 
 	private void btnGerarTreemapActionPerformed() {
 		CriaXMLTreeMapView(txtFilePathDefault1.getText(), "Project");
-		/*frame = new JFrame();
-		frame.setVisible(true);
-		frame.setPreferredSize(new Dimension(1200, 900));
-		frame.setMaximumSize(frame.getPreferredSize());
-		frame.setMinimumSize(frame.getPreferredSize());
-		frame.setTitle("TSVizzEvolution");
-		frame.setLocationRelativeTo(null);
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-		JPanel painel = new JPanel();
-		painel.setLayout(new BorderLayout());
-		painel.setBackground(Configurations.corPainel); // seta a cor de fundo
-		painel.setBorder(
-				BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta
-																													// a
-																													// borda
-		painel.setPreferredSize(new Dimension(1200, 900));
-		painel.setMaximumSize(painel.getPreferredSize());
-		painel.setMinimumSize(painel.getPreferredSize());
-		frame.getContentPane().add(painel);
-		try {
-			CriaXMLTreeMapView(txtFilePathDefault1.getText(), "Project");
-			//CriaTreeMapView(txtFilePathDefault1.getText(), "Project", painel);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		JScrollPane jScrollPane = new JScrollPane(painel);
-		jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		frame.getContentPane().add(jScrollPane);*/
 	}
 
 	private void CriaXMLTreeMapView(String fileName1, String filtro){
@@ -541,6 +565,63 @@ public class GraphOneVersion extends javax.swing.JFrame {
 //						v.disableAutoLayout();
 //						v.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 					}
+					
+					
+					addWindowListener(new WindowListener() {
+						
+						@Override
+						public void windowOpened(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void windowIconified(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void windowDeiconified(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void windowDeactivated(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void windowClosing(WindowEvent e) {
+							// TODO Auto-generated method stub
+							java.awt.EventQueue.invokeLater(new Runnable() {
+								public void run() {
+									try {
+										new GraphOneVersion().setVisible(true);
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+							});
+						}
+						
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void windowActivated(WindowEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					
+						
 				} catch (IOException ex) {
 					Logger.getLogger(GraphOneVersion.class.getName()).log(Level.SEVERE, null, ex);
 				}
@@ -1748,4 +1829,5 @@ public class GraphOneVersion extends javax.swing.JFrame {
 		pack();
 
 	}
+
 }
