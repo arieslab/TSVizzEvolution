@@ -59,7 +59,7 @@ public class LegendTimeline extends JFrame {
 	 * Create the frame.
 	 */
 	public LegendTimeline() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 440, 550);
 		setTitle("Legend");
 		contentPane = new JPanel();
@@ -126,8 +126,8 @@ public class LegendTimeline extends JFrame {
 				java.awt.EventQueue.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
+		                ///	TimelineView.dispose();
 							new TwoVersions().setVisible(true); //voltar para a TwoVersions
-							dispose();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

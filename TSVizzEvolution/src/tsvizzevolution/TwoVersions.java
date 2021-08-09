@@ -117,14 +117,6 @@ public class TwoVersions extends JFrame {
 		};
 	};
 
-	public static int converteInteiro(String valor) {
-        try {
-            return Integer.parseInt(valor);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
     public TwoVersions() throws IOException {
 
 		setTitle("TSVizzEvolution - Two Versions");
@@ -223,7 +215,7 @@ addWindowListener(new WindowListener() {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault1.setText(file.getPath());
-            //txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\resultado_evolution1.csv");
+         //   txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\TSVizzEvolution\\files_cvs_jnose\\commons-io_2-1\\resultado_evolution1.csv");
             nomeDoArquivo = file.getName();
         }
     }
@@ -234,7 +226,7 @@ addWindowListener(new WindowListener() {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             txtFilePathDefault2.setText(file.getPath());
-            //txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\resultado_evolution1.csv");
+           // txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\TSVizzEvolution\\files_cvs_jnose\\commons-io_2-6\\resultado_evolution1.csv");
             nomeDoArquivo = file.getName();
             btnGerarUploadActionPerformed(evt);
         }
@@ -274,9 +266,101 @@ addWindowListener(new WindowListener() {
     }
 
     
+    private void btnGerarTimelineActionPerformed(ActionEvent evt) {
+    	dispose();
+        frame = new JFrame();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setPreferredSize(new Dimension( 800 + Configurations.adicionalBorda, Configurations.alturaPainel ));
+        frame.setMaximumSize(frame.getPreferredSize());
+        frame.setMinimumSize(frame.getPreferredSize());
+		frame.setTitle("TSVizzEvolution - Timeline");
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		frame.setLocation(100, 100);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		
+        JPanel painel = new JPanel();
+        painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        painel.setBackground(Configurations.corPainel); //seta a cor de fundo
+        painel.setBorder(BorderFactory.createLineBorder((Color) Configurations.bordaPainel, Configurations.larguraBorda)); // seta a borda
+        painel.setPreferredSize(new Dimension( 700, 300 ));
+        painel.setMaximumSize(painel.getPreferredSize());
+        painel.setMinimumSize(painel.getPreferredSize());
+        frame.getContentPane().add(painel);
+        
+		
+        int tamanho = 0;
+        try {
+            String selecionado = (String) cbTimeline.getSelectedItem();
+            TimelineView cr = new TimelineView();
+            tamanho = cr.criaRetangulos(painel, selecionado, txtFilePathDefault1.getText(), txtFilePathDefault2.getText(), tamanho, txtFilePathMethod, txtFilePathMethod2, classe);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    painel.setPreferredSize(new Dimension(tamanho*204, 300 ));
     
-    private void cbTimelineActionPerformed(ActionEvent evt) {
-    }
+	JScrollPane jScrollPane = new JScrollPane(painel);
+	jScrollPane.setHorizontalScrollBarPolicy(jScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	//jScrollPane.setVerticalScrollBarPolicy(jScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+	frame.getContentPane().add(jScrollPane);
+	
+	addWindowListener(new WindowListener() {
+		
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowClosing(WindowEvent e) {
+			// TODO Auto-generated method stub
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						TwoVersions tv = new TwoVersions();
+						tv.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	});
+	}
 
     private void btnGerarUploadActionPerformed(ActionEvent evt) throws IOException {
         String[] a = null;
@@ -289,415 +373,19 @@ addWindowListener(new WindowListener() {
      //   txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
         b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
-        c2 = carrega_lista_autor(txtFilePathDefault1.getText());
 
       //  txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
        // txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a = carrega_lista_linhas(txtFilePathDefault2.getText());
         b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
-        c = carrega_lista_autor(txtFilePathDefault2.getText());
 
         a = concatena(a, a2);
         b = concatena(b, b2);
-        c = concatena_autor(c, c2);
 
         
 		btnVisualizeTimeline.setEnabled(true);
 
 	}
-    public static int retornaDadosDoisNos(String a, String b, String filtro, List<Data> l){
-        if (filtro.equals("Project")) {
-            for (int i = 0; i < l.size(); i++) {
-                Data d = l.get(i);
-                if (d.nome.equals(a) && d.projeto.equals(b)) {
-                    return d.valor;
-                }
-            }
-            return 0;
-        }else{
-            for (int i = 0; i < l.size(); i++) {
-                Data d = l.get(i);
-                if (d.nome.equals(a) && d.classe.equals(b)) {
-                    return d.valor;
-                }
-            }
-            return 0;
-        }
-    }
-
-    public static int retornaDadosAutorMetodo(String autor, String metodo, String file, List<Data> l){
-        for (int i = 0; i < l.size(); i++) {
-            Data d = l.get(i);
-            if (d.autor.equals(autor) && d.nome.equals(metodo)) {
-                return d.valor;
-            }
-        }
-        return 0;
-    }
-
-    public static List<Data> retornaDadosAutores(String file){
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            String linha = null;
-
-            List listaDeLinhasInt = new ArrayList();
-            List listaDeLinhas = new ArrayList();
-            String cabecalho;
-
-            cabecalho = reader.readLine();
-            String[] cabecalhoLista = cabecalho.split(VIRGULA);
-            if (cabecalho != null) {
-                while ((linha = reader.readLine()) != null) {
-                    String[] dados = linha.split(VIRGULA);
-                    listaDeLinhas.add(dados);
-                    int[] valorInteiros = new int[dados.length];
-
-                    for (int i = 0; i < dados.length; i++) {
-                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
-                    }
-                    listaDeLinhasInt.add(valorInteiros);
-                }
-
-            }
-            List<Data> resultado = new ArrayList<>();
-            List<String> autores = new ArrayList<>();
-            int coluna = 1;
-            for (int i = 0; i < listaDeLinhas.size(); i++){
-                String[] linha_analisada = (String[]) listaDeLinhas.get(i);
-                String autor = linha_analisada[coluna];
-                boolean flag = false;
-                for (int j = 0; j < autores.size(); j++){
-                    if (autores.get(j).equals(autor)){
-                        flag = true;
-                    }
-                }
-                if (!flag){
-                    autores.add(autor);
-                }
-            }
-            for (int i = 0; i < autores.size(); i ++){
-                String autor = autores.get(i);
-                coluna = 10;
-                for (int j = 10; j < cabecalhoLista.length; j++) {
-                    int soma = 0;
-                    for (int k = 0; k < listaDeLinhas.size(); k++) {
-                        String[] linha_analisada = (String[]) listaDeLinhas.get(k);
-                        int[] linha_int = (int[]) listaDeLinhasInt.get(k);
-                        if (linha_analisada[1].equals(autor)){
-                            soma += linha_int[coluna];
-                        }
-                    }
-                    resultado.add(new Data(cabecalhoLista[j], soma, autor));
-                    coluna += 1;
-                }
-            }
-            return resultado;
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Graph removeVertices(Graph graph1, String filtro){
-        boolean stop = false;
-        while (!stop) {
-            boolean Flag = false;
-            for (int i = 0; i < graph1.getNodeCount(); i++) {
-                Node n1 = graph1.getNode(i);
-                if (n1.getDegree() == 0) {
-                    if (!(n1.getId().equals(filtro + "_1") || n1.getId().equals(filtro + "_2"))) {
-                        Flag = true;
-                        graph1.removeNode(n1);
-                        break;
-                    }
-                }
-            }
-            if (!Flag) {
-                stop = true;
-            }
-        }
-        return graph1;
-    }
-
-    public static Graph removeVerticesDoisLados(Graph graph1){
-        for (int i = 0; i < graph1.getNodeCount(); i++) {
-            Node n1 = graph1.getNode(i);
-            String complemento = n1.getId().substring(n1.getId().length()-2, n1.getId().length());
-            if (complemento.equals("_1")){
-                Node n2 = graph1.getNode(n1.getId().substring(0, n1.getId().length()-2) + "_2");
-                if (n2 != null){
-                    if(n2.getDegree() == 0 && n1.getDegree() == 0){
-                        graph1.removeNode(n2);
-                        graph1.removeNode(n1);
-                        i --;
-                    }
-                }
-            }else{
-                Node n2 = graph1.getNode(n1.getId().substring(0, n1.getId().length()-2) + "_1");
-                if (n2 != null){
-                    if(n2.getDegree() == 0 && n1.getDegree() == 0){
-                        graph1.removeNode(n2);
-                        graph1.removeNode(n1);
-                        i --;
-                    }
-                }
-            }
-        }
-        return graph1;
-    }
-
-
-    public static Graph criaNosInexistentes(Graph graph, List listaDeLinhas){
-        List<String> todasClasses = retornaTodasClasses(listaDeLinhas);
-        for (int i = 0; i < graph.getNodeCount(); i++) {
-            Node n1 = graph.getNode(i);
-            if (in(n1.getId().substring(0, n1.getId().length()-2), todasClasses)) {
-                char complemento = n1.getId().charAt(n1.getId().length() - 1);
-                char adicional = ' ';
-                if (complemento == '1') {
-                    adicional = '2';
-                } else {
-                    adicional = '1';
-                }
-                String nomeAlterado = n1.getId();
-                nomeAlterado = nomeAlterado.substring(0, nomeAlterado.length() - 1) + adicional;
-                boolean achou = false;
-                for (int j = 0; j < graph.getNodeCount(); j++) {
-                    Node no = graph.getNode(j);
-                    if (no.getId().equals(nomeAlterado)) {
-                        achou = true;
-                    }
-                }
-                if (!achou) {
-                    graph.addNode(nomeAlterado);
-                    Node n = graph.getNode(nomeAlterado);
-                    n.setAttribute("ui.label", nomeAlterado);
-                    n.addAttribute("ui.class", "x");
-                    n.setAttribute("x", -1000);
-                    n.setAttribute("y", 0);
-                }
-            }
-        }
-
-        return graph;
-    }
-
-    public static List<Data> OrdenaPeloNumeroOcorrencias(List<Data> l){
-        Data[] v = new Data[l.size()];
-        for (int i = 0; i < v.length; i++){
-            v[i] = l.get(i);
-        }
-
-        for(int i = 0; i < v.length - 1; i++) {
-            for(int j = 0; j < v.length - 1 - i; j++) {
-                if(v[j].valor < v[j + 1].valor) {
-                    Data aux = v[j];
-                    v[j] = v[j + 1];
-                    v[j + 1] = aux;
-                }
-            }
-        }
-        l = new ArrayList<Data>();
-        for (int i = 0; i < v.length; i++){
-            l.add(v[i]);
-        }
-        return l;
-    }
-
-    public static void arrumaDados(List<Data> dados1, List<Data> dados2){
-        for (int i = 0; i < dados1.size(); i++){
-            if (dados1.get(i).valor == 0){
-                boolean achou = false;
-                int j_achado = -1;
-                for (int j = 0; j < dados2.size(); j++){
-                    if (dados2.get(j).nome.equals(dados1.get(i).nome) && dados2.get(j).classe.equals(dados1.get(i).classe)){
-                        achou = true;
-                        j_achado = j;
-                        break;
-                    }
-                }
-                if (achou){
-                    if (dados2.get(j_achado).valor == 0){
-                        dados2.remove(dados2.get(j_achado));
-                        dados1.remove(dados1.get(i));
-                        i--;
-                    }
-                }else{
-                    dados1.remove(dados1.get(i));
-                    i--;
-                }
-            }
-        }
-        for (int i = 0; i < dados2.size(); i++){
-            if (dados2.get(i).valor == 0){
-                boolean achou = false;
-                int j_achado = -1;
-                for (int j = 0; j < dados1.size(); j++){
-                    if (dados1.get(j).nome.equals(dados2.get(i).nome) && dados1.get(j).classe.equals(dados2.get(i).classe)){
-                        achou = true;
-                        j_achado = j;
-                        break;
-                    }
-                }
-                if (achou){
-                    if (dados1.get(j_achado).valor == 0){
-                        dados1.remove(dados1.get(j_achado));
-                        dados2.remove(dados2.get(i));
-                        i--;
-                    }
-                }else{
-                    dados2.remove(dados2.get(i));
-                    i--;
-                }
-            }
-        }
-        for (int i =0; i < dados1.size(); i++){
-            boolean tem = false;
-            for (int j = 0; j < dados2.size(); j++){
-                if (dados1.get(i).nome.equals(dados2.get(j).nome) && dados1.get(i).classe.equals(dados2.get(j).classe)){
-                    tem = true;
-                    if (dados1.get(i).valor > 0){
-                        dados1.get(i).cor = Color.green;
-                    }else{
-                        dados1.get(i).cor = Color.gray;
-                    }
-                    if (dados1.get(i).valor > 0) {
-                        dados2.get(j).cor = Color.YELLOW;
-                        if (dados1.get(i).valor > dados2.get(j).valor) {
-                            if(dados2.get(j).valor > 0){
-                                dados2.get(j).cor = Color.BLUE;
-                            }else{
-                                dados2.get(j).cor = Color.gray;
-                            }
-                        }
-                        if (dados1.get(i).valor < dados2.get(j).valor) {
-                            if(dados2.get(j).valor > 0){
-                                dados2.get(j).cor = Color.red;
-                            }else{
-                                dados2.get(j).cor = Color.gray;
-                            }
-                        }
-                    }else{
-                        dados2.get(j).cor = Color.GREEN;
-                    }
-                }
-            }
-            if (!tem){
-                dados2.add(new Data(dados1.get(i).nome, 0, dados1.get(i).classe, dados1.get(i).projeto, Color.GRAY));
-                dados1.get(i).cor = Color.green;
-            }
-        }
-        for (int i =0; i < dados2.size(); i++){
-            boolean tem = false;
-            for (int j = 0; j < dados1.size(); j++){
-                if (dados2.get(i).nome.equals(dados1.get(j).nome) && dados2.get(i).classe.equals(dados1.get(j).classe)){
-                    tem = true;
-                }
-            }
-            if (!tem){
-                dados1.add(new Data(dados2.get(i).nome, 0, dados2.get(i).classe, dados1.get(i).projeto, Color.GRAY));
-                dados2.get(i).cor = Color.green;
-            }
-        }
-        for (int i = 0; i < dados1.size(); i++){
-          dados1.get(i).nome = dados1.get(i).nome + "_1";
-          if (dados1.get(i).classe != null){
-              dados1.get(i).classe = dados1.get(i).classe + "_1";
-          }
-        }
-        for (int i = 0; i < dados2.size(); i++){
-            dados2.get(i).nome = dados2.get(i).nome + "_2";
-            if (dados2.get(i).classe != null) {
-                dados2.get(i).classe = dados2.get(i).classe + "_2";
-            }
-        }
-        Collections.sort(dados1);
-        Collections.sort(dados2);
-    }
-
-    public static List<Data> retornaDados(String file, String filtro){
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            String linha = null;
-
-            List listaDeLinhasInt = new ArrayList();
-            List listaDeLinhas = new ArrayList();
-            String cabecalho;
-
-            cabecalho = reader.readLine();
-            String[] cabecalhoLista = cabecalho.split(VIRGULA);
-            if (cabecalho != null) {
-                while ((linha = reader.readLine()) != null) {
-                    String[] dados = linha.split(VIRGULA);
-                    listaDeLinhas.add(dados);
-                    int[] valorInteiros = new int[dados.length];
-
-                    for (int i = 0; i < dados.length; i++) {
-                        valorInteiros[i] = converteInteiro(String.valueOf(dados[i]));
-                    }
-                    listaDeLinhasInt.add(valorInteiros);
-                }
-
-            }
-            List<Data> resultado_final = new ArrayList<>();
-            if (filtro.equals("Project")) {
-
-                int coluna = 10;
-
-                for (int i = 10; i < cabecalhoLista.length; i++) {
-                    int soma = 0;
-                    String nome_projeto = "";
-                    for (int j = 0; j < listaDeLinhas.size(); j++) {
-                        int[] linha_int = (int[]) listaDeLinhasInt.get(j);
-                        String[] linha_analisada = (String[]) listaDeLinhas.get(j);
-                        soma += linha_int[coluna];
-                        nome_projeto = linha_analisada[5];
-                    }
-                    resultado_final.add(new Data(cabecalhoLista[i], soma, "", nome_projeto));
-                    coluna += 1;
-
-                }
-            }
-            if (filtro.equals("All Test Classes") || filtro.equals("Methods")){
-                List<String> classes = new ArrayList<>();
-                int coluna = 6;
-                for (int i = 0; i < listaDeLinhas.size(); i++){
-                    String[] linha_analisada = (String[]) listaDeLinhas.get(i);
-                    String classe = linha_analisada[coluna];
-                    boolean flag = false;
-                    for (int j = 0; j < classes.size(); j++){
-                        if (classes.get(j).equals(classe)){
-                            flag = true;
-                        }
-                    }
-                    if (!flag){
-                        classes.add(classe);
-                    }
-                }
-                for (int i = 0; i < classes.size(); i ++){
-                    String classe_analisada = classes.get(i);
-                    coluna = 10;
-                    for (int j = 10; j < cabecalhoLista.length; j++) {
-                        int soma = 0;
-                        String nome_projeto = "";
-                        for (int k = 0; k < listaDeLinhas.size(); k++) {
-                            String[] linha_analisada = (String[]) listaDeLinhas.get(k);
-                            int[] linha_int = (int[]) listaDeLinhasInt.get(k);
-                            if (linha_analisada[6].equals(classe_analisada)){
-                                soma += linha_int[coluna];
-                                nome_projeto = linha_analisada[5];
-                            }
-                        }
-                        resultado_final.add(new Data(cabecalhoLista[j], soma, classe_analisada, nome_projeto));
-                        coluna += 1;
-                    }
-                }
-            }
-            return resultado_final;
-        }catch (Exception e){
-            return null;
-        }
-    }
 
     public static void main(String args[]) throws IOException {
         try {
@@ -764,59 +452,9 @@ addWindowListener(new WindowListener() {
         }
 		return resultado;	
     }
-   
-    public static String[] carrega_lista_autor(String path) throws IOException{
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-        String linha = null;
-        List resposta = new ArrayList();
-        while ((linha = reader.readLine()) != null) {
-            String[] dados = linha.split(VIRGULA);
-            String classe = dados[1];
-            boolean flag = false;
-            for(int i = 0; i < resposta.size(); i++){
-            	if(resposta.get(i).equals(classe)){
-            		flag = true;
-            	}
-            }
-            if (flag == false){
-            	resposta.add(classe);
-            }
-        }
-        resposta.remove(0);
-        Collections.sort(resposta);
-        resposta.remove(1);
-        String[] resposta_final = new String[resposta.size()];
-        for (int i = 0; i < resposta.size(); i++) {
-             resposta_final[i] = (String) resposta.get(i);
-        }
-        return resposta_final;
-    }
-    @SuppressWarnings("unchecked")
 
-    private String[] concatena_autor(String[] lista1, String[] lista2){
-        List<String> lista = new ArrayList<>();
-        for (int i = 0; i < lista1.length; i++){
-            lista.add(lista1[i]);
-        }
-        for (int i = 0; i < lista2.length; i++){
-            boolean achou = false;
-            for (int j = 0; j < lista.size(); j++){
-                if (lista.get(j).equals(lista2[i])){
-                    achou = true;
-                }
-            }
-            if (!achou){
-                lista.add(lista2[i]);
-            }
-        }
-        Collections.sort(lista);
-        lista.add(0, "All");
-        String[] resultado = new String[lista.size()];
-        for (int i = 0; i < lista.size(); i++){
-            resultado[i] = lista.get(i);
-        }
-        return resultado;
-    }
+
+    @SuppressWarnings("unchecked")
 
     private String[] concatena(String[] lista1, String[] lista2){
         List<String> lista = new ArrayList<>();
@@ -842,101 +480,6 @@ addWindowListener(new WindowListener() {
         return resultado;
     }
 
-    public void carregaComponentes(){
-        try {
-            String[] a = null;
-            String[] b = null;
-            String[] c = null;
-            String[] a2 = null;
-            String[] b2 = null;
-            String[] c2 = null;
-
-            a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
-            b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
-            c2 = carrega_lista_autor(txtFilePathDefault1.getText());
-
-            a = carrega_lista_linhas(txtFilePathDefault2.getText());
-            b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
-            c = carrega_lista_autor(txtFilePathDefault2.getText());
-
-            a = concatena(a, a2);
-            b = concatena(b, b2);
-            c = concatena_autor(c, c2);
-           }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private List concatenaLista(List lista1, List lista2){
-        List lista = new ArrayList<>();
-        for (int i = 0; i < lista1.size(); i++){
-            lista.add(lista1.get(i));
-        }
-        for (int i = 0; i < lista2.size(); i++){
-            boolean achou = false;
-            for (int j = 0; j < lista.size(); j++){
-                if (lista.get(j).equals(lista2.get(i))){
-                    achou = true;
-                }
-            }
-            if (!achou){
-                lista.add(lista2.get(i));
-            }
-        }
-        return lista;
-    }
-
-    public static List<String> retornaTodasClasses(List listaDeLinhas){
-        List<String> listaClasses = new ArrayList<>();
-        for (int i = 0; i < listaDeLinhas.size(); i++){
-            String[] linha = (String[]) listaDeLinhas.get(i);
-            Boolean encontrou = false;
-            for (int j = 0; j < listaClasses.size(); j++){
-                if (listaClasses.get(j).equals(linha[6])){
-                    encontrou = true;
-                }
-            }
-            if (!encontrou){
-                listaClasses.add(linha[6]);
-            }
-        }
-        return listaClasses;
-    }
-
-    public static boolean in(String x, List<String> l){
-        for (int i = 0; i < l.size(); i++){
-            if (x.equals(l.get(i))){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static String[] carrega_lista_autor_test(String path, String autor) throws IOException {
-        List<String> resposta_final_array = new ArrayList();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-        String[] cabecalho = reader.readLine().split(VIRGULA);
-        String linha = null;
-        while ((linha = reader.readLine()) != null) {
-            String[] dados = linha.split(VIRGULA);
-            if(autor.equals(dados[1])){
-                for(int i=10; i<dados.length; i++){
-                    if(!dados[i].equals("")){
-                        if(!dados[i].equals("0")){
-                            if(!resposta_final_array.contains(cabecalho[i]))
-                                resposta_final_array.add(cabecalho[i]);
-                        }
-                    }
-                }
-            }
-        }
-        Collections.sort(resposta_final_array);
-        String[] resposta_final = new String[resposta_final_array.size()];
-        for (int i = 0; i < resposta_final_array.size(); i++) {
-            resposta_final[i] = (String) resposta_final_array.get(i);
-        }
-        return resposta_final;
-    }
 
     private List<ClassMethod> retorna_lista_classe_metodo() throws IOException {
         List<ClassMethod> listaMetodosClasse = new ArrayList<>();
@@ -1014,11 +557,6 @@ addWindowListener(new WindowListener() {
                                          
         cbTimeline = new JComboBox<>();
         cbTimeline.setModel(new DefaultComboBoxModel<>(new String[] { "Project",  "All Test Classes", "Methods" }));
-        cbTimeline.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent evt) {
-        		cbTimelineActionPerformed(evt);
-            }
-        });
 
         btnChooseFileSearch2 = new JButton();
         btnChooseFileSearch2.setText("Search ...");
@@ -1123,16 +661,7 @@ lblVisualizeTimeline = new JLabel();
 		        btnVisualizeTimeline.setText("Generate Timeline View");
 		        btnVisualizeTimeline.addActionListener(new ActionListener() {
 		            public void actionPerformed(ActionEvent evt) {
-		            	TimelineView window;
-						try {
-							window = new TimelineView();
-							window.setVisible(true);
-							//dispose();
-
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+		                btnGerarTimelineActionPerformed(evt);
 		            }
 
 

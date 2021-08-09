@@ -98,8 +98,8 @@ public class SelectVersions extends JFrame {
 					OneVersion.main(null);	 
 					dispose();
 	 	        }else if(cbVersions.getSelectedItem().equals("2")) {
-	 	            TimelineView gt = new TimelineView();
-	 	           TimelineView.main(null);	
+	 	            TwoVersions gt = new TwoVersions();
+	 	           TwoVersions.main(null);	
 					dispose();
 	 	        }	 			
 	 		}
