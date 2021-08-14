@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
@@ -67,6 +68,13 @@ public class LegendTimeline extends JFrame {
 		setContentPane(contentPane);
 		setResizable(false);
 		setLocation(900, 100);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				TwoVersions.frame.setVisible(false);
+			}
+		});
 
 		
 		JLabel lblImage = new JLabel();

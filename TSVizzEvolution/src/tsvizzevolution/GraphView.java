@@ -10,6 +10,7 @@ import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 import javax.swing.*;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
@@ -24,6 +25,23 @@ import java.util.logging.Logger;
 public class GraphView extends javax.swing.JFrame{
     public JProgressBar progress;
 
+    public GraphView () {
+    	addWindowListener(new WindowAdapter() {
+    		
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+					OneVersion g = new OneVersion();
+					g.main(null);	 
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+    }
+    
     public Thread progressoT = new Thread() {
         @Override
         public void run(){
@@ -62,60 +80,8 @@ public class GraphView extends javax.swing.JFrame{
                 progressoT.run();
                 try {
                 	
-                    addWindowListener(new WindowListener() {
-            			
-            			@Override
-            			public void windowOpened(WindowEvent e) {
-            				// TODO Auto-generated method stub
-            				
-            			}
-            			
-            			@Override
-            			public void windowIconified(WindowEvent e) {
-            				// TODO Auto-generated method stub
-            				
-            			}
-            			
-            			@Override
-            			public void windowDeiconified(WindowEvent e) {
-            				// TODO Auto-generated method stub
-            				
-            			}
-            			
-            			@Override
-            			public void windowDeactivated(WindowEvent e) {
-            				// TODO Auto-generated method stub
-            				
-            			}
-            			
-            			@Override
-            			public void windowClosing(WindowEvent e) {
-            				// TODO Auto-generated method stub
-            				java.awt.EventQueue.invokeLater(new Runnable() {
-            					public void run() {
-            						try {
-            							new OneVersion().setVisible(true);
-            						} catch (IOException e) {
-            							// TODO Auto-generated catch block
-            							e.printStackTrace();
-            						}
-            					}
-            				});
-            			}
-            			
-            			@Override
-            			public void windowClosed(WindowEvent e) {
-            				// TODO Auto-generated method stub
-            				
-            			}
-            			
-            			@Override
-            			public void windowActivated(WindowEvent e) {
-            				// TODO Auto-generated method stub
-            				
-            			}
-            		});
-                   // dispose();
+                   
+                    // dispose();
                     System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
                     System.setProperty("org.graphstream.ui", "swing");
                     Graph graph1 = new DefaultGraph("TSVizzEvolution");

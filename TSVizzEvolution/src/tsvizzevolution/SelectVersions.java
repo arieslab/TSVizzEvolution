@@ -95,11 +95,11 @@ public class SelectVersions extends JFrame {
 	 		private void cbVersionsActionPerformed(ActionEvent evt) throws IOException {
 	 			if(cbVersions.getSelectedItem().equals("1")){
 	 	            OneVersion g = new OneVersion();
-					OneVersion.main(null);	 
+					g.main(null);	 
 					dispose();
 	 	        }else if(cbVersions.getSelectedItem().equals("2")) {
 	 	            TwoVersions gt = new TwoVersions();
-	 	           TwoVersions.main(null);	
+	 	            gt.main(null);	
 					dispose();
 	 	        }	 			
 	 		}
