@@ -29,7 +29,7 @@ public class TreemapView extends JFrame {
     private final float coef = 3;
     private static final long serialVersionUID = 1;
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             TreemapView window = new TreemapView();
             window.setVisible(true);
