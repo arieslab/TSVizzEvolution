@@ -102,16 +102,37 @@ public class LegendTimeline extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
        addWindowListener(new WindowListener() {
+    	   @Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
-				// fechar a timeline View
 				java.awt.EventQueue.invokeLater(new Runnable() {
 		            public void run() {
 		                try {
-		                ///	TimelineView.dispose();
-							new TwoVersions().setVisible(true); //voltar para a TwoVersions
+							new TwoVersions().setVisible(true); 
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -120,9 +141,24 @@ public class LegendTimeline extends JFrame {
 		        });
 			}
 			
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
 			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 
 	}
+		
+		
+
+	
 }
