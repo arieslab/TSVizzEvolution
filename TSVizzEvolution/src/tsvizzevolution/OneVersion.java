@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.*;
@@ -445,7 +446,7 @@ public class OneVersion extends javax.swing.JFrame {
 	private void cbLevelActionPerformed(java.awt.event.ActionEvent evt) {
 	}
 
-	public static void main(String args[]) throws IOException {
+	public void main(String args[]) throws IOException {
 		try {
 
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
