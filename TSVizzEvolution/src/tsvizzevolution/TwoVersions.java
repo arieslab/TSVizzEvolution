@@ -2,6 +2,7 @@ package tsvizzevolution;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -18,6 +19,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -36,6 +38,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -85,7 +88,7 @@ public class TwoVersions extends JFrame {
 	public JPanel metodo;
 	public JPanel contentPane;
 	
-	public JFrame frame;
+	public static JFrame frame;
 
     private JTextField txtFilePathDefault1; 
     private JTextField txtFilePathDefault2;
@@ -265,6 +268,21 @@ addWindowListener(new WindowListener() {
         }
     }
 
+    public void removeMinMaxClose(Component comp)
+    {
+      if(comp instanceof AbstractButton)
+      {
+        comp.getParent().remove(comp);
+      }
+      if (comp instanceof Container)
+      {
+        Component[] comps = ((Container)comp).getComponents();
+        for(int x = 0, y = comps.length; x < y; x++)
+        {
+          removeMinMaxClose(comps[x]);
+        }
+      }
+    }
     
     private void btnGerarTimelineActionPerformed(ActionEvent evt) {
     	dispose();
@@ -279,7 +297,10 @@ addWindowListener(new WindowListener() {
 		frame.setResizable(false);
 		frame.setLocation(100, 100);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
+		//frame.setUndecorated(true);
+		//frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		removeMinMaxClose(frame);
 		
         JPanel painel = new JPanel();
         painel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -369,12 +390,12 @@ addWindowListener(new WindowListener() {
         String[] a2 = null;
         String[] b2 = null;
         String[] c2 = null;
-       // txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\commons-io_testsmesll_2_1.csv");
+      //  txtFilePathDefault1.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\files_cvs_jnose\\commons-io_2-1\\commons-io_testsmesll_2_1.csv");
      //   txtFilePathMethod.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a2 = carrega_lista_linhas(txtFilePathDefault1.getText());
         b2 = carrega_lista_cabecalho(txtFilePathDefault1.getText());
 
-      //  txtFilePathDefault2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\commons-io_testsmesll_2_6.csv");
+       // txtFilePathDefault2.setText("C:\\Users\\Adriana\\git\\TSVizzEvolution\\files_cvs_jnose\\commons-io_2-6\\commons-io_testsmesll_2_6.csv");
        // txtFilePathMethod2.setText("C:\\Users\\T-GAMER\\IdeaProjects\\GraphTwoVersions\\src\\tsvizzevolution\\all_report_by_testsmells.csv");
         a = carrega_lista_linhas(txtFilePathDefault2.getText());
         b = carrega_lista_cabecalho(txtFilePathDefault2.getText());
@@ -387,7 +408,7 @@ addWindowListener(new WindowListener() {
 
 	}
 
-    public static void main(String args[]) throws IOException {
+    public void main(String args[]) throws IOException {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -803,7 +824,7 @@ lblVisualizeTimeline = new JLabel();
    							.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
    							.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
-   						.addComponent(lblSelectTheSecond, GroupLayout.PREFERRED_SIZE, 456, GroupLayout.PREFERRED_SIZE)
+   						.addComponent(lblSelectTheSecond, GroupLayout.PREFERRED_SIZE, 620, GroupLayout.PREFERRED_SIZE)
    						.addGroup(gl_pnlMethod.createSequentialGroup()
    							.addGap(2)
    							.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
