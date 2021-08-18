@@ -824,7 +824,7 @@ lblVisualizeTimeline = new JLabel();
    							.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
    							.addPreferredGap(ComponentPlacement.UNRELATED)
    							.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
-   						.addComponent(lblSelectTheSecond, GroupLayout.PREFERRED_SIZE, 456, GroupLayout.PREFERRED_SIZE)
+   						.addComponent(lblSelectTheSecond, GroupLayout.PREFERRED_SIZE, 620, GroupLayout.PREFERRED_SIZE)
    						.addGroup(gl_pnlMethod.createSequentialGroup()
    							.addGap(2)
    							.addComponent(txtFilePathMethod2, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
