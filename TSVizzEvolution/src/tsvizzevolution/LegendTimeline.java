@@ -84,20 +84,29 @@ public class LegendTimeline extends JFrame {
 		java.net.URL url = LegendTimeline.class.getResource("legenda_timeline.png");
 		lblImage.setIcon(new ImageIcon(url));
 		
+		JLabel lblIClose = new JLabel("Note: To close both windows, click the x (close) icon on this screen.");
+		lblIClose.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(lblImage)
-					.addContainerGap())
+					.addGap(319))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(97)
+					.addComponent(lblIClose)
+					.addContainerGap(307, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
+					.addGap(20)
 					.addComponent(lblImage)
-					.addContainerGap(32, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblIClose)
+					.addContainerGap(303, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		
@@ -157,8 +166,4 @@ public class LegendTimeline extends JFrame {
 		
 
 	}
-		
-		
-
-	
 }

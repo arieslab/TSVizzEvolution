@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.*;
@@ -17,7 +16,11 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-public class OneVersion extends javax.swing.JFrame {
+public class OneVersion extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton btnChooseFileSearch;
 	private JButton btnVisualizeGraph;
 	private JButton btnSearchMethod;
@@ -54,7 +57,7 @@ public class OneVersion extends javax.swing.JFrame {
 	private JPanel pnlProgress;
 	private JPanel pnlSelectMethod;
 
-	public JFrame frame;
+	public static JFrame frame;
 	public JPanel classe;
 	public JPanel contentPane;
 	public JProgressBar progress;
@@ -223,7 +226,8 @@ public class OneVersion extends javax.swing.JFrame {
 				java.awt.EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						SelectVersions frame = new SelectVersions();
-						frame.setVisible(true);					}
+						frame.setVisible(true);					
+						}
 				});
 			}
 			
@@ -351,11 +355,13 @@ public class OneVersion extends javax.swing.JFrame {
 		return l;
 	}
 
-	private void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
+	public void btnGerarGrafoActionPerformed(java.awt.event.ActionEvent evt) {
 		pnlProgress.setVisible(true);
 		GraphView c = new GraphView();
 		c.iniciaProcessamento(txtFilePathDefault1.getText(),progress,pnlProgress,cbLevel,cbClass,cbTestSmells,cbAuthor,cbSelectMethod);
-		dispose();
+		setVisible(false);
+		//dispose();
+		
 
 	}
 
@@ -649,7 +655,7 @@ public class OneVersion extends javax.swing.JFrame {
 
 	}
 
-	private void initComponents() throws IOException {
+	public void initComponents() throws IOException {
 		btnChooseFileSearch = new JButton();
 		btnSearchMethod = new JButton();
 
@@ -861,6 +867,14 @@ public class OneVersion extends javax.swing.JFrame {
 				btnVisualizeGraph.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						btnGerarGrafoActionPerformed(evt);
+//						GraphViewFrame frame;
+//						try {
+//							frame = new GraphViewFrame();
+//							frame.setVisible(true);
+//							setVisible(false);
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
 					}
 				});
 		btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));

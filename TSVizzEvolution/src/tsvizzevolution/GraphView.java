@@ -9,7 +9,6 @@ import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 import org.graphstream.ui.view.Viewer;
 import javax.swing.*;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -22,29 +21,27 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GraphView extends javax.swing.JFrame{
-    public JProgressBar progress;
+public class GraphView extends JFrame implements WindowListener{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public JProgressBar progress;
 
     public GraphView () {
-    	addWindowListener(new WindowAdapter() {
-    		
-			@Override
-			public void windowClosing(WindowEvent e) {
-				try {
-					OneVersion g = new OneVersion();
-					g.main(null);	 
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			
-		});
-    }
+   	}
     
     public Thread progressoT = new Thread() {
         @Override
         public void run(){
+//        	addWindowListener(new WindowAdapter() {
+//        		
+//    			@Override
+//    			public void windowClosing(WindowEvent e) {
+//    				OneVersion.frame.setVisible(true);
+//    			}
+//    			
+//    		});
             progress.setValue(0);
             for (int i = 0; i <= 50; i++) {
                 progress.setValue(i);
@@ -62,14 +59,9 @@ public class GraphView extends javax.swing.JFrame{
         }; 
     };
     
-    public void iniciaProcessamento(String nameFile,
-                                    JProgressBar progressP, 
-                                    JPanel pnlProgress, 
-                                    JComboBox<String> cbLevel, 
-                                    JComboBox<String> cbClass, 
-                                    JComboBox<String> cbTestSmells, 
-                                    JComboBox<String> cbAuthor, 
-                                    JComboBox<String> cbSelectMethod) {
+    public void iniciaProcessamento(String nameFile, JProgressBar progressP, JPanel pnlProgress, JComboBox<String> cbLevel, 
+                                    JComboBox<String> cbClass, JComboBox<String> cbTestSmells, 
+                                    JComboBox<String> cbAuthor, JComboBox<String> cbSelectMethod) {
         this.progress = progressP;
         progress.setValue(0);
         pnlProgress.add(progress);
@@ -78,13 +70,12 @@ public class GraphView extends javax.swing.JFrame{
             public void run(){
                 progress.setValue(0);
                 progressoT.run();
-                try {
-                	
-                   
+                try {                 
                     // dispose();
                     System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
                     System.setProperty("org.graphstream.ui", "swing");
                     Graph graph1 = new DefaultGraph("TSVizzEvolution");
+                                     
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(nameFile)));
                     String linha = null;
 
@@ -108,9 +99,7 @@ public class GraphView extends javax.swing.JFrame{
                         double y = (Math.random() * ((1000000) + 1));
                         n.setAttribute("x", x);
                         n.setAttribute("y", y);
-                        // n.setAttribute("layout.weight", 10);
                         n.setAttribute("edges", "layout.weight:4");
-
                     }
                     progress.setValue(55);
                     if (cabecalho != null) {
@@ -241,8 +230,6 @@ public class GraphView extends javax.swing.JFrame{
                         JDialog dialog = optionPane.createDialog(null, "Warning");
                         dialog.setVisible(true);
                         //setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-
                     } else {
                         CriaLegenda(graph1);
                         graph1.addAttribute("ui.stylesheet", "url('tsvizzevolution/Config.css')");
@@ -777,6 +764,47 @@ public class GraphView extends javax.swing.JFrame{
     }
 
 	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		OneVersion.frame.setVisible(true);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
