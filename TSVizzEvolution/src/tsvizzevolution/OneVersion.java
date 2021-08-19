@@ -101,7 +101,7 @@ public class OneVersion extends JFrame {
 
 
 	public OneVersion() throws IOException {
-		setTitle("TSVizzEvolution");
+		setTitle("TSVizzEvolution - One Version");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 733, 655);
 		contentPane = new JPanel();
