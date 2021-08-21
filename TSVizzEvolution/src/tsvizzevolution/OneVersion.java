@@ -359,10 +359,9 @@ public class OneVersion extends JFrame {
 		pnlProgress.setVisible(true);
 		GraphView c = new GraphView();
 		c.iniciaProcessamento(txtFilePathDefault1.getText(),progress,pnlProgress,cbLevel,cbClass,cbTestSmells,cbAuthor,cbSelectMethod);
-		setVisible(false);
+		//setVisible(false);
 		//dispose();
-		
-
+	
 	}
 
 	public static List<Data> retornaDados(String file, String filtro) {

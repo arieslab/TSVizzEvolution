@@ -21,27 +21,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GraphView extends JFrame implements WindowListener{
+public class GraphView {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	public JProgressBar progress;
-
-    public GraphView () {
-   	}
     
     public Thread progressoT = new Thread() {
         @Override
         public void run(){
-//        	addWindowListener(new WindowAdapter() {
-//        		
-//    			@Override
-//    			public void windowClosing(WindowEvent e) {
-//    				OneVersion.frame.setVisible(true);
-//    			}
-//    			
-//    		});
             progress.setValue(0);
             for (int i = 0; i <= 50; i++) {
                 progress.setValue(i);
@@ -764,47 +753,6 @@ public class GraphView extends JFrame implements WindowListener{
     }
 
 	public void setVisible(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		OneVersion.frame.setVisible(true);
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
