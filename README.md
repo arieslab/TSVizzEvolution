@@ -21,13 +21,12 @@ TSVizzEvolution has two types of analysis (Single Analysis and Evolution Analysi
   - **Authors.** It shows the relationship between authors and types of test smells, and the relationship between authors and test classes. It calculates the *authorship by guilty*, i.e. if a developer either inserts a new test smell or modifies a smelly method without fixing it. The developer “was aware” of the problem and assumed its co-authorship.
   - **Methods.** Displays the relationship between a specific test smells, a specific test class and the methods.
 
-**Evolution Analysis.** Both Graph View and Timeline View are the visualization techniques applied to the evolution analysis. 
-  - The Graph View technique supports all types of granularity to compare two version of the project. A suffix represents the order of the insertion of the versions: '_1' for the oldest version, and '_2' for the most recent one.
-  - The Timeline View technique only has two granularity available (**Project**, **All Test Classes** and **Methods**). 
+**Evolution Analysis.** The Timeline View is the visualization techniques applied to the evolution analysis. 
+The Timeline View technique only has two granularity available (**Project**, **All Test Classes** and **Methods**). 
   
 ## Tool Execution
 
-To run the TSVizzEvolution tool, simply download the available jar available in Release. Run TSVizzEvolution.jar with double click.
+To run the TSVizzEvolution tool, simply download the available jar or exe available in Release. Run TSVizzEvolution.jar or TSVizzEvolution.exe with double click.
 
 Some files generated for the Commons IO system's JNose tool are available at files_cvs_jnose.
 
