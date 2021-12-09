@@ -142,18 +142,18 @@ public class GraphView {
                                 String[] dado_linha = (String[]) listaMetodos.get(i);
                                 if (obj.classe.equals(dado_linha[1])) {
                                     String begin;
-                                    String end;
+                                   // String end;
                                     try {
                                         begin = dado_linha[9];
                                     }catch (Exception e){
                                         begin = "0";
                                     }
-                                    try {
+                                    /*try {
                                         end = dado_linha[10];
                                     }catch (Exception e){
                                         end = "0";
-                                    }
-                                    obj.addMethods(new MethodData(dado_linha[8], begin, end));
+                                    }*/
+                                    obj.addMethods(new MethodData(dado_linha[8], begin/*, end*/));
                                 }
                             }
                         }
@@ -338,7 +338,7 @@ public class GraphView {
 
     private static void CriaGrafoMetodos(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1,
                                          String nome, String classe, int coluna, String file, List<ClassMethod> listaMetodosClasse, String metodoFiltro) throws IOException {
-        System.out.println(metodoFiltro);
+       // System.out.println(metodoFiltro);
         List<Data> l = retornaDados(file, "All Test Classes");
         for (int i = 0; i < listaClassesInt.size(); i++) {
             int[] linhaInt = (int[]) listaClassesInt.get(i);
@@ -376,7 +376,7 @@ public class GraphView {
                         try {
                             graph1.addNode(metodo.metodo);
                             Node n1 = graph1.getNode(metodo.metodo);
-                            n1.setAttribute("ui.label", metodo.metodo + ";" + metodo.begin + "-" + metodo.end);
+                            n1.setAttribute("ui.label", metodo.metodo + ";" + metodo.begin + "-" /*+ metodo.end*/);
                             n1.addAttribute("ui.class", "metodo");
                             double x = (Math.random() * ((1000000) + 1) + 1000000);
                             double y = (Math.random() * ((1000000) + 1) + 1000000);

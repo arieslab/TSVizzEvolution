@@ -82,18 +82,18 @@ public class TimelineView {
                     String[] dado_linha = (String[]) listaMetodos.get(i);
                     if (obj.classe.equals(dado_linha[1]) && obj.testSmell.equals(dado_linha[7])) {
                         String begin;
-                        String end;
+                       // String end;
                         try {
                             begin = dado_linha[9];
                         }catch (Exception e){
                             begin = "0";
                         }
-                        try {
-                            end = dado_linha[10];
-                        }catch (Exception e){
-                            end = "0";
-                        }
-                        obj.addMethods(new MethodData(dado_linha[8], begin, end));
+                        //try {
+                          //  end = dado_linha[10];
+                       // }catch (Exception e){
+                         //   end = "0";
+                       // }
+                        obj.addMethods(new MethodData(dado_linha[8], begin));
                     }
                 }
             }

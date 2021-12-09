@@ -540,7 +540,7 @@ addWindowListener(new WindowListener() {
                     }catch (Exception e){
                         end = "0";
                     }
-                    obj.addMethods(new MethodData(dado_linha[8], begin, end));
+                    obj.addMethods(new MethodData(dado_linha[8], begin/*, end*/));
                 }
             }
         }
