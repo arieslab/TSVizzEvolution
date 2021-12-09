@@ -988,7 +988,7 @@ public class OneVersion extends JFrame {
 				.addGroup(gl_pnlTestSmells.createSequentialGroup()
 						.addComponent(lblSelectTestSmells, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(cbTestSmells, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cbTestSmells, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(191, Short.MAX_VALUE)));
 		gl_pnlTestSmells
 				.setVerticalGroup(gl_pnlTestSmells.createParallelGroup(Alignment.LEADING)
@@ -1046,7 +1046,7 @@ public class OneVersion extends JFrame {
 					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_pnlGraph.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 360, GroupLayout.PREFERRED_SIZE))
+					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_pnlGraph.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(pnlSelectMethod, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
