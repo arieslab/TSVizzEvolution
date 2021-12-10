@@ -737,7 +737,7 @@ public class GraphView {
     private static Graph CriaLegenda(Graph graph1) {
         SpriteManager sm = new SpriteManager(graph1);
         Sprite legenda = sm.addSprite("legenda");
-        legenda.setPosition(StyleConstants.Units.PX, 720, 500, 0);
+        legenda.setPosition(StyleConstants.Units.PX, 700, 475, 0);
         graph1.addAttribute("ui.stylesheet" , "" +
                 "sprite#legenda  {" +
                 "   size: 5px; " +
