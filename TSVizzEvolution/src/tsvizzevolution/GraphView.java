@@ -408,155 +408,181 @@ public class GraphView {
         }
     }
 
-    private static void CriaGrafoParcialAutor(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1,
-                                              String nome, String nomeAutor, int coluna, String file) throws IOException {
-        int colunaAutor = 1;
-        List<Data> l = retornaDados(file, "All Test Classes");
-        List<Data> l2 = retornaDadosAutores(file);
-        if (nomeAutor.equals("All")) {
-            ArrayList<String> nomeAutores = new ArrayList<>();
-            for (int i = 0; i < listaClasses.size(); i++) {
-                String[] linha = (String[]) listaClasses.get(i);
-                if (!nomeAutores.contains(linha[1])) {
-                    nomeAutores.add(linha[1]);
-                }
-            }
-            for (int x = 0; x < nomeAutores.size(); x++) {
-                nomeAutor = nomeAutores.get(x);
-                graph1.addNode(nomeAutor);
-                Node autor = graph1.getNode(nomeAutor);
-                double x1 = (Math.random() * ((1000000) + 1));
-                double y = (Math.random() * ((1000000) + 1));
-                autor.setAttribute("ui.label", nomeAutor);
-                autor.addAttribute("ui.class", "boneco");
-                autor.setAttribute("x", x1);
-                autor.setAttribute("y", y);
+	private static void CriaGrafoParcialAutor(List listaClassesInt, List listaClasses, String[] cabecalho, Graph graph1,
+			String nome, String nomeAutor, int coluna, String file) throws IOException {
+		int colunaAutor = 1;
+		List<Data> l = retornaDados(file, "All Test Classes");
+		List<Data> l2 = retornaDadosAutores(file);
+		if (nomeAutor.equals("All")) {
+			ArrayList<String> nomeAutores = new ArrayList<>();
+			for (int i = 0; i < listaClasses.size(); i++) {
+				String[] linha = (String[]) listaClasses.get(i);
+				if (!nomeAutores.contains(linha[1])) {
+					nomeAutores.add(linha[1]);
+				}
+			}
+			for (int x = 0; x < nomeAutores.size(); x++) {
+				nomeAutor = nomeAutores.get(x);
+				graph1.addNode(nomeAutor);
+				Node autor = graph1.getNode(nomeAutor);
+				double x1 = (Math.random() * ((1000000) + 1));
+				double y = (Math.random() * ((1000000) + 1));
+				autor.setAttribute("ui.label", nomeAutor);
+				autor.addAttribute("ui.class", "boneco");
+				autor.setAttribute("x", x1);
+				autor.setAttribute("y", y);
 
-                for (int i = 0; i < listaClassesInt.size(); i++) {
-                    int[] linhaInt = (int[]) listaClassesInt.get(i);
-                    String[] linha = (String[]) listaClasses.get(i);
-                    try {
-                        graph1.addNode(linha[coluna]);
-                    } catch (Exception e) {
-                    }
-                    Node n1 = graph1.getNode(linha[coluna]);
-                    n1.setAttribute("ui.label", linha[coluna]);
+				for (int i = 0; i < listaClassesInt.size(); i++) {
+					int[] linhaInt = (int[]) listaClassesInt.get(i);
+					String[] linha = (String[]) listaClasses.get(i);
+					try {
+						graph1.addNode(linha[coluna]);
+					} catch (Exception e) {
+					}
+					Node n1 = graph1.getNode(linha[coluna]);
+					n1.setAttribute("ui.label", linha[coluna]);
 
-                    x1 = (Math.random() * ((1000000) + 1));
-                    y = (Math.random() * ((1000000) + 1));
-                    n1.setAttribute("x", x1);
-                    n1.setAttribute("y", y);
-                    n1.setAttribute("layout.weight", 10);
-                    n1.setAttribute("edges", "layout.weight:4");
+					x1 = (Math.random() * ((1000000) + 1));
+					y = (Math.random() * ((1000000) + 1));
+					n1.setAttribute("x", x1);
+					n1.setAttribute("y", y);
+					n1.setAttribute("layout.weight", 10);
+					n1.setAttribute("edges", "layout.weight:4");
 
-                    for (int j = 10; j < linhaInt.length; j++) {
-                        if (linhaInt[j] != 0) {
-                            if (nomeAutor.equals(linha[colunaAutor]) || nome.equals(cabecalho[j])) {
-                                if (nome.equals(cabecalho[j])) {
-                                    try {
-                                        graph1.addEdge(cabecalho[j] + " " + linha[colunaAutor], cabecalho[j],
-                                                linha[colunaAutor]);
-                                        Edge e = graph1.getEdge(cabecalho[j] + " " + linha[colunaAutor]);
-                                        int valor = retornaDadosAutorMetodo(linha[colunaAutor], cabecalho[j], file, l2);
-                                        e.setAttribute("ui.label", valor);
-                                    } catch (Exception e) {
-                                    }
+					for (int j = 10; j < linhaInt.length; j++) {
+						if (linhaInt[j] != 0) {
+							if (!nome.equals("All")) {
+								if (nomeAutor.equals(linha[colunaAutor]) || nome.equals(cabecalho[j])) {
+									if (nome.equals(cabecalho[j])) {
+										try {
+											graph1.addEdge(cabecalho[j] + " " + linha[colunaAutor], cabecalho[j],
+													linha[colunaAutor]);
+											Edge e = graph1.getEdge(cabecalho[j] + " " + linha[colunaAutor]);
+											int valor = retornaDadosAutorMetodo(linha[colunaAutor], cabecalho[j], file,
+													l2);
+											e.setAttribute("ui.label", valor);
+										} catch (Exception e) {
+										}
+									}
+								}
+							} else {
+								if (nomeAutor.equals(linha[colunaAutor])) {
+									try {
+										graph1.addEdge(cabecalho[j] + " " + linha[colunaAutor], cabecalho[j],
+												linha[colunaAutor]);
+										Edge e = graph1.getEdge(cabecalho[j] + " " + linha[colunaAutor]);
+										int valor = retornaDadosAutorMetodo(linha[colunaAutor], cabecalho[j], file, l2);
+										e.setAttribute("ui.label", valor);
+									} catch (Exception e) {
+									}
+								}
+							}
+						}
+					}
+
+				}
+
+				boolean stop = false;
+				while (!stop) {
+					boolean Flag = false;
+					for (int i = 0; i < graph1.getNodeCount(); i++) {
+						Node n1 = graph1.getNode(i);
+						if (n1.getDegree() == 0) {
+							Flag = true;
+							graph1.removeNode(n1);
+							break;
+						}
+					}
+					if (!Flag) {
+						stop = true;
+					}
+				}
+			}
+		} else {
+			graph1.addNode(nomeAutor);
+			Node autor = graph1.getNode(nomeAutor);
+			autor.setAttribute("ui.label", nomeAutor);
+			autor.addAttribute("ui.class", "boneco");
+			autor.setAttribute("x", -1000);
+			autor.setAttribute("y", 0);
+
+			for (int i = 0; i < listaClassesInt.size(); i++) {
+				int[] linhaInt = (int[]) listaClassesInt.get(i);
+				String[] linha = (String[]) listaClasses.get(i);
+				try {
+					graph1.addNode(linha[coluna]);
+				} catch (Exception e) {
+				}
+				Node n1 = graph1.getNode(linha[coluna]);
+				n1.setAttribute("ui.label", linha[coluna]);
+				double x1 = (Math.random() * ((1000000) + 1));
+				double y = (Math.random() * ((1000000) + 1));
+				n1.setAttribute("x", x1);
+				n1.setAttribute("y", y);
+				for (int j = 10; j < linhaInt.length; j++) {
+					if (linhaInt[j] != 0) {
+                        if (!nome.equals("All")) {
+                            if (nome.equals(linha[coluna])
+                                    || nome.equals(cabecalho[j]) && linha[colunaAutor].equals(nomeAutor)) {
+                                try {
+                                    graph1.addEdge(cabecalho[j] + " " + linha[coluna], cabecalho[j], linha[coluna]);
+                                    Edge e = graph1.getEdge(cabecalho[j] + " " + linha[coluna]);
+                                    int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, "All Test Classes",
+                                            l);
+                                    e.setAttribute("ui.label", valor);
+                                } catch (Exception e) {
                                 }
                             }
-                        }
-                    }
-
-                }
-
-                boolean stop = false;
-                while (!stop) {
-                    boolean Flag = false;
-                    for (int i = 0; i < graph1.getNodeCount(); i++) {
-                        Node n1 = graph1.getNode(i);
-                        if (n1.getDegree() == 0) {
-                            Flag = true;
-                            graph1.removeNode(n1);
-                            break;
-                        }
-                    }
-                    if (!Flag) {
-                        stop = true;
-                    }
-                }
-            }
-        } else {
-            graph1.addNode(nomeAutor);
-            Node autor = graph1.getNode(nomeAutor);
-            autor.setAttribute("ui.label", nomeAutor);
-            autor.addAttribute("ui.class", "boneco");
-            autor.setAttribute("x", -1000);
-            autor.setAttribute("y", 0);
-
-            for (int i = 0; i < listaClassesInt.size(); i++) {
-                int[] linhaInt = (int[]) listaClassesInt.get(i);
-                String[] linha = (String[]) listaClasses.get(i);
-                try {
-                    graph1.addNode(linha[coluna]);
-                } catch (Exception e) {
-                }
-                Node n1 = graph1.getNode(linha[coluna]);
-                n1.setAttribute("ui.label", linha[coluna]);
-                double x1 = (Math.random() * ((1000000) + 1));
-                double y = (Math.random() * ((1000000) + 1));
-                n1.setAttribute("x", x1);
-                n1.setAttribute("y", y);
-                for (int j = 10; j < linhaInt.length; j++) {
-                    if (linhaInt[j] != 0) {
-                        if (nome.equals(linha[coluna])
-                                || nome.equals(cabecalho[j]) && linha[colunaAutor].equals(nomeAutor)) {
+                        }else{
+                            if (linha[colunaAutor].equals(nomeAutor)) {
                             try {
                                 graph1.addEdge(cabecalho[j] + " " + linha[coluna], cabecalho[j], linha[coluna]);
                                 Edge e = graph1.getEdge(cabecalho[j] + " " + linha[coluna]);
                                 int valor = retornaDadosDoisNos(cabecalho[j], linha[coluna], file, "All Test Classes",
                                         l);
                                 e.setAttribute("ui.label", valor);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                }
-                for (int j = 10; j < linhaInt.length; j++) {
-                    if (linhaInt[j] != 0) {
-                        if (nomeAutor.equals(linha[colunaAutor]) || nome.equals(cabecalho[j])) {
-                            if (nome.equals(cabecalho[j])) {
-                                try {
-                                    graph1.addEdge(cabecalho[j] + " " + linha[colunaAutor], cabecalho[j],
-                                            linha[colunaAutor]);
-                                    Edge e = graph1.getEdge(cabecalho[j] + " " + linha[colunaAutor]);
-                                    int valor = retornaDadosAutorMetodo(linha[colunaAutor], cabecalho[j], file, l2);
-                                    e.setAttribute("ui.label", valor);
                                 } catch (Exception e) {
                                 }
                             }
                         }
-                    }
-                }
+					}
+				}
+				for (int j = 10; j < linhaInt.length; j++) {
+					if (linhaInt[j] != 0) {
+						if (nomeAutor.equals(linha[colunaAutor]) || nome.equals(cabecalho[j])) {
+							if (nome.equals(cabecalho[j])) {
+								try {
+									graph1.addEdge(cabecalho[j] + " " + linha[colunaAutor], cabecalho[j],
+											linha[colunaAutor]);
+									Edge e = graph1.getEdge(cabecalho[j] + " " + linha[colunaAutor]);
+									int valor = retornaDadosAutorMetodo(linha[colunaAutor], cabecalho[j], file, l2);
+									e.setAttribute("ui.label", valor);
+								} catch (Exception e) {
+								}
+							}
+						}
+					}
+				}
 
-            }
+			}
 
-            boolean stop = false;
-            while (!stop) {
-                boolean Flag = false;
-                for (int i = 0; i < graph1.getNodeCount(); i++) {
-                    Node n1 = graph1.getNode(i);
-                    if (n1.getDegree() == 0) {
-                        Flag = true;
-                        graph1.removeNode(n1);
-                        break;
-                    }
-                }
-                if (!Flag) {
-                    stop = true;
-                }
-            }
-        }
-    }
-
+			boolean stop = false;
+			while (!stop) {
+				boolean Flag = false;
+				for (int i = 0; i < graph1.getNodeCount(); i++) {
+					Node n1 = graph1.getNode(i);
+					if (n1.getDegree() == 0) {
+						Flag = true;
+						graph1.removeNode(n1);
+						break;
+					}
+				}
+				if (!Flag) {
+					stop = true;
+				}
+			}
+		}
+	}
     public static int retornaDadosAutorMetodo(String autor, String metodo, String file, List<Data> l) {
         for (int i = 0; i < l.size(); i++) {
             Data d = l.get(i);

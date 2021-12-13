@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 public class OneVersion extends JFrame {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton btnChooseFileSearch;
@@ -32,7 +32,7 @@ public class OneVersion extends JFrame {
 	private JComboBox<String> cbAuthor;
 	private JComboBox<String> cbVisualization;
 	private JComboBox<String> cbSelectMethod;
-	
+
 	private JLabel lblSelectCsv;
 	private JLabel lblLevel;
 	private JLabel lblSelectClass;
@@ -110,7 +110,7 @@ public class OneVersion extends JFrame {
 		setResizable(false);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-				
+
 		initComponents();
 		pnlClass.setVisible(false);
 		pnlTestSmells.setVisible(false);
@@ -194,56 +194,56 @@ public class OneVersion extends JFrame {
 				}
 			}
 		});
-        addWindowListener(new WindowListener() {
-			
+		addWindowListener(new WindowListener() {
+
 			@Override
 			public void windowOpened(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowIconified(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowDeiconified(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowDeactivated(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
 				java.awt.EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						SelectVersions frame = new SelectVersions();
-						frame.setVisible(true);					
-						}
+						frame.setVisible(true);
+					}
 				});
 			}
-			
+
 			@Override
 			public void windowClosed(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowActivated(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 
 	}
 
@@ -253,7 +253,7 @@ public class OneVersion extends JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			txtFilePathDefault1.setText(file.getPath());
-		//	txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
+			//	txtFilePathDefault1.setText("C:\\Users\\T-GAMER\\IdeaProjects\\teste\\src\\tsvizzevolution\\resultado_evolution1.csv");
 			nomeDoArquivo = file.getName();
 			btnGerarUploadActionPerformed(evt);
 
@@ -361,7 +361,7 @@ public class OneVersion extends JFrame {
 		c.iniciaProcessamento(txtFilePathDefault1.getText(),progress,pnlProgress,cbLevel,cbClass,cbTestSmells,cbAuthor,cbSelectMethod);
 		//setVisible(false);
 		//dispose();
-	
+
 	}
 
 	public static List<Data> retornaDados(String file, String filtro) {
@@ -526,12 +526,40 @@ public class OneVersion extends JFrame {
 			aux.add(resultado[i]);
 		}
 		Collections.sort(aux);
+		aux.add(0, "All");
 		for (int i = 0; i < resultado.length; i++) {
 			resultado[i] = aux.get(i);
 		}
 		return resultado;
 
 	}
+	public static String[] carrega_lista_autor_test(String path, String autor) throws IOException {
+		List<String> resposta_final_array = new ArrayList();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+		String[] cabecalho = reader.readLine().split(VIRGULA);
+		String linha = null;
+		while ((linha = reader.readLine()) != null) {
+			String[] dados = linha.split(VIRGULA);
+			if(autor.equals(dados[1])){
+				for(int i=10; i<dados.length; i++){
+					if(!dados[i].equals("")){
+						if(!dados[i].equals("0")){
+							if(!resposta_final_array.contains(cabecalho[i]))
+								resposta_final_array.add(cabecalho[i]);
+						}
+					}
+				}
+			}
+		}
+		Collections.sort(resposta_final_array);
+		resposta_final_array.add(0, "All");
+		String[] resposta_final = new String[resposta_final_array.size()];
+		for (int i = 0; i < resposta_final_array.size(); i++) {
+			resposta_final[i] = (String) resposta_final_array.get(i);
+		}
+		return resposta_final;
+	}
+
 
 	public static String[] carrega_lista_autor(String path) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -560,31 +588,7 @@ public class OneVersion extends JFrame {
 		return resposta_final;
 	}
 
-	public static String[] carrega_lista_autor_test(String path, String autor) throws IOException {
-		List<String> resposta_final_array = new ArrayList();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-		String[] cabecalho = reader.readLine().split(VIRGULA);
-		String linha = null;
-		while ((linha = reader.readLine()) != null) {
-			String[] dados = linha.split(VIRGULA);
-			if(autor.equals(dados[1])){
-				for(int i=10; i<dados.length; i++){
-					if(!dados[i].equals("")){
-						if(!dados[i].equals("0")){
-							if(!resposta_final_array.contains(cabecalho[i]))
-								resposta_final_array.add(cabecalho[i]);
-						}
-					}
-				}
-			}
-		}
-		Collections.sort(resposta_final_array);
-		String[] resposta_final = new String[resposta_final_array.size()];
-		for (int i = 0; i < resposta_final_array.size(); i++) {
-			resposta_final[i] = (String) resposta_final_array.get(i);
-		}
-		return resposta_final;
-	}
+
 
 	private List<ClassMethod> retorna_lista_classe_metodo() throws IOException {
 		List<ClassMethod> listaMetodosClasse = new ArrayList<>();
@@ -647,7 +651,7 @@ public class OneVersion extends JFrame {
 		cbAuthor.setModel(new DefaultComboBoxModel<>(c));
 		cbClass.setModel(new DefaultComboBoxModel<>(a));
 		cbTestSmells.setModel(new DefaultComboBoxModel<>(b));
-		
+
 		btnVisualizeGraph.setEnabled(true);
 		btnVisualizeTreemap.setEnabled(true);
 
@@ -861,11 +865,11 @@ public class OneVersion extends JFrame {
 			}
 		});
 		btnVisualizeGraph = new JButton();
-		
-				btnVisualizeGraph.setText("Generate Graph View");
-				btnVisualizeGraph.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						btnGerarGrafoActionPerformed(evt);
+
+		btnVisualizeGraph.setText("Generate Graph View");
+		btnVisualizeGraph.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnGerarGrafoActionPerformed(evt);
 //						GraphViewFrame frame;
 //						try {
 //							frame = new GraphViewFrame();
@@ -874,30 +878,30 @@ public class OneVersion extends JFrame {
 //						} catch (IOException e) {
 //							e.printStackTrace();
 //						}
-					}
-				});
+			}
+		});
 		btnVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
+
 		btnVisualizeTreemap = new JButton("Generate Treemap View");
-			btnVisualizeTreemap.addActionListener(new ActionListener() {
+		btnVisualizeTreemap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				btnGerarTreemapActionPerformed();
 			}
 		});
-				
+
 		btnVisualizeTreemap.setVisible(false);
-		
+
 		lblVisualizeGraph = new JLabel("Click here to generate the visualization:");
-		
+
 		lblVisualizeTreemap= new JLabel("Click here to generate the visualization:");
 
 		btnVisualizeGraph.setEnabled(false);
 		btnVisualizeTreemap.setEnabled(false);
 
-				
+
 		lblSelectMethod = new JLabel();
 		lblSelectMethod.setText("Select a Method:");
-		
+
 		btnVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVisualizeGraph.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblVisualizeTreemap.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -908,27 +912,27 @@ public class OneVersion extends JFrame {
 
 		GroupLayout gl_pnlMethod = new GroupLayout(pnlMethod);
 		gl_pnlMethod.setHorizontalGroup(
-			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlMethod.createSequentialGroup()
-					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblSelectTheCsvMethod)
+				gl_pnlMethod.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlMethod.createSequentialGroup()
-							.addGap(2)
-							.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(23, Short.MAX_VALUE))
+								.addGroup(gl_pnlMethod.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblSelectTheCsvMethod)
+										.addGroup(gl_pnlMethod.createSequentialGroup()
+												.addGap(2)
+												.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, 534, GroupLayout.PREFERRED_SIZE)
+												.addGap(6)
+												.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+								.addContainerGap(23, Short.MAX_VALUE))
 		);
 		gl_pnlMethod.setVerticalGroup(
-			gl_pnlMethod.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlMethod.createSequentialGroup()
-					.addGap(9)
-					.addComponent(lblSelectTheCsvMethod)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(19, Short.MAX_VALUE))
+				gl_pnlMethod.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlMethod.createSequentialGroup()
+								.addGap(9)
+								.addComponent(lblSelectTheCsvMethod)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(gl_pnlMethod.createParallelGroup(Alignment.BASELINE)
+										.addComponent(txtFilePathMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnSearchMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+								.addContainerGap(19, Short.MAX_VALUE))
 		);
 		pnlMethod.setLayout(gl_pnlMethod);
 
@@ -950,21 +954,21 @@ public class OneVersion extends JFrame {
 
 		GroupLayout gl_pnlLevel = new GroupLayout(pnlLevel);
 		gl_pnlLevel.setHorizontalGroup(
-			gl_pnlLevel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlLevel.createSequentialGroup()
-					.addGap(4)
-					.addComponent(lblLevel)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(584, Short.MAX_VALUE))
+				gl_pnlLevel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlLevel.createSequentialGroup()
+								.addGap(4)
+								.addComponent(lblLevel)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(584, Short.MAX_VALUE))
 		);
 		gl_pnlLevel.setVerticalGroup(
-			gl_pnlLevel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlLevel.createSequentialGroup()
-					.addGroup(gl_pnlLevel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblLevel))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				gl_pnlLevel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlLevel.createSequentialGroup()
+								.addGroup(gl_pnlLevel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(cbLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblLevel))
+								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		pnlLevel.setLayout(gl_pnlLevel);
 
@@ -1018,109 +1022,109 @@ public class OneVersion extends JFrame {
 
 		GroupLayout gl_pnlGraph = new GroupLayout(pnlGraph);
 		gl_pnlGraph.setHorizontalGroup(
-			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlGraph.createSequentialGroup()
-					.addGap(10)
-					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
-						.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblSelectCsv)
+				gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 535, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnChooseFileSearch))
-						.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 999, GroupLayout.PREFERRED_SIZE)
-						.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
+										.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblSelectCsv)
+										.addGroup(gl_pnlGraph.createSequentialGroup()
+												.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, 535, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(btnChooseFileSearch))
+										.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 999, GroupLayout.PREFERRED_SIZE)
+										.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_pnlGraph.createSequentialGroup()
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(lblVisualizeGraph, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(btnVisualizeGraph, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_pnlGraph.createSequentialGroup()
+												.addComponent(lblVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
+												.addGap(4)
+												.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
+										.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblVisualizeGraph, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnVisualizeGraph, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
+								.addContainerGap()
+								.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addComponent(lblVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(btnVisualizeTreemap, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
-						.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))
-				.addGroup(gl_pnlGraph.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_pnlGraph.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_pnlGraph.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pnlSelectMethod, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-					.addGap(639))
+								.addContainerGap()
+								.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pnlGraph.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(pnlSelectMethod, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+								.addGap(639))
 		);
 		gl_pnlGraph.setVerticalGroup(
-			gl_pnlGraph.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlGraph.createSequentialGroup()
-					.addGap(6)
-					.addComponent(lblSelectCsv)
-					.addGap(6)
-					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnChooseFileSearch))
-					.addGap(12)
-					.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnVisualizeGraph)
-						.addComponent(lblVisualizeGraph))
-					.addGap(6)
-					.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
+				gl_pnlGraph.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnlGraph.createSequentialGroup()
-							.addGap(4)
-							.addComponent(lblVisualizeTreemap))
-						.addComponent(btnVisualizeTreemap))
-					.addGap(1)
-					.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGap(6)
+								.addComponent(lblSelectCsv)
+								.addGap(6)
+								.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)
+										.addComponent(txtFilePathDefault1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnChooseFileSearch))
+								.addGap(12)
+								.addComponent(pnlVisualization, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+								.addGap(6)
+								.addComponent(pnlLevel, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+								.addGap(6)
+								.addComponent(pnlMethod, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(pnlClass, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(pnlAuthor, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(pnlTestSmells, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(pnlSelectMethod, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(gl_pnlGraph.createParallelGroup(Alignment.BASELINE)
+										.addComponent(btnVisualizeGraph)
+										.addComponent(lblVisualizeGraph))
+								.addGap(6)
+								.addGroup(gl_pnlGraph.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_pnlGraph.createSequentialGroup()
+												.addGap(4)
+												.addComponent(lblVisualizeTreemap))
+										.addComponent(btnVisualizeTreemap))
+								.addGap(1)
+								.addComponent(pnlProgress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		);
-		
+
 		GroupLayout gl_pnlSelectMethod = new GroupLayout(pnlSelectMethod);
 		gl_pnlSelectMethod.setHorizontalGroup(
-			gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlSelectMethod.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblSelectMethod)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(39, Short.MAX_VALUE))
+				gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlSelectMethod.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(lblSelectMethod)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(39, Short.MAX_VALUE))
 		);
 		gl_pnlSelectMethod.setVerticalGroup(
-			gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlSelectMethod.createSequentialGroup()
-					.addGroup(gl_pnlSelectMethod.createParallelGroup(Alignment.BASELINE)
-						.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblSelectMethod))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				gl_pnlSelectMethod.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlSelectMethod.createSequentialGroup()
+								.addGroup(gl_pnlSelectMethod.createParallelGroup(Alignment.BASELINE)
+										.addComponent(cbSelectMethod, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblSelectMethod))
+								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		pnlSelectMethod.setLayout(gl_pnlSelectMethod);
 		pnlGraph.setLayout(gl_pnlGraph);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(10)
-					.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 689, GroupLayout.PREFERRED_SIZE))
+				gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+								.addGap(10)
+								.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 689, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(11)
-					.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 474, GroupLayout.PREFERRED_SIZE))
+				gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+								.addGap(11)
+								.addComponent(pnlGraph, GroupLayout.PREFERRED_SIZE, 474, GroupLayout.PREFERRED_SIZE))
 		);
 		contentPane.setLayout(gl_contentPane);
 
